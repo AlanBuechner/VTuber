@@ -1,5 +1,6 @@
 #include "Window.h"
 #include "Application.h"
+
 #include <functional>
 
 Engine::Window::WindowClass Engine::Window::WindowClass::wndClass;

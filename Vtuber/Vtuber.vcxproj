@@ -169,7 +169,6 @@
     <ClInclude Include="src\Application.h" />
     <ClInclude Include="src\Core.h" />
     <ClInclude Include="src\Input\Input.h" />
-    <ClInclude Include="src\TestApp.h" />
     <ClInclude Include="src\VException.h" />
     <ClInclude Include="src\Win.h" />
     <ClInclude Include="src\Window.h" />

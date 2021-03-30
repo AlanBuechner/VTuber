@@ -36,9 +36,6 @@ namespace Engine
 
 	void Application::OnDestroy()
 	{
-		if (m_Window.m_Input.GetButtonPressed(Engine::Input::LMouse))
-		{
-			MessageBoxA(nullptr, "the space key was pressed", "", MB_OK);
-		}
+
 	}
 }

@@ -1,10 +1,11 @@
 #pragma once
-#include "Core.h"
-#include <string>
-#include <vector>
 #include "Win.h"
+#include "Core.h"
 #include "VException.h"
 #include "Input/Input.h"
+
+#include <string>
+#include <vector>
 
 namespace Engine
 {
