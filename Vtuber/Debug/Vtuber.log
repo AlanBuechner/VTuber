@@ -1,4 +1,7 @@
 ﻿  Application.cpp
   Entry.cpp
+  Input.cpp
+  Time.cpp
+  VException.cpp
   Window.cpp
   Vtuber.vcxproj -> C:\Users\alanj\source\repos\Vtuber\Debug\Vtuber.exe

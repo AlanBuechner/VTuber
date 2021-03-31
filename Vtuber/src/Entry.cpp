@@ -1,6 +1,6 @@
-#include "Win.h"
-#include "Window.h"
-#include "VException.h"
+#include "Core/Win.h"
+#include "Core/Window.h"
+#include "Core/VException.h"
 #include "Application.h"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
