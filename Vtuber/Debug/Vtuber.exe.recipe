@@ -5,7 +5,14 @@
       <FullPath>C:\Users\alanj\source\repos\Vtuber\Debug\Vtuber.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
-  <ContentFiles />
+  <ContentFiles>
+    <ContentFile>
+      <FullPath>C:\Users\alanj\source\repos\Vtuber\Vtuber\PixelShader.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\alanj\source\repos\Vtuber\Vtuber\VertexShader.cso</FullPath>
+    </ContentFile>
+  </ContentFiles>
   <SatelliteDlls />
   <NonRecipeFileRefs />
 </Project>

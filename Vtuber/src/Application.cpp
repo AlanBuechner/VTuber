@@ -35,6 +35,7 @@ namespace Engine
 	void Application::OnUpdate()
 	{
 		m_Window.ClearToColor(1.0f, 0.0f, 0.0f);
+		m_Window.Gfx().DrawTestTriangle();
 	}
 
 	void Application::OnDestroy()
