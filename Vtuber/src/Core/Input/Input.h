@@ -61,6 +61,7 @@ namespace Engine
 		Input() = default;
 		Input(const Input&) = delete;
 		Input& operator=(const Input&) = delete;
+		~Input();
 
 		// mouse input
 

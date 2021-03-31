@@ -3,9 +3,11 @@
 #include "Core.h"
 #include "VException.h"
 #include "Input/Input.h"
+#include "Renderer/Graphics.h"
 
 #include <string>
 #include <vector>
+#include <memory>
 
 namespace Engine
 {
@@ -49,7 +51,11 @@ namespace Engine
 		Window(const Window&) = delete;
 		Window& operator=(const Window&) = delete;
 
+		Graphics& Gfx() { return *pGfx.get(); }
+
 		void OnUpdate();
+		inline void SwapBuffers() { pGfx->SqapBuffers(); }
+		inline void ClearToColor(float r, float g, float b) { pGfx->ClearBuffer(r, g, b); }
 
 	private:
 		static LRESULT WINAPI HandleEventSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -63,6 +69,7 @@ namespace Engine
 		int Width;
 		int Height;
 		HWND hWnd;
+		std::unique_ptr<Graphics> pGfx;
 	};
 }
 

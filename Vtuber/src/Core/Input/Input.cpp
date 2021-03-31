@@ -24,6 +24,12 @@ namespace Engine
 
 #pragma endregion
 
+	Input::~Input()
+	{
+		delete[] m_ButtonState;
+		delete[] m_KeyState;
+	}
+
 	void Input::Flush()
 	{
 		FlushKey();

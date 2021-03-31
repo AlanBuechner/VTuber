@@ -167,6 +167,7 @@
     <ClCompile Include="src\Core\Time.cpp" />
     <ClCompile Include="src\Core\VException.cpp" />
     <ClCompile Include="src\Core\Window.cpp" />
+    <ClCompile Include="src\Renderer\Graphics.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Application.h" />
@@ -176,6 +177,7 @@
     <ClInclude Include="src\Core\VException.h" />
     <ClInclude Include="src\Core\Win.h" />
     <ClInclude Include="src\Core\Window.h" />
+    <ClInclude Include="src\Renderer\Graphics.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

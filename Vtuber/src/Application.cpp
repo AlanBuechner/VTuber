@@ -18,6 +18,8 @@ namespace Engine
 			m_Window.OnUpdate();
 
 			OnUpdate();
+
+			m_Window.SwapBuffers();
 		}
 
 		OnDestroy();
@@ -27,11 +29,12 @@ namespace Engine
 
 	void Application::OnCreate()
 	{
+
 	}
 
 	void Application::OnUpdate()
 	{
-
+		m_Window.ClearToColor(1.0f, 0.0f, 0.0f);
 	}
 
 	void Application::OnDestroy()

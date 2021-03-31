@@ -105,6 +105,8 @@ namespace Engine
 		}
 
 		ShowWindow(hWnd, SW_SHOW);
+
+		pGfx = std::make_unique<Graphics>(hWnd);
 	}
 
 	Window::~Window()
