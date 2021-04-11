@@ -70,6 +70,7 @@ namespace Engine
 		wrl::ComPtr<ID3D11RenderTargetView>& GetTarget() { return pTarget; }
 
 	protected:
+		virtual void OnCreate() {};
 		virtual void OnUpdate() {};
 		virtual void OnClose() {};
 
@@ -101,6 +102,7 @@ namespace Engine
 			props.name = name;
 			Ref<T> window = std::make_shared<T>(props);
 			s_Windows.push_back(window);
+			((Window*)window.get())->OnCreate();
 			return window;
 		}
 

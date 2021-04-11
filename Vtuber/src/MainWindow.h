@@ -9,6 +9,7 @@ public:
 	{}
 
 protected:
+	virtual void OnCreate() override;
 	virtual void OnUpdate() override;
 	virtual void OnClose() override;
 };
