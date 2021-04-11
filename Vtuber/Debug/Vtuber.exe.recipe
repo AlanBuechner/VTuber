@@ -7,10 +7,10 @@
   </ProjectOutputs>
   <ContentFiles>
     <ContentFile>
-      <FullPath>C:\Users\alanj\source\repos\Vtuber\Vtuber\PixelShader.cso</FullPath>
+      <FullPath>C:\Users\alanj\source\repos\Vtuber\Vtuber\ShaderBin\PixelShader.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Users\alanj\source\repos\Vtuber\Vtuber\VertexShader.cso</FullPath>
+      <FullPath>C:\Users\alanj\source\repos\Vtuber\Vtuber\ShaderBin\VertexShader.cso</FullPath>
     </ContentFile>
   </ContentFiles>
   <SatelliteDlls />

@@ -19,7 +19,8 @@ namespace Engine
 		
 	protected:
 
-		Window m_Window;
+		Window* m_Window1;
+		Window* m_Window2;
 
 		static int s_QuitMessage;
 	};

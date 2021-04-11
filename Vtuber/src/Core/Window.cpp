@@ -106,7 +106,11 @@ namespace Engine
 
 		ShowWindow(hWnd, SW_SHOW);
 
-		pGfx = std::make_unique<Graphics>(hWnd);
+		Graphics& graphics = RendererCommand::GetGraphics();
+
+		graphics.CreateSwapChainAndRenderTarget(hWnd, pSwap, pTarget);
+
+		RendererCommand::SetViewPort(width, height, 0, 0);
 	}
 
 	Window::~Window()
@@ -124,6 +128,18 @@ namespace Engine
 		}
 
 		m_Input.UpdateKeyStates();
+	}
+
+	void Window::SwapBuffers()
+	{
+		pSwap->Present(1u, 0u);
+	}
+
+	void Window::ClearToColor(float r, float g, float b)
+	{
+		Graphics& graphics = RendererCommand::GetGraphics();
+		const float color[] = { r,g,b,1.0f };
+		graphics.GetContext()->ClearRenderTargetView(pTarget.Get(), color);
 	}
 
 	LRESULT WINAPI Window::HandleEventSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
