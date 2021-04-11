@@ -4,6 +4,8 @@
 #include <functional>
 
 Engine::Window::WindowClass Engine::Window::WindowClass::wndClass;
+std::vector<Engine::Ref<Engine::Window>> Engine::Window::s_Windows;
+std::vector<Engine::Window*> Engine::Window::s_WindowsToRemove;
 
 namespace Engine
 {
@@ -81,20 +83,20 @@ namespace Engine
 		UnregisterClass(wndClassName, GetInstance());
 	}
 
-	Window::Window(int width, int height, const wchar_t* name) :
-		Width(width), Height(height)
+	Window::Window(WindowProps props) :
+		m_Props(props)
 	{
 		RECT wr;
 		wr.left = 100;
-		wr.right = width + wr.left;
+		wr.right = props.width + wr.left;
 		wr.top = 100;
-		wr.bottom = height + wr.top;
+		wr.bottom = props.height + wr.top;
 		if (AdjustWindowRect(&wr, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE) == 0)
 		{
 			throw HWND_LAST_EXCEPT();
 		}
 
-		hWnd = CreateWindow(WindowClass::GetName(), (LPCWSTR)name,
+		hWnd = CreateWindow(WindowClass::GetName(), (LPCWSTR)props.name.c_str(),
 			WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
 			CW_USEDEFAULT, CW_USEDEFAULT, wr.right - wr.left, wr.bottom - wr.top,
 			nullptr, nullptr, WindowClass::GetInstance(), this);
@@ -110,7 +112,7 @@ namespace Engine
 
 		graphics.CreateSwapChainAndRenderTarget(hWnd, pSwap, pTarget);
 
-		RendererCommand::SetViewPort(width, height, 0, 0);
+		RendererCommand::SetViewPort((float)props.width, (float)props.height, 0, 0);
 	}
 
 	Window::~Window()
@@ -118,16 +120,20 @@ namespace Engine
 		DestroyWindow(hWnd);
 	}
 
-	void Window::OnUpdate()
+	void Window::Update()
 	{
 		MSG msg;
-		BOOL gResult = PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE);
+		BOOL gResult = PeekMessage(&msg, hWnd, 0, 0, PM_REMOVE);
 		if (gResult != 0) {
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
 
 		m_Input.UpdateKeyStates();
+
+		RendererCommand::SetTarget(pTarget);
+
+		OnUpdate();
 	}
 
 	void Window::SwapBuffers()
@@ -140,6 +146,13 @@ namespace Engine
 		Graphics& graphics = RendererCommand::GetGraphics();
 		const float color[] = { r,g,b,1.0f };
 		graphics.GetContext()->ClearRenderTargetView(pTarget.Get(), color);
+	}
+
+	void Window::CloseWindow()
+	{
+		OnClose();
+		DestroyWindow(hWnd);
+		s_WindowsToRemove.push_back(this);
 	}
 
 	LRESULT WINAPI Window::HandleEventSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -218,13 +231,41 @@ namespace Engine
 			m_Input.ClearKeyStates();
 			break;
 		case WM_CLOSE:
-			Application::Quit(69);
+			CloseWindow();
 			break;
 		}
 		return DefWindowProc(hWnd, msg, wParam, lParam);
     }
 
+	void Window::UpdateWindows()
+	{
+		for (uint32_t i = 0; i < s_Windows.size(); i++)
+		{
+			s_Windows[i]->Update();
+		}
+	}
 
-	
+	void Window::SwapWindowsBuffers()
+	{
+		for (uint32_t i = 0; i < s_Windows.size(); i++)
+		{
+			s_Windows[i]->SwapBuffers();
+		}
+	}
+
+	void Window::RemoveWindows()
+	{
+		for(uint32_t wtr = 0; wtr < s_WindowsToRemove.size(); wtr++)
+		{
+			for (uint32_t w = 0; w < s_Windows.size(); w++)
+			{
+				if (s_Windows[w].get() == s_WindowsToRemove[wtr]) {
+					s_Windows.erase(s_Windows.begin() + w);
+					break;
+				}
+			}
+		}
+		s_WindowsToRemove.clear();
+	}
 
 }
