@@ -186,6 +186,7 @@
     <ClCompile Include="src\Core\VException.cpp" />
     <ClCompile Include="src\Core\Window.cpp" />
     <ClCompile Include="src\MainWindow.cpp" />
+    <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\Renderer\Buffer.cpp" />
     <ClCompile Include="src\Renderer\Graphics.cpp" />
     <ClCompile Include="src\Renderer\RendererCommand.cpp" />
@@ -197,9 +198,10 @@
     <ClInclude Include="src\Core\Input\Input.h" />
     <ClInclude Include="src\Core\Time.h" />
     <ClInclude Include="src\Core\VException.h" />
-    <ClInclude Include="src\Core\Win.h" />
+    <ClInclude Include="src\Platform\Windows\Win.h" />
     <ClInclude Include="src\Core\Window.h" />
     <ClInclude Include="src\MainWindow.h" />
+    <ClInclude Include="src\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="src\Renderer\Buffer.h" />
     <ClInclude Include="src\Renderer\Graphics.h" />
     <ClInclude Include="src\Renderer\Mesh.h" />

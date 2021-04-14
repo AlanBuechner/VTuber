@@ -1,5 +1,6 @@
 ﻿  Application.cpp
-  Entry.cpp
   Window.cpp
+  Entry.cpp
   MainWindow.cpp
-  Vtuber.vcxproj -> C:\Users\alanj\source\repos\Vtuber\Debug\Vtuber.exe
+  WindowsWindow.cpp
+C:\Users\alanj\source\repos\Vtuber\Vtuber\src\Core\Window.cpp(141): error C4716: 'Engine::NativeWindow::CreateNativeWindow': must return a value

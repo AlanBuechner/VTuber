@@ -1,5 +1,5 @@
 #pragma once
-#include "Win.h"
+#include "Platform/Windows/Win.h"
 #include "Core.h"
 #include "VException.h"
 #include "Input/Input.h"
@@ -12,6 +12,9 @@
 
 namespace Engine
 {
+
+	class NativeWindow;
+
 	class Window
 	{
 	public:
@@ -27,23 +30,6 @@ namespace Engine
 		private:
 			HRESULT hr;
 
-		};
-
-
-	private:
-		class WindowClass
-		{
-		public:
-			static const LPCWSTR GetName() noexcept { return wndClassName; }
-			static HINSTANCE GetInstance() noexcept { return wndClass.hInst; }
-
-		private:
-			WindowClass();
-			~WindowClass();
-			WindowClass(const WindowClass&) = delete;
-			static constexpr const LPCWSTR wndClassName = TEXT("Vtuber");
-			static WindowClass wndClass;
-			HINSTANCE hInst;
 		};
 
 	public:
@@ -62,22 +48,17 @@ namespace Engine
 
 		void Update();
 
+		void Resize(int width, int height);
+
 		void SwapBuffers();
 		void ClearToColor(float r, float g, float b);
 
 		void CloseWindow();
 
-		wrl::ComPtr<ID3D11RenderTargetView>& GetTarget() { return pTarget; }
-
 	protected:
 		virtual void OnCreate() {};
 		virtual void OnUpdate() {};
 		virtual void OnClose() {};
-
-	private:
-		static LRESULT WINAPI HandleEventSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-		static LRESULT WINAPI HandleEventThunk(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-		LRESULT HandleEvent(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	public:
 		Input m_Input;
@@ -86,10 +67,7 @@ namespace Engine
 		static std::vector<Ref<Window>> s_Windows;
 		static std::vector<Window*> s_WindowsToRemove;
 
-		WindowProps m_Props;
-		HWND hWnd;
-		wrl::ComPtr<IDXGISwapChain> pSwap;
-		wrl::ComPtr<ID3D11RenderTargetView> pTarget;
+		NativeWindow& m_NativeWindow;
 
 	public:
 
@@ -109,6 +87,31 @@ namespace Engine
 		static void UpdateWindows();
 		static void SwapWindowsBuffers();
 		static void RemoveWindows();
+	};
+
+	class NativeWindow
+	{
+	public:
+		NativeWindow(Window::WindowProps props, Window* owningWindow) {};
+		virtual ~NativeWindow() {};
+
+		NativeWindow(const NativeWindow&) = delete;
+		NativeWindow& operator=(const NativeWindow&) = delete;
+
+		virtual Window::WindowProps GetProps() = 0;
+		virtual wrl::ComPtr<ID3D11RenderTargetView>& GetTarget() = 0;
+
+		virtual void PullEvents() = 0;
+
+		virtual void Resize(int width, int height) = 0;
+		virtual void CloseWindow() = 0;
+
+		virtual void SwapBuffers() = 0;
+		virtual void ClearToColor(float r, float g, float b) = 0;
+
+		static NativeWindow& CreateNativeWindow(Window::WindowProps props, Window* owningWindow);
+
+
 	};
 }
 

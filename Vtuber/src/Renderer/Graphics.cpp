@@ -35,7 +35,7 @@ namespace Engine
 		
 	}
 
-	void Graphics::CreateSwapChainAndRenderTarget(HWND hWnd, wrl::ComPtr<IDXGISwapChain>& swap, wrl::ComPtr<ID3D11RenderTargetView>& taget)
+	void Graphics::CreateSwapChainAndRenderTarget(HWND hWnd, wrl::ComPtr<IDXGISwapChain>& swap, wrl::ComPtr<ID3D11RenderTargetView>& target)
 	{
 
 		DXGI_SWAP_CHAIN_DESC sd = { 0 };
@@ -60,7 +60,38 @@ namespace Engine
 		wrl::ComPtr<ID3D11Resource> pBackBuffer;
 		swap->GetBuffer(0, __uuidof(ID3D11Resource), &pBackBuffer);
 
-		pDevice->CreateRenderTargetView(pBackBuffer.Get(), nullptr, &taget);
+		pDevice->CreateRenderTargetView(pBackBuffer.Get(), nullptr, &target);
+
+	}
+
+	void Graphics::ResizeSwapChainAndRenderTarget(wrl::ComPtr<IDXGISwapChain>& swap, wrl::ComPtr<ID3D11RenderTargetView>& target, uint32_t width, uint32_t height)
+	{
+		DXGI_MODE_DESC md = { 0 };
+		md.Width = width;
+		md.Height = height;
+		md.Format = DXGI_FORMAT_R8G8B8A8_UNORM; // format to store the data
+		md.RefreshRate.Numerator = 0;
+		md.RefreshRate.Denominator = 0;
+		md.Scaling = DXGI_MODE_SCALING_UNSPECIFIED; // unspecified no scalling requierd 
+		md.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED; // unspecified 
+
+		// unbind the render target
+		pContext->OMSetRenderTargets(0, 0, 0);
+		// release refrense to the render target
+		target->Release();
+
+		// flush the context
+		pContext->Flush();
+
+		// resize the target and swapchain buffers buffres
+		swap->ResizeTarget(&md);
+		swap->ResizeBuffers(0, width, height, DXGI_FORMAT_R8G8B8A8_UNORM, 0);
+
+		// recreate the render target
+		wrl::ComPtr<ID3D11Resource> pBackBuffer;
+		swap->GetBuffer(0, __uuidof(ID3D11Resource), &pBackBuffer);
+
+		pDevice->CreateRenderTargetView(pBackBuffer.Get(), nullptr, target.GetAddressOf());
 	}
 
 	void Graphics::DrawTestTriangle()

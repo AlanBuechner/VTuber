@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Core/Win.h"
+#include "Platform/Windows/Win.h"
+#include "Core/Core.h"
 
 namespace Engine
 {
@@ -14,7 +15,8 @@ namespace Engine
 		Graphics& operator=(const Graphics&) = delete;
 		~Graphics() = default;
 
-		void CreateSwapChainAndRenderTarget(HWND hWnd, wrl::ComPtr<IDXGISwapChain>& swap, wrl::ComPtr<ID3D11RenderTargetView>& taget);
+		void CreateSwapChainAndRenderTarget(HWND hWnd, wrl::ComPtr<IDXGISwapChain>& swap, wrl::ComPtr<ID3D11RenderTargetView>& target);
+		void ResizeSwapChainAndRenderTarget(wrl::ComPtr<IDXGISwapChain>& swap, wrl::ComPtr<ID3D11RenderTargetView>& target, uint32_t width, uint32_t height);
 
 		void DrawTestTriangle();
 

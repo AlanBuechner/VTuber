@@ -134,6 +134,7 @@ namespace Engine
 		std::queue<char> m_CharBuffer;
 
 		friend class Window;
+		friend class WindowsWindow;
 	};
 
 	template<typename T>
