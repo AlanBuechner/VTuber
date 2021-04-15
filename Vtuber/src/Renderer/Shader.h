@@ -17,24 +17,17 @@ namespace Engine
 			Pixel
 		};
 
-		void LoadVertexShader(std::wstring fileName);
-		void LoadPixleShader(std::wstring fileName);
+		virtual void LoadVertexShader(std::wstring fileName) = 0;
+		virtual void LoadPixleShader(std::wstring fileName) = 0;
 
-		void SetInputLayout(BufferLayout& layout);
-		void GenInputLayoutFromReflection();
+		virtual void SetInputLayout(BufferLayout& layout) = 0;
+		virtual void GenInputLayoutFromReflection() = 0;
 
-		void Bind();
-		void Unbind();
+		virtual void Bind() = 0;
+		virtual void Unbind() = 0;
 
-	private:
-		wrl::ComPtr<ID3DBlob> ReadBlob(std::wstring& fileName);
-
-	private:
-		std::wstring m_VertexShaderFile;
-		wrl::ComPtr<ID3D11InputLayout> m_pInputLayout;
-
-		wrl::ComPtr<ID3D11VertexShader> m_pVertexShader;
-		wrl::ComPtr<ID3D11PixelShader> m_pPixelShader;
+		static Ref<Shader> Create();
+		
 
 	};
 }

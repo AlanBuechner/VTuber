@@ -70,14 +70,14 @@ namespace Engine
 		Ref<IndexBuffer> ib = IndexBuffer::Create(indices, 3);
 		ib->Bind();
 
-		Shader shader = Shader();
+		Ref<Shader> shader = Shader::Create();
 
-		shader.LoadVertexShader(L"VertexShader.cso");
-		shader.LoadPixleShader(L"PixelShader.cso");
-		shader.SetInputLayout(layout);
-		//shader.GenInputLayoutFromReflection();
+		shader->LoadVertexShader(L"VertexShader.cso");
+		shader->LoadPixleShader(L"PixelShader.cso");
+		shader->SetInputLayout(layout);
+		//shader->GenInputLayoutFromReflection();
 
-		shader.Bind();
+		shader->Bind();
 
 		pContext->DrawIndexed(3u, 0u, 0u);
 	}

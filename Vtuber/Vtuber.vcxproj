@@ -188,6 +188,7 @@
     <ClCompile Include="src\MainWindow.cpp" />
     <ClCompile Include="src\Platform\DirectX11\DirectX11Buffer.cpp" />
     <ClCompile Include="src\Platform\DirectX11\DirectX11RendererAPI.cpp" />
+    <ClCompile Include="src\Platform\DirectX11\DirectX11Shader.cpp" />
     <ClCompile Include="src\Platform\DirectX11\DirectX11SwapChain.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\Renderer\Buffer.cpp" />
@@ -204,6 +205,7 @@
     <ClInclude Include="src\Core\VException.h" />
     <ClInclude Include="src\Platform\DirectX11\DirectX11Buffer.h" />
     <ClInclude Include="src\Platform\DirectX11\DirectX11RendererAPI.h" />
+    <ClInclude Include="src\Platform\DirectX11\DirectX11Shader.h" />
     <ClInclude Include="src\Platform\DirectX11\DirectX11SwapChain.h" />
     <ClInclude Include="src\Platform\WindowExeption.h" />
     <ClInclude Include="src\Platform\Windows\Win.h" />
