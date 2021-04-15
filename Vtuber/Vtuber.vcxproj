@@ -186,6 +186,7 @@
     <ClCompile Include="src\Core\VException.cpp" />
     <ClCompile Include="src\Core\Window.cpp" />
     <ClCompile Include="src\MainWindow.cpp" />
+    <ClCompile Include="src\Platform\DirectX11\DirectX11Buffer.cpp" />
     <ClCompile Include="src\Platform\DirectX11\DirectX11RendererAPI.cpp" />
     <ClCompile Include="src\Platform\DirectX11\DirectX11SwapChain.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
@@ -201,6 +202,7 @@
     <ClInclude Include="src\Core\Input\Input.h" />
     <ClInclude Include="src\Core\Time.h" />
     <ClInclude Include="src\Core\VException.h" />
+    <ClInclude Include="src\Platform\DirectX11\DirectX11Buffer.h" />
     <ClInclude Include="src\Platform\DirectX11\DirectX11RendererAPI.h" />
     <ClInclude Include="src\Platform\DirectX11\DirectX11SwapChain.h" />
     <ClInclude Include="src\Platform\Windows\Win.h" />

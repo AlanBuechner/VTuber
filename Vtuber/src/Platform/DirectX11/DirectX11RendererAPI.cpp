@@ -63,12 +63,12 @@ namespace Engine
 			{ShaderDataType::Float3, "Position"}
 		};
 
-		VertexBuffer vb(vertices, sizeof(vertices));
-		vb.SetLayout(layout);
-		vb.Bind();
+		Ref<VertexBuffer> vb = VertexBuffer::Create(vertices, sizeof(vertices));
+		vb->SetLayout(layout);
+		vb->Bind();
 
-		IndexBuffer ib(indices, 3);
-		ib.Bind();
+		Ref<IndexBuffer> ib = IndexBuffer::Create(indices, 3);
+		ib->Bind();
 
 		Shader shader = Shader();
 

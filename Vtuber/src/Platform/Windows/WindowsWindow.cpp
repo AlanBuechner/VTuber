@@ -1,4 +1,5 @@
 #include "WindowsWindow.h"
+#include "Renderer/RendererCommand.h"
 
 Engine::WindowsWindow::WindowClass Engine::WindowsWindow::WindowClass::wndClass;
 

@@ -1,6 +1,7 @@
 #include "Core.h"
 #include "Window.h"
 #include "Application.h"
+#include "Renderer/RendererCommand.h"
 
 #ifdef PLATFORM_WINDOWS
 	#include "Platform/Windows/WindowsWindow.h"

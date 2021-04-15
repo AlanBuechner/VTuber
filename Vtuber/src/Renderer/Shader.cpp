@@ -1,6 +1,8 @@
 #include "Shader.h"
 #include "RendererCommand.h"
 
+#include "Platform/DirectX11/DirectX11RendererAPI.h"
+
 #include <iostream>
 #include <d3dcompiler.h>
 #include <D3Dcompiler.inl>

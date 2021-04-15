@@ -1,4 +1,5 @@
 #include "Application.h"
+#include "Renderer/RendererCommand.h"
 
 int Engine::Application::s_QuitMessage = 0;
 
