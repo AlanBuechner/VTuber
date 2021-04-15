@@ -1,3 +1,7 @@
+#include "Core/Core.h"
+
+#ifdef PLATFORM_WINDOWS
+
 #include "Platform/Windows/Win.h"
 #include "Core/Window.h"
 #include "Core/VException.h"
@@ -25,3 +29,5 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	return -1;
 }
+
+#endif

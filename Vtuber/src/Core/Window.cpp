@@ -80,8 +80,8 @@ namespace Engine
 		m_Input.UpdateKeyStates();
 
 		WindowProps props = m_NativeWindow.GetProps();
-		RendererCommand::SetViewPort((float)props.width, (float)props.height, 0, 0);
-		RendererCommand::SetTarget(m_NativeWindow.GetTarget());
+		RendererCommand::SetViewPort(props.width, props.height, 0, 0);
+		m_NativeWindow.GetSwapChain().Bind();
 
 		OnUpdate();
 	}

@@ -1,23 +1,17 @@
 #pragma once
 
-#include "Graphics.h"
+#include "Platform/DirectX11/DirectX11RendererAPI.h"
 
 
 namespace Engine
 {
 	class RendererCommand
 	{
-	private:
-		static Graphics* s_Graphics;
 
 	public:
 		static void Init();
 
-		static inline Graphics& GetGraphics() { return *s_Graphics; };
-
-		static void SetViewPort(float width, float height, float x, float y);
-
-		static void SetTarget(wrl::ComPtr<ID3D11RenderTargetView>& target);
+		static void SetViewPort(int width, int height, int x = 0, int y = 0);
 
 
 	};

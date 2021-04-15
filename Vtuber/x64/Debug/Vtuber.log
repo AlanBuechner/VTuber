@@ -3,8 +3,4 @@
   Window.cpp
   MainWindow.cpp
   WindowsWindow.cpp
-  Buffer.cpp
-  Graphics.cpp
-  RendererCommand.cpp
-  Shader.cpp
   Vtuber.vcxproj -> C:\Users\alanj\source\repos\Vtuber\x64\Debug\Vtuber.exe

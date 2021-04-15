@@ -9,10 +9,10 @@ namespace Engine
 			{
 				float x, y, z;
 			} Position;
-			
-			struct{
+
+			struct {
 				float r, g, b, a;
 			} Color;
 		};
-	}
+	};
 }

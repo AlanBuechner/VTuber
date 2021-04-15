@@ -1,5 +1,4 @@
 #include "Shader.h"
-#include "Graphics.h"
 #include "RendererCommand.h"
 
 #include <iostream>
@@ -12,7 +11,7 @@ namespace Engine
 	void Shader::LoadVertexShader(std::wstring fileName)
 	{
 		m_VertexShaderFile = fileName;
-		Graphics& graphics = RendererCommand::GetGraphics();
+		DirectX11RendererAPI& graphics = *(DirectX11RendererAPI*)RendererAPI::Get();
 
 		wrl::ComPtr<ID3DBlob> pBlob = ReadBlob(fileName);
 
@@ -22,7 +21,7 @@ namespace Engine
 
 	void Shader::LoadPixleShader(std::wstring fileName)
 	{
-		Graphics& graphics = RendererCommand::GetGraphics();
+		DirectX11RendererAPI& graphics = *(DirectX11RendererAPI*)RendererAPI::Get();
 
 		wrl::ComPtr<ID3DBlob> pBlob = ReadBlob(fileName);
 
@@ -51,7 +50,7 @@ namespace Engine
 
 	void Shader::SetInputLayout(BufferLayout& layout)
 	{
-		Graphics& graphics = RendererCommand::GetGraphics();
+		DirectX11RendererAPI& graphics = *(DirectX11RendererAPI*)RendererAPI::Get();
 
 		wrl::ComPtr<ID3DBlob> pBlob = ReadBlob(m_VertexShaderFile);
 
@@ -104,7 +103,7 @@ namespace Engine
 
 	void Shader::Bind()
 	{
-		Graphics& graphics = RendererCommand::GetGraphics();
+		DirectX11RendererAPI& graphics = *(DirectX11RendererAPI*)RendererAPI::Get();
 
 		graphics.GetContext()->PSSetShader(m_pPixelShader.Get(), nullptr, 0u);
 		graphics.GetContext()->VSSetShader(m_pVertexShader.Get(), nullptr, 0u);

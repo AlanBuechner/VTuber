@@ -35,7 +35,7 @@ namespace Engine
 	// windows window
 
 	WindowsWindow::WindowsWindow(Window::WindowProps props, Window* owningWindow) :
-		NativeWindow::NativeWindow(props, owningWindow), m_OwningWindow(owningWindow), m_Props(props)
+		NativeWindow::NativeWindow(props, owningWindow), m_OwningWindow(owningWindow), m_Props(props), m_Swap(SwapChain::CreateSwapChain())
 	{
 		RECT wr;
 		wr.left = 100;
@@ -61,11 +61,9 @@ namespace Engine
 
 		ShowWindow(hWnd, SW_SHOW);
 
-		Graphics& graphics = RendererCommand::GetGraphics();
+		m_Swap.Init((void*)hWnd);
 
-		graphics.CreateSwapChainAndRenderTarget(hWnd, pSwap, pTarget);
-
-		RendererCommand::SetViewPort((float)props.width, (float)props.height, 0, 0);
+		RendererCommand::SetViewPort(props.width, props.height, 0, 0);
 	}
 
 	WindowsWindow::~WindowsWindow()
@@ -98,14 +96,12 @@ namespace Engine
 
 	void WindowsWindow::SwapBuffers()
 	{
-		pSwap->Present(1u, 0u);
+		m_Swap.SwapBuffers();
 	}
 
 	void WindowsWindow::ClearToColor(float r, float g, float b)
 	{
-		Graphics& graphics = RendererCommand::GetGraphics();
-		const float color[] = { r,g,b,1.0f };
-		graphics.GetContext()->ClearRenderTargetView(pTarget.Get(), color);
+		m_Swap.ClearColor(r, g, b);
 	}
 
 	LRESULT WINAPI WindowsWindow::HandleEventSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -182,10 +178,8 @@ namespace Engine
 		{
 			m_Props.width = LOWORD(lParam);
 			m_Props.height = HIWORD(lParam);
-			if (pSwap) {
 
-				RendererCommand::GetGraphics().ResizeSwapChainAndRenderTarget(pSwap, pTarget, m_Props.width, m_Props.height);
-			}
+			m_Swap.Resize(m_Props.width, m_Props.height);
 			break;
 		}
 		case WM_KILLFOCUS:

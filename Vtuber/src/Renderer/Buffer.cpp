@@ -1,6 +1,5 @@
 #include "Platform/Windows/Win.h"
 #include "Buffer.h"
-#include "Graphics.h"
 #include "RendererCommand.h"
 
 namespace Engine
@@ -35,8 +34,7 @@ namespace Engine
 	
 	VertexBuffer::VertexBuffer(const void* vertices, const uint32_t size)
 	{
-		Graphics& graphics = RendererCommand::GetGraphics();
-
+		DirectX11RendererAPI& graphics = *(DirectX11RendererAPI*)RendererAPI::Get();
 		D3D11_BUFFER_DESC vbufferDesc = { 0 };
 		vbufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 		vbufferDesc.Usage = (vertices==nullptr ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT);
@@ -52,7 +50,7 @@ namespace Engine
 
 	void VertexBuffer::Bind() const
 	{
-		Graphics& graphics = RendererCommand::GetGraphics();
+		DirectX11RendererAPI& graphics = *(DirectX11RendererAPI*)RendererAPI::Get();
 
 		const UINT stride = m_Layout.GetStride();
 		const UINT offset = 0u;
@@ -61,7 +59,7 @@ namespace Engine
 
 	void VertexBuffer::Unbind() const
 	{
-		Graphics& graphics = RendererCommand::GetGraphics();
+		DirectX11RendererAPI& graphics = *(DirectX11RendererAPI*)RendererAPI::Get();
 		graphics.GetContext()->IASetVertexBuffers(0u, 1u, nullptr, nullptr, nullptr);
 	}
 
@@ -76,7 +74,7 @@ namespace Engine
 
 	void VertexBuffer::SetData(const void* data, const uint32_t size)
 	{
-		Graphics& graphics = RendererCommand::GetGraphics();
+		DirectX11RendererAPI& graphics = *(DirectX11RendererAPI*)RendererAPI::Get();
 
 		//graphics.GetDivice()->
 	}
@@ -101,7 +99,7 @@ namespace Engine
 
 	IndexBuffer::IndexBuffer(const uint32_t* indices, const uint32_t count)
 	{
-		Graphics& graphics = RendererCommand::GetGraphics();
+		DirectX11RendererAPI& graphics = *(DirectX11RendererAPI*)RendererAPI::Get();
 
 		D3D11_BUFFER_DESC ibufferDesc = { 0 };
 		ibufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
@@ -119,13 +117,13 @@ namespace Engine
 
 	void IndexBuffer::Bind() const
 	{
-		Graphics& graphics = RendererCommand::GetGraphics();
+		DirectX11RendererAPI& graphics = *(DirectX11RendererAPI*)RendererAPI::Get();
 		graphics.GetContext()->IASetIndexBuffer(m_Buffer.Get(), DXGI_FORMAT_R32_UINT, 0);
 	}
 
 	void IndexBuffer::Unbind() const
 	{
-		Graphics& graphics = RendererCommand::GetGraphics();
+		DirectX11RendererAPI& graphics = *(DirectX11RendererAPI*)RendererAPI::Get();
 		graphics.GetContext()->IASetIndexBuffer(nullptr, DXGI_FORMAT_R32_UINT, 0);
 	}
 

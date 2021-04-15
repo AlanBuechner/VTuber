@@ -1,10 +1,10 @@
 #pragma once
-#include "Platform/Windows/Win.h"
 #include "Core.h"
 #include "VException.h"
 #include "Input/Input.h"
-#include "Renderer/Graphics.h"
 #include "Renderer/RendererCommand.h"
+
+#include "Renderer/SwapChain.h"
 
 #include <string>
 #include <vector>
@@ -99,7 +99,6 @@ namespace Engine
 		NativeWindow& operator=(const NativeWindow&) = delete;
 
 		virtual Window::WindowProps GetProps() = 0;
-		virtual wrl::ComPtr<ID3D11RenderTargetView>& GetTarget() = 0;
 
 		virtual void PullEvents() = 0;
 
@@ -108,6 +107,8 @@ namespace Engine
 
 		virtual void SwapBuffers() = 0;
 		virtual void ClearToColor(float r, float g, float b) = 0;
+
+		virtual SwapChain& GetSwapChain() = 0;
 
 		static NativeWindow& CreateNativeWindow(Window::WindowProps props, Window* owningWindow);
 

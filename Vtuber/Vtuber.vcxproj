@@ -186,11 +186,14 @@
     <ClCompile Include="src\Core\VException.cpp" />
     <ClCompile Include="src\Core\Window.cpp" />
     <ClCompile Include="src\MainWindow.cpp" />
+    <ClCompile Include="src\Platform\DirectX11\DirectX11RendererAPI.cpp" />
+    <ClCompile Include="src\Platform\DirectX11\DirectX11SwapChain.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\Renderer\Buffer.cpp" />
-    <ClCompile Include="src\Renderer\Graphics.cpp" />
+    <ClCompile Include="src\Renderer\RendererAPI.cpp" />
     <ClCompile Include="src\Renderer\RendererCommand.cpp" />
     <ClCompile Include="src\Renderer\Shader.cpp" />
+    <ClCompile Include="src\Renderer\SwapChain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Application.h" />
@@ -198,15 +201,18 @@
     <ClInclude Include="src\Core\Input\Input.h" />
     <ClInclude Include="src\Core\Time.h" />
     <ClInclude Include="src\Core\VException.h" />
+    <ClInclude Include="src\Platform\DirectX11\DirectX11RendererAPI.h" />
+    <ClInclude Include="src\Platform\DirectX11\DirectX11SwapChain.h" />
     <ClInclude Include="src\Platform\Windows\Win.h" />
     <ClInclude Include="src\Core\Window.h" />
     <ClInclude Include="src\MainWindow.h" />
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="src\Renderer\Buffer.h" />
-    <ClInclude Include="src\Renderer\Graphics.h" />
     <ClInclude Include="src\Renderer\Mesh.h" />
+    <ClInclude Include="src\Renderer\RendererAPI.h" />
     <ClInclude Include="src\Renderer\RendererCommand.h" />
     <ClInclude Include="src\Renderer\Shader.h" />
+    <ClInclude Include="src\Renderer\SwapChain.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shaders\PixelShader.hlsl">

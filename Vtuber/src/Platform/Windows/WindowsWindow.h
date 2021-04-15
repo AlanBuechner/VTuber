@@ -1,6 +1,8 @@
 #pragma once
 #include "Platform/Windows/Win.h"
 #include "Core/Window.h"
+#include "Renderer/SwapChain.h"
+#include "Platform/DirectX11/DirectX11SwapChain.h"
 
 namespace Engine
 {
@@ -28,7 +30,6 @@ namespace Engine
 		virtual ~WindowsWindow() override;
 
 		virtual Window::WindowProps GetProps() override { return m_Props; }
-		virtual wrl::ComPtr<ID3D11RenderTargetView>& GetTarget() override { return pTarget; }
 
 		virtual void PullEvents() override;
 
@@ -37,6 +38,8 @@ namespace Engine
 
 		virtual void SwapBuffers() override;
 		virtual void ClearToColor(float r, float g, float b) override;
+
+		virtual SwapChain& GetSwapChain() { return m_Swap; }
 
 	private:
 		static LRESULT WINAPI HandleEventSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -49,7 +52,6 @@ namespace Engine
 		Window::WindowProps m_Props;
 
 		HWND hWnd; // handle to the window
-		wrl::ComPtr<IDXGISwapChain> pSwap; // pointer to the swap chain 
-		wrl::ComPtr<ID3D11RenderTargetView> pTarget; // pointer to the render target
+		SwapChain& m_Swap;
 	};
 }
