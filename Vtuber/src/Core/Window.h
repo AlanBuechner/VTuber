@@ -6,6 +6,8 @@
 
 #include "Renderer/SwapChain.h"
 
+#include "Platform/WindowExeption.h"
+
 #include <string>
 #include <vector>
 #include <memory>
@@ -17,21 +19,6 @@ namespace Engine
 
 	class Window
 	{
-	public:
-		class Exception : public VException
-		{
-		public:
-			Exception(int line, const char* file, HRESULT hr);
-			virtual const char* what() const override;
-			virtual const char* GetType() const override;
-			static std::string TranslateErrorCode(HRESULT hr);
-			HRESULT GetErrorCode() const;
-			std::string GetErrorString() const;
-		private:
-			HRESULT hr;
-
-		};
-
 	public:
 
 		struct WindowProps
@@ -115,6 +102,3 @@ namespace Engine
 
 	};
 }
-
-#define HWND_EXCEPT(hr) Window::Exception(__LINE__, __FILE__, hr)
-#define HWND_LAST_EXCEPT() Window::Exception(__LINE__, __FILE__, GetLastError())

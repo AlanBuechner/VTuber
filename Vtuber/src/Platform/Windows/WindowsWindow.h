@@ -9,7 +9,6 @@ namespace Engine
 
 	class WindowsWindow : public NativeWindow
 	{
-
 		class WindowClass
 		{
 		public:

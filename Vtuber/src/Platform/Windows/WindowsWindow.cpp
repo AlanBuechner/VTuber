@@ -1,10 +1,60 @@
 #include "WindowsWindow.h"
 #include "Renderer/RendererCommand.h"
 
+#include "Platform/WindowExeption.h"
+
 Engine::WindowsWindow::WindowClass Engine::WindowsWindow::WindowClass::wndClass;
 
 namespace Engine
 {
+
+	// window expetion
+
+	WindowException::WindowException(int line, const char* file, HRESULT hr) :
+		VException(line, file),
+		hr(hr)
+	{
+	}
+
+	const char* WindowException::what() const
+	{
+		std::ostringstream oss;
+		oss << GetType() << std::endl
+			<< "[Error Code] " << GetErrorCode() << std::endl
+			<< "[Description] " << GetErrorString() << std::endl
+			<< GetOriginString();
+		whatBuffer = oss.str();
+		return whatBuffer.c_str();
+	}
+
+	const char* WindowException::GetType() const
+	{
+		return "Window Exeption";
+	}
+
+	std::string WindowException::TranslateErrorCode(HRESULT hr)
+	{
+		char* pMsgBuf = nullptr;
+		DWORD nMsgLen = FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, nullptr, hr, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+			reinterpret_cast<LPWSTR>(&pMsgBuf), 0, nullptr);
+		if (nMsgLen == 0)
+		{
+			return "Unidentified error code";
+		}
+		std::string errorString = pMsgBuf;
+		LocalFree(pMsgBuf);
+		return errorString;
+	}
+
+	HRESULT WindowException::GetErrorCode() const
+	{
+		return hr;
+	}
+
+	std::string WindowException::GetErrorString() const
+	{
+		return TranslateErrorCode(hr);
+	}
 
 	// window class
 

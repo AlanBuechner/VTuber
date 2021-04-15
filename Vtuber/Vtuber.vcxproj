@@ -205,6 +205,7 @@
     <ClInclude Include="src\Platform\DirectX11\DirectX11Buffer.h" />
     <ClInclude Include="src\Platform\DirectX11\DirectX11RendererAPI.h" />
     <ClInclude Include="src\Platform\DirectX11\DirectX11SwapChain.h" />
+    <ClInclude Include="src\Platform\WindowExeption.h" />
     <ClInclude Include="src\Platform\Windows\Win.h" />
     <ClInclude Include="src\Core\Window.h" />
     <ClInclude Include="src\MainWindow.h" />

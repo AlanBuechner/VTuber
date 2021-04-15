@@ -119,6 +119,9 @@
     <ClInclude Include="src\Platform\DirectX11\DirectX11Buffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Platform\WindowExeption.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shaders\VertexShader.hlsl" />
