@@ -42,6 +42,11 @@ namespace Engine
 		pContext->RSSetViewports(1u, &vp);
 	}
 
+	void DirectX11RendererAPI::DrawIndexed(uint32_t count)
+	{
+		pContext->DrawIndexed(count, 0u, 0u);
+	}
+
 	void DirectX11RendererAPI::DrawTestTriangle()
 	{
 
@@ -79,7 +84,7 @@ namespace Engine
 
 		shader->Bind();
 
-		pContext->DrawIndexed(3u, 0u, 0u);
+		DrawIndexed(ib->GetCount());
 	}
 
 }

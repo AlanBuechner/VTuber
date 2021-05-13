@@ -1,4 +1,5 @@
 #pragma once
+#include "Core/Core.h"
 
 namespace Engine
 {
@@ -25,6 +26,7 @@ namespace Engine
 		virtual void Init() = 0;
 
 		virtual void SetViewPort(int width, int height, int x, int y) = 0;
+		virtual void DrawIndexed(uint32_t count) = 0;
 
 
 		

@@ -23,6 +23,8 @@ namespace Engine
 		virtual void SetInputLayout(BufferLayout& layout) = 0;
 		virtual void GenInputLayoutFromReflection() = 0;
 
+		virtual void SetConstantBuffer(uint32_t slot, const ConstentBuffer& cb) = 0;
+
 		virtual void Bind() = 0;
 		virtual void Unbind() = 0;
 

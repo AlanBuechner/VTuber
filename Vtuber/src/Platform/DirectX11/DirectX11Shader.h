@@ -15,6 +15,8 @@ namespace Engine
 		virtual void SetInputLayout(BufferLayout& layout) override;
 		virtual void GenInputLayoutFromReflection() override;
 
+		virtual void SetConstantBuffer(uint32_t slot, const ConstentBuffer& cb) override;
+
 		virtual void Bind() override;
 		virtual void Unbind() override;
 

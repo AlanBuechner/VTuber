@@ -1,6 +1,7 @@
 #include "DirectX11Shader.h"
 #include "Renderer/RendererAPI.h"
 #include "DirectX11RendererAPI.h"
+#include "DirectX11Buffer.h"
 
 
 #include <iostream>
@@ -96,6 +97,14 @@ namespace Engine
 		graphics.GetDivice()->CreateInputLayout(ied, 1u, pBlob->GetBufferPointer(), pBlob->GetBufferSize(), &m_pInputLayout);
 
 		delete[] ied;*/
+	}
+
+	void DirectX11Shader::SetConstantBuffer(uint32_t slot, const ConstentBuffer& cb)
+	{
+		DirectX11RendererAPI& graphics = *(DirectX11RendererAPI*)RendererAPI::Get();
+		const DirectX11ConstentBuffer& d3dcb = (DirectX11ConstentBuffer&)cb;
+
+		graphics.GetContext()->VSSetConstantBuffers(slot, 1u, d3dcb.GetBuffer().GetAddressOf());
 	}
 
 	void DirectX11Shader::Bind()

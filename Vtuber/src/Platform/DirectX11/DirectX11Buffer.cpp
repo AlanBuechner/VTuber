@@ -80,6 +80,7 @@ namespace Engine
 	DirectX11IndexBuffer::DirectX11IndexBuffer(const uint32_t* indices, const uint32_t count)
 	{
 		DirectX11RendererAPI& graphics = *(DirectX11RendererAPI*)RendererAPI::Get();
+		m_Count = count;
 
 		D3D11_BUFFER_DESC ibufferDesc = { 0 };
 		ibufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
@@ -111,6 +112,30 @@ namespace Engine
 	{
 		DirectX11RendererAPI& graphics = *(DirectX11RendererAPI*)RendererAPI::Get();
 		// TODO
+	}
+
+
+	// -------------------------------- Constent Buffer -------------------------------- // 
+	DirectX11ConstentBuffer::DirectX11ConstentBuffer(const void* data, uint32_t size)
+	{
+		DirectX11RendererAPI& graphics = *(DirectX11RendererAPI*)RendererAPI::Get();
+
+		D3D11_BUFFER_DESC cbufferDesc = {  };
+		cbufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+		cbufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+		cbufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+		cbufferDesc.MiscFlags = 0u;
+		cbufferDesc.ByteWidth = size;
+		cbufferDesc.StructureByteStride = 0u;
+		D3D11_SUBRESOURCE_DATA cbufferData = {  };
+		cbufferData.pSysMem = data;
+		
+		graphics.GetDivice()->CreateBuffer(&cbufferDesc, &cbufferData, &m_Buffer);
+
+	}
+
+	void DirectX11ConstentBuffer::SetData(const void* data, uint32_t size)
+	{
 	}
 
 }

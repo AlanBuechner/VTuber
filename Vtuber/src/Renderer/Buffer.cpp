@@ -64,4 +64,19 @@ namespace Engine
 
 
 
+	Ref<ConstentBuffer> ConstentBuffer::Create(const void* data, uint32_t size)
+	{
+		switch (RendererAPI::GetAPI())
+		{
+		case Engine::RendererAPI::DirectX11:
+			return std::make_shared<DirectX11ConstentBuffer>(data, size);
+		case Engine::RendererAPI::OpenGL:
+			break;
+		case Engine::RendererAPI::Vulkan:
+			break;
+		default:
+			break;
+		}
+	}
+
 }

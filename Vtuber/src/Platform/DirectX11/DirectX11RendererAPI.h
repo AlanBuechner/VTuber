@@ -19,6 +19,7 @@ namespace Engine
 		virtual void Init() override;
 
 		virtual void SetViewPort(int width, int height, int x, int y) override;
+		virtual void DrawIndexed(uint32_t count) override;
 
 		void DrawTestTriangle();
 

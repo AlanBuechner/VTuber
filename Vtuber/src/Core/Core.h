@@ -4,6 +4,9 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <DirectXMath.h>
+
+namespace dx = DirectX;
 
 #if defined(_WIN32) || defined(_WIN64)
 	#define PLATFORM_WINDOWS
