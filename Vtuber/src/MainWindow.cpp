@@ -1,6 +1,7 @@
+#include "Core/Core.h"
+#include "Core/Time.h"
 #include "MainWindow.h"
 #include "Application.h"
-#include "Core/Time.h"
 
 #include "Renderer/RendererAPI.h"
 #include "Renderer/RendererCommand.h"
@@ -46,16 +47,11 @@ void MainWindow::OnUpdate()
 	a += Engine::Time::GetDeltaTime();
 	struct CBData {
 		struct {
-			float elements[4][4];
+			glm::mat4 rot;
 		};
 	};
 	const CBData data = {
-		{
-			 cos(a),	sin(a), 0.0f, 0.0f,
-			-sin(a),	cos(a), 0.0f, 0.0f,
-			 0.0f,		0.0f,	1.0f, 0.0f,
-			 0.0f,		0.0f,	0.0f, 1.0f
-		}
+		glm::rotate(glm::mat4(1.0f), a, {0.0f, 0.0f, 1.0f})
 	};
 	Engine::Ref<Engine::ConstentBuffer> cb = Engine::ConstentBuffer::Create((void*)&data, sizeof(data));
 

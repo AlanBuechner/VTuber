@@ -4,9 +4,8 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include <DirectXMath.h>
-
-namespace dx = DirectX;
+#include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #if defined(_WIN32) || defined(_WIN64)
 	#define PLATFORM_WINDOWS

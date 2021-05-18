@@ -13,7 +13,7 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 -- Include directories relative to root folder (solution directory)
 IncludeDir = {}
 --IncludeDir["ImGui"] = "GameEngine/vendor/imgui"
---IncludeDir["glm"] = "GameEngine/vendor/Glm"
+IncludeDir["glm"] = "Vtuber/vendor/Glm"
 --IncludeDir["stb_image"] = "GameEngine/vendor/stb_image"
 --IncludeDir["entt"] = "GameEngine/vendor/entt/include"
 --IncludeDir["yaml"] = "GameEngine/vendor/yaml-cpp/include"
@@ -41,8 +41,8 @@ project "Vtuber"
 		"%{prj.name}/src/**.cpp",
 --		"%{prj.name}/vendor/stb_image/**.h",
 --		"%{prj.name}/vendor/stb_image/**.cpp",
---		"%{prj.name}/vendor/Glm/glm/**.hpp",
---		"%{prj.name}/vendor/Glm/glm/**.inl",
+		"%{prj.name}/vendor/Glm/glm/**.hpp",
+		"%{prj.name}/vendor/Glm/glm/**.inl",
 --		"%{prj.name}/vendor/ImGuizmo/ImGuizmo.h",
 --		"%{prj.name}/vendor/ImGuizmo/ImGuizmo.cpp"
 	}
@@ -56,7 +56,7 @@ project "Vtuber"
 	{
 		"%{prj.name}/src",
 --		"%{IncludeDir.ImGui}",
---		"%{IncludeDir.glm}",
+		"%{IncludeDir.glm}",
 --		"%{IncludeDir.stb_image}",
 --		"%{IncludeDir.entt}",
 --		"%{IncludeDir.yaml}",
