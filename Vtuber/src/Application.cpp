@@ -1,4 +1,5 @@
 #include "Application.h"
+#include "Core/Time.h"
 #include "Renderer/RendererCommand.h"
 
 int Engine::Application::s_QuitMessage = 0;
@@ -20,6 +21,7 @@ namespace Engine
 
 		while (s_QuitMessage == 0)
 		{
+			Time::UpdateDeltaTime();
 			Window::UpdateWindows();
 
 			OnUpdate();

@@ -1,8 +1,8 @@
 #include "MainWindow.h"
 #include "Application.h"
+#include "Core/Time.h"
 
 #include "Renderer/RendererAPI.h"
-#include "Platform/DirectX11/DirectX11RendererAPI.h"
 #include "Renderer/RendererCommand.h"
 
 void MainWindow::OnCreate()
@@ -36,8 +36,14 @@ void MainWindow::OnCreate()
 	shader->SetInputLayout(layout);
 
 	shader->Bind();
+}
 
-	float a = 3.1415926543f;
+float a = 0.0f;
+void MainWindow::OnUpdate()
+{
+	ClearToColor(1.0f, 0.0f, 0.0f);
+
+	a += Engine::Time::GetDeltaTime();
 	struct CBData {
 		struct {
 			float elements[4][4];
@@ -54,14 +60,6 @@ void MainWindow::OnCreate()
 	Engine::Ref<Engine::ConstentBuffer> cb = Engine::ConstentBuffer::Create((void*)&data, sizeof(data));
 
 	shader->SetConstantBuffer(0u, *cb.get());
-}
-
-void MainWindow::OnUpdate()
-{
-	ClearToColor(1.0f, 0.0f, 0.0f);
-	//((Engine::DirectX11RendererAPI*)Engine::RendererAPI::Get())->DrawTestTriangle();
-
-	
 
 	Engine::RendererCommand::DrawIndexed(ib->GetCount());
 

@@ -1,136 +1,128 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="Core">
+      <UniqueIdentifier>{2EB4837C-1AEB-840D-C3D7-6A10AFED000F}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    <Filter Include="Core\Input">
+      <UniqueIdentifier>{AD4E7BCD-9906-BD1A-020E-9676EEE4570B}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="Platform">
+      <UniqueIdentifier>{2AC788B4-1694-E3BF-3FAD-D1672BD9184E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\DirectX11">
+      <UniqueIdentifier>{6EE5EAC0-5AC9-AB16-C329-A669AF2C9698}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\Windows">
+      <UniqueIdentifier>{64FBD71A-50F4-F66C-7926-DCF1657ED678}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer">
+      <UniqueIdentifier>{7CCE658F-689B-C09A-91B4-AE427DE0F528}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Entry.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Core\Window.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Core\VException.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Core\Input\Input.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Application.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Core\Time.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Renderer\RendererCommand.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Renderer\Buffer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Renderer\Shader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\MainWindow.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Renderer\RendererAPI.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Platform\DirectX11\DirectX11RendererAPI.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Platform\DirectX11\DirectX11SwapChain.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Renderer\SwapChain.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Platform\DirectX11\DirectX11Buffer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Platform\DirectX11\DirectX11Shader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\Core\Window.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <ClInclude Include="src\Application.h" />
     <ClInclude Include="src\Core\Core.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Platform\Windows\Win.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Core\VException.h">
-      <Filter>Header Files</Filter>
+      <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Core\Input\Input.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Application.h">
-      <Filter>Header Files</Filter>
+      <Filter>Core\Input</Filter>
     </ClInclude>
     <ClInclude Include="src\Core\Time.h">
-      <Filter>Header Files</Filter>
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\Renderer\Mesh.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\Core\VException.h">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\Renderer\RendererCommand.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\Core\Window.h">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\Renderer\Buffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Renderer\Shader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\MainWindow.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Platform\Windows\WindowsWindow.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Renderer\RendererAPI.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\MainWindow.h" />
+    <ClInclude Include="src\Platform\DirectX11\DirectX11Buffer.h">
+      <Filter>Platform\DirectX11</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\DirectX11\DirectX11RendererAPI.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Platform\DirectX11\DirectX11SwapChain.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Renderer\SwapChain.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Platform\DirectX11\DirectX11Buffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Platform\WindowExeption.h">
-      <Filter>Header Files</Filter>
+      <Filter>Platform\DirectX11</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\DirectX11\DirectX11Shader.h">
-      <Filter>Header Files</Filter>
+      <Filter>Platform\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\DirectX11\DirectX11SwapChain.h">
+      <Filter>Platform\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\WindowExeption.h">
+      <Filter>Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\Windows\Win.h">
+      <Filter>Platform\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\Windows\WindowsWindow.h">
+      <Filter>Platform\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Renderer\Buffer.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Renderer\Mesh.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Renderer\RendererAPI.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Renderer\RendererCommand.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Renderer\Shader.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Renderer\SwapChain.h">
+      <Filter>Renderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Assets\Shaders\VertexShader.hlsl" />
-    <FxCompile Include="Assets\Shaders\PixelShader.hlsl" />
+    <ClCompile Include="src\Application.cpp" />
+    <ClCompile Include="src\Core\Input\Input.cpp">
+      <Filter>Core\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\Time.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\VException.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\Window.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Entry.cpp" />
+    <ClCompile Include="src\MainWindow.cpp" />
+    <ClCompile Include="src\Platform\DirectX11\DirectX11Buffer.cpp">
+      <Filter>Platform\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\DirectX11\DirectX11RendererAPI.cpp">
+      <Filter>Platform\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\DirectX11\DirectX11Shader.cpp">
+      <Filter>Platform\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\DirectX11\DirectX11SwapChain.cpp">
+      <Filter>Platform\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp">
+      <Filter>Platform\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer\Buffer.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer\RendererAPI.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer\RendererCommand.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer\Shader.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer\SwapChain.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

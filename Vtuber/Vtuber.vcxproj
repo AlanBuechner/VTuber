@@ -1,17 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="Debug|Win32">
-      <Configuration>Debug</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|x64">
       <Configuration>Debug</Configuration>
       <Platform>x64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|Win32">
-      <Configuration>Release</Configuration>
-      <Platform>Win32</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Release|x64">
       <Configuration>Release</Configuration>
@@ -19,9 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <VCProjectVersion>16.0</VCProjectVersion>
+    <ProjectGuid>{FD9BEFD8-E93D-1AAF-D2F8-2D03BE39A1FF}</ProjectGuid>
+    <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{c88a63f9-b112-4f8c-8781-af5d201a066c}</ProjectGuid>
     <RootNamespace>Vtuber</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -29,162 +21,104 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
-  <ImportGroup Label="Shared">
-  </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <MultiProcFXC>true</MultiProcFXC>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LinkIncremental>true</LinkIncremental>
-    <MultiProcFXC>true</MultiProcFXC>
+    <OutDir>..\bin\Debug-windows-x86_64\Vtuber\</OutDir>
+    <IntDir>..\bin-int\Debug-windows-x86_64\Vtuber\</IntDir>
+    <TargetName>Vtuber</TargetName>
+    <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <MultiProcFXC>true</MultiProcFXC>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LinkIncremental>false</LinkIncremental>
-    <MultiProcFXC>true</MultiProcFXC>
+    <OutDir>..\bin\Release-windows-x86_64\Vtuber\</OutDir>
+    <IntDir>..\bin-int\Release-windows-x86_64\Vtuber\</IntDir>
+    <TargetName>Vtuber</TargetName>
+    <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <FloatingPointModel>Fast</FloatingPointModel>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
-      <AdditionalIncludeDirectories>src</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
-    <FxCompile>
-      <ObjectFileOutput>$(ProjectDir)/ShaderBin/%(Filename).cso</ObjectFileOutput>
-    </FxCompile>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <FloatingPointModel>Fast</FloatingPointModel>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
-      <AdditionalIncludeDirectories>src</AdditionalIncludeDirectories>
-    </ClCompile>
-    <Link>
-      <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-    </Link>
-    <FxCompile>
-      <ObjectFileOutput>$(ProjectDir)/ShaderBin/%(Filename).cso</ObjectFileOutput>
-    </FxCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);NDEBUG</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <MinimalRebuild>false</MinimalRebuild>
+      <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <FloatingPointModel>Fast</FloatingPointModel>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
-      <AdditionalIncludeDirectories>src</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
-    <FxCompile>
-      <ObjectFileOutput>$(ProjectDir)/ShaderBin/%(Filename).cso</ObjectFileOutput>
-    </FxCompile>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);NDEBUG</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <FloatingPointModel>Fast</FloatingPointModel>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
-      <AdditionalIncludeDirectories>src</AdditionalIncludeDirectories>
-    </ClCompile>
-    <Link>
-      <SubSystem>Windows</SubSystem>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-    </Link>
-    <FxCompile>
-      <ObjectFileOutput>$(ProjectDir)/ShaderBin/%(Filename).cso</ObjectFileOutput>
-    </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Application.h" />
+    <ClInclude Include="src\Core\Core.h" />
+    <ClInclude Include="src\Core\Input\Input.h" />
+    <ClInclude Include="src\Core\Time.h" />
+    <ClInclude Include="src\Core\VException.h" />
+    <ClInclude Include="src\Core\Window.h" />
+    <ClInclude Include="src\MainWindow.h" />
+    <ClInclude Include="src\Platform\DirectX11\DirectX11Buffer.h" />
+    <ClInclude Include="src\Platform\DirectX11\DirectX11RendererAPI.h" />
+    <ClInclude Include="src\Platform\DirectX11\DirectX11Shader.h" />
+    <ClInclude Include="src\Platform\DirectX11\DirectX11SwapChain.h" />
+    <ClInclude Include="src\Platform\WindowExeption.h" />
+    <ClInclude Include="src\Platform\Windows\Win.h" />
+    <ClInclude Include="src\Platform\Windows\WindowsWindow.h" />
+    <ClInclude Include="src\Renderer\Buffer.h" />
+    <ClInclude Include="src\Renderer\Mesh.h" />
+    <ClInclude Include="src\Renderer\RendererAPI.h" />
+    <ClInclude Include="src\Renderer\RendererCommand.h" />
+    <ClInclude Include="src\Renderer\Shader.h" />
+    <ClInclude Include="src\Renderer\SwapChain.h" />
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="src\Application.cpp" />
-    <ClCompile Include="src\Entry.cpp" />
     <ClCompile Include="src\Core\Input\Input.cpp" />
     <ClCompile Include="src\Core\Time.cpp" />
     <ClCompile Include="src\Core\VException.cpp" />
     <ClCompile Include="src\Core\Window.cpp" />
+    <ClCompile Include="src\Entry.cpp" />
     <ClCompile Include="src\MainWindow.cpp" />
     <ClCompile Include="src\Platform\DirectX11\DirectX11Buffer.cpp" />
     <ClCompile Include="src\Platform\DirectX11\DirectX11RendererAPI.cpp" />
@@ -196,42 +130,6 @@
     <ClCompile Include="src\Renderer\RendererCommand.cpp" />
     <ClCompile Include="src\Renderer\Shader.cpp" />
     <ClCompile Include="src\Renderer\SwapChain.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\Application.h" />
-    <ClInclude Include="src\Core\Core.h" />
-    <ClInclude Include="src\Core\Input\Input.h" />
-    <ClInclude Include="src\Core\Time.h" />
-    <ClInclude Include="src\Core\VException.h" />
-    <ClInclude Include="src\Platform\DirectX11\DirectX11Buffer.h" />
-    <ClInclude Include="src\Platform\DirectX11\DirectX11RendererAPI.h" />
-    <ClInclude Include="src\Platform\DirectX11\DirectX11Shader.h" />
-    <ClInclude Include="src\Platform\DirectX11\DirectX11SwapChain.h" />
-    <ClInclude Include="src\Platform\WindowExeption.h" />
-    <ClInclude Include="src\Platform\Windows\Win.h" />
-    <ClInclude Include="src\Core\Window.h" />
-    <ClInclude Include="src\MainWindow.h" />
-    <ClInclude Include="src\Platform\Windows\WindowsWindow.h" />
-    <ClInclude Include="src\Renderer\Buffer.h" />
-    <ClInclude Include="src\Renderer\Mesh.h" />
-    <ClInclude Include="src\Renderer\RendererAPI.h" />
-    <ClInclude Include="src\Renderer\RendererCommand.h" />
-    <ClInclude Include="src\Renderer\Shader.h" />
-    <ClInclude Include="src\Renderer\SwapChain.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="Assets\Shaders\PixelShader.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="Assets\Shaders\VertexShader.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
-    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
