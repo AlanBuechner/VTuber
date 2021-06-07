@@ -15,6 +15,7 @@ namespace Engine
 	{
 
 		RendererCommand::Init();
+		Time::CreateTimer();
 
 		Window::MakeWindow<MainWindow>(1080, 720, L"VTuber");
 

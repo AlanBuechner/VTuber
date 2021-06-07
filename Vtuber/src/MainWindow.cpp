@@ -44,7 +44,8 @@ void MainWindow::OnUpdate()
 {
 	ClearToColor(1.0f, 0.0f, 0.0f);
 
-	a += 0.01666;
+	a += Time::GetDeltaTime();
+	//a += 0.01666;
 	struct CBData {
 		struct {
 			glm::mat4 rot;

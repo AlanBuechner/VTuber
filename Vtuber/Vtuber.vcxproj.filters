@@ -1199,6 +1199,7 @@
     </ClInclude>
     <ClInclude Include="src\Core\Log.h" />
     <ClInclude Include="src\Util\Performance.h" />
+    <ClInclude Include="src\Platform\DirectX11\DirectX11Time.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp">
@@ -1253,5 +1254,6 @@
       <Filter>src\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Util\Performance.cpp" />
+    <ClCompile Include="src\Platform\DirectX11\DirectX11Time.cpp" />
   </ItemGroup>
 </Project>

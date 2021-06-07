@@ -10,6 +10,7 @@
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
+
 	try
 	{
 		Engine::Application app = Engine::Application();
