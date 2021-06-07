@@ -54,6 +54,7 @@ namespace Engine
 		static std::vector<Ref<Window>> s_Windows;
 		static std::vector<Window*> s_WindowsToRemove;
 
+	protected:
 		NativeWindow& m_NativeWindow;
 
 	public:

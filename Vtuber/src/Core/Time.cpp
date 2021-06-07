@@ -39,6 +39,8 @@ namespace Engine
 		default:
 			break;
 		}
+
+		m_LastFrameTime = GetTime();
 	}
 	
 }

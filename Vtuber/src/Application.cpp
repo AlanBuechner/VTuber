@@ -31,8 +31,7 @@ namespace Engine
 			Window::SwapWindowsBuffers();
 			Window::RemoveWindows();
 
-
-			DBOUT("FPS: " << Time::GetFPS() << std::endl);
+			//DBOUT("FPS: " << Time::GetFPS() << std::endl);
 		}
 
 		OnDestroy();

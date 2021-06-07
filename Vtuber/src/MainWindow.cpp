@@ -37,14 +37,17 @@ void MainWindow::OnCreate()
 	shader->SetInputLayout(layout);
 
 	shader->Bind();
+
+	m_NativeWindow.GetSwapChain().SetVSync(true);
 }
 
 float a = 0.0f;
 void MainWindow::OnUpdate()
 {
 	ClearToColor(1.0f, 0.0f, 0.0f);
-
-	a += Time::GetDeltaTime();
+	float deltat = Time::GetDeltaTime();
+	a += deltat;
+	DBOUT(deltat << std::endl);
 	//a += 0.01666;
 	struct CBData {
 		struct {

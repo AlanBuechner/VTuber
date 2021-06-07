@@ -86,7 +86,7 @@ namespace Engine
 
 	void DirectX11SwapChain::SwapBuffers()
 	{
-		pSwap->Present(1u, 0u);
+		pSwap->Present((m_VSync ? 1u:0u), 0u);
 	}
 
 	void DirectX11SwapChain::Bind()

@@ -14,6 +14,9 @@ namespace Engine
 
 		virtual void Resize(uint32_t width, uint32_t height) override;
 		virtual void ClearColor(float r, float g, float b, float a = 1.0f) override;
+
+		virtual void SetVSync(bool val) override { m_VSync = val; };
+
 		virtual void SwapBuffers() override;
 
 		virtual void Bind() override;
@@ -22,6 +25,8 @@ namespace Engine
 
 		wrl::ComPtr<IDXGISwapChain> pSwap; // pointer to the swap chain 
 		wrl::ComPtr<ID3D11RenderTargetView> pTarget; // pointer to the render target
+
+		bool m_VSync = true;
 
 	};
 }
