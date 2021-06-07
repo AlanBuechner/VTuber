@@ -94,6 +94,7 @@
     <ClInclude Include="src\Application.h" />
     <ClInclude Include="src\Core\Core.h" />
     <ClInclude Include="src\Core\Input\Input.h" />
+    <ClInclude Include="src\Core\Log.h" />
     <ClInclude Include="src\Core\Time.h" />
     <ClInclude Include="src\Core\VException.h" />
     <ClInclude Include="src\Core\Window.h" />
@@ -111,6 +112,7 @@
     <ClInclude Include="src\Renderer\RendererCommand.h" />
     <ClInclude Include="src\Renderer\Shader.h" />
     <ClInclude Include="src\Renderer\SwapChain.h" />
+    <ClInclude Include="src\Util\Performance.h" />
     <ClInclude Include="vendor\Glm\glm\common.hpp" />
     <ClInclude Include="vendor\Glm\glm\detail\_features.hpp" />
     <ClInclude Include="vendor\Glm\glm\detail\_fixes.hpp" />
@@ -494,6 +496,7 @@
     <ClCompile Include="src\Renderer\RendererCommand.cpp" />
     <ClCompile Include="src\Renderer\Shader.cpp" />
     <ClCompile Include="src\Renderer\SwapChain.cpp" />
+    <ClCompile Include="src\Util\Performance.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,3 +1,4 @@
+#include "Core.h"
 #include "Time.h"
 #include <chrono>
 
@@ -15,6 +16,7 @@ namespace Engine
 
 	void Time::UpdateDeltaTime()
 	{
+		CREATE_PROFILE_FUNCTIONI();
 		float time = (float)GetTime();
 		m_DeltaTime = time - m_LastFrameTime;
 		m_LastFrameTime = time;

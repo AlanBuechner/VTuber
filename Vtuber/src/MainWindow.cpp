@@ -44,7 +44,7 @@ void MainWindow::OnUpdate()
 {
 	ClearToColor(1.0f, 0.0f, 0.0f);
 
-	a += Engine::Time::GetDeltaTime();
+	a += 0.01666;
 	struct CBData {
 		struct {
 			glm::mat4 rot;
@@ -58,7 +58,6 @@ void MainWindow::OnUpdate()
 	shader->SetConstantBuffer(0u, *cb.get());
 
 	Engine::RendererCommand::DrawIndexed(ib->GetCount());
-
 }
 
 void MainWindow::OnClose()

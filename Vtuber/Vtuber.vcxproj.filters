@@ -1197,6 +1197,8 @@
     <ClInclude Include="vendor\Glm\glm\vector_relational.hpp">
       <Filter>vendor\Glm\glm</Filter>
     </ClInclude>
+    <ClInclude Include="src\Core\Log.h" />
+    <ClInclude Include="src\Util\Performance.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp">
@@ -1250,5 +1252,6 @@
     <ClCompile Include="src\Renderer\SwapChain.cpp">
       <Filter>src\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\Util\Performance.cpp" />
   </ItemGroup>
 </Project>

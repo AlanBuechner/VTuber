@@ -1,6 +1,7 @@
 #include "Application.h"
 #include "Core/Time.h"
 #include "Renderer/RendererCommand.h"
+#include "Util/Performance.h"
 
 int Engine::Application::s_QuitMessage = 0;
 
@@ -28,6 +29,9 @@ namespace Engine
 
 			Window::SwapWindowsBuffers();
 			Window::RemoveWindows();
+
+
+			DBOUT("FPS: " << Time::GetFPS() << std::endl);
 		}
 
 		OnDestroy();

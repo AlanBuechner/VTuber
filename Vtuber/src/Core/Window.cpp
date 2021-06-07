@@ -63,6 +63,7 @@ namespace Engine
 
 	void Window::UpdateWindows()
 	{
+		CREATE_PROFILE_FUNCTIONI();
 		for (uint32_t i = 0; i < s_Windows.size(); i++)
 		{
 			s_Windows[i]->Update();
@@ -71,6 +72,7 @@ namespace Engine
 
 	void Window::SwapWindowsBuffers()
 	{
+		CREATE_PROFILE_FUNCTIONI();
 		for (uint32_t i = 0; i < s_Windows.size(); i++)
 		{
 			s_Windows[i]->SwapBuffers();
@@ -79,6 +81,7 @@ namespace Engine
 
 	void Window::RemoveWindows()
 	{
+		CREATE_PROFILE_FUNCTIONI();
 		for(uint32_t wtr = 0; wtr < s_WindowsToRemove.size(); wtr++)
 		{
 			for (uint32_t w = 0; w < s_Windows.size(); w++)

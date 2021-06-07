@@ -18,6 +18,8 @@ namespace Engine
 		static inline float GetDeltaSeconds() { return m_DeltaTime; }
 		static inline float GetDeltaMilliseconds() { return m_DeltaTime * 1000.0f; }
 
+		static inline float GetFPS() { return 1 / m_DeltaTime; }
+
 		static double GetTime();
 
 	private:

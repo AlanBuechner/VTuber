@@ -7,6 +7,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+
 #if defined(_WIN32) || defined(_WIN64)
 	#define PLATFORM_WINDOWS
 #elif defined(__APPLE__) || defined(__MACH__)
@@ -32,3 +33,6 @@ namespace Engine
 	template<typename T>
 	using Scope = std::unique_ptr<T>;
 }
+
+#include "Log.h"
+#include "Util/Performance.h"
