@@ -50,11 +50,12 @@ namespace Engine
 		DirectX11ConstentBuffer(const void* data, uint32_t size);
 		virtual ~DirectX11ConstentBuffer() override = default;
 
-		virtual void SetData(const void* data, uint32_t size) override;
+		virtual void SetData(const void* data) override;
 
 		const wrl::ComPtr<ID3D11Buffer> GetBuffer() const { return m_Buffer; };
 
 	private:
+		uint32_t m_Size;
 		wrl::ComPtr<ID3D11Buffer> m_Buffer;
 	};
 

@@ -6,6 +6,12 @@
 #include "Renderer/RendererAPI.h"
 #include "Renderer/RendererCommand.h"
 
+struct CBData {
+	struct {
+		glm::mat4 rot;
+	};
+};
+
 void MainWindow::OnCreate()
 {
 
@@ -38,6 +44,8 @@ void MainWindow::OnCreate()
 
 	shader->Bind();
 
+	cb = Engine::ConstentBuffer::Create(sizeof(CBData));
+
 	m_NativeWindow.GetSwapChain().SetVSync(true);
 }
 
@@ -47,17 +55,12 @@ void MainWindow::OnUpdate()
 	ClearToColor(1.0f, 0.0f, 0.0f);
 	float deltat = Time::GetDeltaTime();
 	a += deltat;
-	DBOUT(deltat << std::endl);
 	//a += 0.01666;
-	struct CBData {
-		struct {
-			glm::mat4 rot;
-		};
-	};
 	const CBData data = {
 		glm::rotate(glm::mat4(1.0f), a, {0.0f, 0.0f, 1.0f})
 	};
-	Engine::Ref<Engine::ConstentBuffer> cb = Engine::ConstentBuffer::Create((void*)&data, sizeof(data));
+
+	cb->SetData((void*)&data);
 
 	shader->SetConstantBuffer(0u, *cb.get());
 

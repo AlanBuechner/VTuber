@@ -21,5 +21,6 @@ protected:
 private:
 	Engine::Ref<Engine::VertexBuffer> vb;
 	Engine::Ref<Engine::IndexBuffer> ib;
+	Engine::Ref<Engine::ConstentBuffer> cb;
 	Engine::Ref<Engine::Shader> shader;
 };

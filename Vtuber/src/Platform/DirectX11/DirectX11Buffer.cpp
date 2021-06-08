@@ -116,7 +116,8 @@ namespace Engine
 
 
 	// -------------------------------- Constent Buffer -------------------------------- // 
-	DirectX11ConstentBuffer::DirectX11ConstentBuffer(const void* data, uint32_t size)
+	DirectX11ConstentBuffer::DirectX11ConstentBuffer(const void* data, uint32_t size) :
+		m_Size(size)
 	{
 		DirectX11RendererAPI& graphics = *(DirectX11RendererAPI*)RendererAPI::Get();
 
@@ -128,14 +129,38 @@ namespace Engine
 		cbufferDesc.ByteWidth = size;
 		cbufferDesc.StructureByteStride = 0u;
 		D3D11_SUBRESOURCE_DATA cbufferData = {  };
-		cbufferData.pSysMem = data;
+		if(data == nullptr)
+			cbufferData.pSysMem = (const void*) new byte[size]{ 0 };
+		else
+			cbufferData.pSysMem = data;
 		
-		graphics.GetDivice()->CreateBuffer(&cbufferDesc, &cbufferData, &m_Buffer);
+		HRESULT hr = graphics.GetDivice()->CreateBuffer(&cbufferDesc, &cbufferData, &m_Buffer);
+
+		if (FAILED(hr))
+			DBOUT("faild to create constent buffer" << std::endl);
+
+
+		if (data == nullptr)
+			delete cbufferData.pSysMem;
 
 	}
 
-	void DirectX11ConstentBuffer::SetData(const void* data, uint32_t size)
+	void DirectX11ConstentBuffer::SetData(const void* data)
 	{
+		DirectX11RendererAPI& graphics = *(DirectX11RendererAPI*)RendererAPI::Get();
+
+		D3D11_MAPPED_SUBRESOURCE msub = {};
+
+		HRESULT hr = graphics.GetContext()->Map(m_Buffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &msub);
+
+		if (FAILED(hr))
+		{
+			DBOUT("failed to update constent buffer" << std::endl);
+			return;
+		}
+
+		CopyMemory(msub.pData, data, m_Size);
+		graphics.GetContext()->Unmap(m_Buffer.Get(), 0);
 	}
 
 }

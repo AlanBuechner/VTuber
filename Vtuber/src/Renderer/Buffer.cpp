@@ -62,6 +62,10 @@ namespace Engine
 
 	// ------------------------------------- End Index Buffer ------------------------------------- //
 
+	Ref<ConstentBuffer> ConstentBuffer::ConstentBuffer::Create(uint32_t size)
+	{
+		return Create(nullptr, size);
+	}
 
 
 	Ref<ConstentBuffer> ConstentBuffer::Create(const void* data, uint32_t size)
@@ -78,5 +82,6 @@ namespace Engine
 			break;
 		}
 	}
+
 
 }

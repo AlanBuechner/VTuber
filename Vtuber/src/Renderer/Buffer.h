@@ -142,8 +142,9 @@ namespace Engine
 	public:
 		virtual ~ConstentBuffer() {}
 
-		virtual void SetData(const void* data, uint32_t size) = 0;
+		virtual void SetData(const void* data) = 0;
 
+		static Ref<ConstentBuffer> Create(uint32_t size);
 		static Ref<ConstentBuffer> Create(const void* data, uint32_t size);
 	};
 }
