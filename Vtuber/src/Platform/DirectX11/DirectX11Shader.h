@@ -37,7 +37,7 @@ namespace Engine
 		virtual void Unbind() override;
 
 	private:
-		void SetConstantBuffer(uint32_t slot, const ConstentBuffer& cb);
+		void SetConstantBuffer(uint32_t slot, const ConstentBufferInfo& cb);
 		void GenConstentBuffers(wrl::ComPtr<ID3DBlob> pBlob, ShaderType type);
 
 	private:

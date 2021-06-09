@@ -161,12 +161,15 @@ namespace Engine
 		// TODO
 	}
 
-	void DirectX11Shader::SetConstantBuffer(uint32_t slot, const ConstentBuffer& cb)
+	void DirectX11Shader::SetConstantBuffer(uint32_t slot, const ConstentBufferInfo& cb)
 	{
 		DirectX11RendererAPI& graphics = *(DirectX11RendererAPI*)RendererAPI::Get();
-		const DirectX11ConstentBuffer& d3dcb = (DirectX11ConstentBuffer&)cb;
+		const DirectX11ConstentBuffer& d3dcb = (DirectX11ConstentBuffer&)cb.buffer;
 
-		graphics.GetContext()->VSSetConstantBuffers(slot, 1u, d3dcb.GetBuffer().GetAddressOf());
+		if (cb.type == ShaderType::Vertex)
+			graphics.GetContext()->VSSetConstantBuffers(slot, 1u, d3dcb.GetBuffer().GetAddressOf());
+		else if (cb.type == ShaderType::Pixel)
+			graphics.GetContext()->PSSetConstantBuffers(slot, 1u, d3dcb.GetBuffer().GetAddressOf());
 	}
 
 	void DirectX11Shader::GenConstentBuffers(wrl::ComPtr<ID3DBlob> pBlob, ShaderType type)
