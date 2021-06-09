@@ -6,13 +6,6 @@
 #include "Renderer/RendererAPI.h"
 #include "Renderer/RendererCommand.h"
 
-struct CBData {
-	struct {
-		glm::mat4 rot;
-		float val = 0.5f;
-	};
-};
-
 void MainWindow::OnCreate()
 {
 
@@ -54,7 +47,13 @@ void MainWindow::OnUpdate()
 	ClearToColor(1.0f, 0.0f, 0.0f);
 	float deltat = Time::GetDeltaTime();
 	a += deltat;
-	//a += 0.01666;
+
+	struct CBData {
+		struct {
+			glm::mat4 rot;
+			float val = 0.5f;
+		};
+	};
 	const CBData data = {
 		glm::rotate(glm::mat4(1.0f), a, {0.0f, 0.0f, 1.0f})
 	};

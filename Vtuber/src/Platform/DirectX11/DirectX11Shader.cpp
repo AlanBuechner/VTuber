@@ -143,7 +143,7 @@ namespace Engine
 	{
 		auto& bufferinfo = m_Buffers[name];
 		bufferinfo.buffer->SetData(data);
-		SetConstantBuffer(bufferinfo.slot, *bufferinfo.buffer.get());
+		SetConstantBuffer(bufferinfo);
 	}
 
 	void DirectX11Shader::Bind()
@@ -161,15 +161,15 @@ namespace Engine
 		// TODO
 	}
 
-	void DirectX11Shader::SetConstantBuffer(uint32_t slot, const ConstentBufferInfo& cb)
+	void DirectX11Shader::SetConstantBuffer(const ConstentBufferInfo& cb)
 	{
 		DirectX11RendererAPI& graphics = *(DirectX11RendererAPI*)RendererAPI::Get();
-		const DirectX11ConstentBuffer& d3dcb = (DirectX11ConstentBuffer&)cb.buffer;
+		const DirectX11ConstentBuffer& d3dcb = (DirectX11ConstentBuffer&)*cb.buffer.get();
 
 		if (cb.type == ShaderType::Vertex)
-			graphics.GetContext()->VSSetConstantBuffers(slot, 1u, d3dcb.GetBuffer().GetAddressOf());
+			graphics.GetContext()->VSSetConstantBuffers(cb.slot, 1u, d3dcb.GetBuffer().GetAddressOf());
 		else if (cb.type == ShaderType::Pixel)
-			graphics.GetContext()->PSSetConstantBuffers(slot, 1u, d3dcb.GetBuffer().GetAddressOf());
+			graphics.GetContext()->PSSetConstantBuffers(cb.slot, 1u, d3dcb.GetBuffer().GetAddressOf());
 	}
 
 	void DirectX11Shader::GenConstentBuffers(wrl::ComPtr<ID3DBlob> pBlob, ShaderType type)
