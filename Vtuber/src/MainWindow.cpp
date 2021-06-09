@@ -6,28 +6,20 @@
 #include "Renderer/RendererAPI.h"
 #include "Renderer/RendererCommand.h"
 
+#include "Platform/DirectX11/DirectX11RendererAPI.h"
+
 void MainWindow::OnCreate()
 {
 
-	const Engine::Mesh::Vertex vertices[] = {
-			{ 0.0f,  0.5f, 0.0f},
-			{ 0.5f, -0.5f, 0.0f},
-			{-0.5f, -0.5f, 0.0f}
-	};
-
-	const uint32_t indices[] = {
-		0, 1, 2
-	};
-
 	Engine::BufferLayout layout = {
-		{Engine::ShaderDataType::Float3, "Position"}
+		{Engine::ShaderDataType::Float4, "Position"}
 	};
 
-	vb = Engine::VertexBuffer::Create(vertices, sizeof(vertices));
+	vb = Engine::VertexBuffer::Create(3 * sizeof(Engine::Mesh::Vertex));
 	vb->SetLayout(layout);
 	vb->Bind();
 
-	ib = Engine::IndexBuffer::Create(indices, sizeof(indices));
+	ib = Engine::IndexBuffer::Create(3);
 	ib->Bind();
 
 	Engine::ShaderSource src;
@@ -55,7 +47,15 @@ void MainWindow::OnUpdate()
 		0.5f
 	};
 
-	shader->SetBuffer("CBuff", (void*)&data);
+	Engine::Mesh::Vertex verts[] = {
+		vertices[0].Position * data.rot,
+		vertices[1].Position * data.rot,
+		vertices[2].Position * data.rot
+	};
+
+	vb->SetData((void*)verts, 3*sizeof(Engine::Mesh::Vertex));
+
+	ib->SetData(indices, 3);
 
 	Engine::RendererCommand::DrawIndexed(ib->GetCount());
 }

@@ -1,15 +1,14 @@
 #pragma once
 
+#include <glm/glm.hpp>
+
 namespace Engine
 {
 	class Mesh
 	{
 	public:
 		struct Vertex {
-			struct
-			{
-				float x, y, z;
-			} Position;
+			glm::vec4 Position;
 
 			/*struct {
 				float r, g, b, a;

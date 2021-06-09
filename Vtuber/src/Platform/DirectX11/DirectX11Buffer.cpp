@@ -28,20 +28,30 @@ namespace Engine
 		return DXGI_FORMAT_UNKNOWN;
 	}
 
-	DirectX11VertexBuffer::DirectX11VertexBuffer(const void* vertices, uint32_t size)
+	DirectX11VertexBuffer::DirectX11VertexBuffer(const void* vertices, uint32_t size) :
+		m_Size(size)
 	{
 		DirectX11RendererAPI& graphics = *(DirectX11RendererAPI*)RendererAPI::Get();
 		D3D11_BUFFER_DESC vbufferDesc = { 0 };
 		vbufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 		vbufferDesc.Usage = (vertices == nullptr ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT);
-		vbufferDesc.CPUAccessFlags = 0u;
+		vbufferDesc.CPUAccessFlags = (vertices == nullptr ? D3D11_CPU_ACCESS_WRITE : 0u);
 		vbufferDesc.MiscFlags = 0u;
 		vbufferDesc.ByteWidth = size;
 
 		D3D11_SUBRESOURCE_DATA vbufferData = { 0 };
-		vbufferData.pSysMem = vertices;
+		if (vertices == nullptr)
+			vbufferData.pSysMem = (const void*)new byte[size]{ 0 };
+		else
+			vbufferData.pSysMem = vertices;
 
-		graphics.GetDivice()->CreateBuffer(&vbufferDesc, &vbufferData, &m_Buffer);
+		HRESULT hr = graphics.GetDivice()->CreateBuffer(&vbufferDesc, &vbufferData, &m_Buffer);
+
+		if (FAILED(hr))
+			DBOUT("failed to create vertex buffer" << std::endl);
+
+		if (vertices == nullptr)
+			delete[] vbufferData.pSysMem;
 	}
 
 	void DirectX11VertexBuffer::Bind() const
@@ -72,7 +82,18 @@ namespace Engine
 	{
 		DirectX11RendererAPI& graphics = *(DirectX11RendererAPI*)RendererAPI::Get();
 
-		// TODO
+		D3D11_MAPPED_SUBRESOURCE msub = {};
+
+		HRESULT hr = graphics.GetContext()->Map(m_Buffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &msub);
+
+		if (FAILED(hr))
+		{
+			DBOUT("failed to update vertex buffer" << std::endl);
+			return;
+		}
+
+		CopyMemory(msub.pData, data, size);
+		graphics.GetContext()->Unmap(m_Buffer.Get(), 0);
 	}
 
 
@@ -84,16 +105,22 @@ namespace Engine
 
 		D3D11_BUFFER_DESC ibufferDesc = { 0 };
 		ibufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
-		ibufferDesc.Usage = D3D11_USAGE_DEFAULT;
-		ibufferDesc.CPUAccessFlags = 0u;
+		ibufferDesc.Usage = (indices == nullptr ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT);
+		ibufferDesc.CPUAccessFlags = (indices == nullptr ? D3D11_CPU_ACCESS_WRITE : 0u);
 		ibufferDesc.MiscFlags = 0u;
 		ibufferDesc.ByteWidth = sizeof(uint32_t) * count;
 		ibufferDesc.StructureByteStride = sizeof(uint32_t);
 
 		D3D11_SUBRESOURCE_DATA ibufferData = { 0 };
-		ibufferData.pSysMem = indices;
+		if (indices == nullptr)
+			ibufferData.pSysMem = (const void*)new uint32_t[count]{ 0 };
+		else
+			ibufferData.pSysMem = indices;
 
 		graphics.GetDivice()->CreateBuffer(&ibufferDesc, &ibufferData, &m_Buffer);
+
+		if (indices == nullptr)
+			delete[] ibufferData.pSysMem;
 	}
 
 	void DirectX11IndexBuffer::Bind() const
@@ -108,10 +135,22 @@ namespace Engine
 		graphics.GetContext()->IASetIndexBuffer(nullptr, DXGI_FORMAT_R32_UINT, 0);
 	}
 
-	void DirectX11IndexBuffer::SetData(const uint32_t* indices, uint32_t size)
+	void DirectX11IndexBuffer::SetData(const uint32_t* indices, uint32_t count)
 	{
 		DirectX11RendererAPI& graphics = *(DirectX11RendererAPI*)RendererAPI::Get();
-		// TODO
+
+		D3D11_MAPPED_SUBRESOURCE msub = {};
+
+		HRESULT hr = graphics.GetContext()->Map(m_Buffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &msub);
+
+		if (FAILED(hr))
+		{
+			DBOUT("failed to update index buffer" << std::endl);
+			return;
+		}
+
+		CopyMemory(msub.pData, indices, count * sizeof(uint32_t));
+		graphics.GetContext()->Unmap(m_Buffer.Get(), 0);
 	}
 
 
@@ -140,7 +179,7 @@ namespace Engine
 			DBOUT("faild to create constent buffer" << std::endl);
 
 		if (data == nullptr)
-			delete cbufferData.pSysMem;
+			delete[] cbufferData.pSysMem;
 
 	}
 

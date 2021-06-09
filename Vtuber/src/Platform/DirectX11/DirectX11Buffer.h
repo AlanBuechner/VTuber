@@ -23,6 +23,8 @@ namespace Engine
 		wrl::ComPtr<ID3D11Buffer> m_Buffer;
 		BufferLayout m_Layout;
 
+		uint32_t m_Size;
+
 	};
 
 	class DirectX11IndexBuffer : public IndexBuffer
@@ -34,7 +36,7 @@ namespace Engine
 		virtual void Bind() const override;
 		virtual void Unbind() const override;
 
-		virtual void SetData(const uint32_t* indices, uint32_t size) override;
+		virtual void SetData(const uint32_t* indices, uint32_t count) override;
 
 		virtual uint32_t GetCount() const override { return m_Count; }
 

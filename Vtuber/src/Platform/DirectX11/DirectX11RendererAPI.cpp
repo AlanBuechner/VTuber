@@ -51,13 +51,13 @@ namespace Engine
 	{
 
 		struct Vertex {
-			float  x, y, z;
+			float  x, y, z, w;
 		};
 
 		const Vertex vertices[] = {
-			{ 0.0f,  0.5f, 0.0f},
-			{ 0.5f, -0.5f, 0.0f},
-			{-0.5f, -0.5f, 0.0f}
+			{ 0.0f,  0.5f, 0.0f, 1.0f},
+			{ 0.5f, -0.5f, 0.0f, 1.0f},
+			{-0.5f, -0.5f, 0.0f, 1.0f}
 		};
 
 		const uint32_t indices[] = {
@@ -65,7 +65,7 @@ namespace Engine
 		};
 
 		BufferLayout layout = {
-			{ShaderDataType::Float3, "Position"}
+			{ShaderDataType::Float4, "Position"}
 		};
 
 		Ref<VertexBuffer> vb = VertexBuffer::Create(vertices, sizeof(vertices));
