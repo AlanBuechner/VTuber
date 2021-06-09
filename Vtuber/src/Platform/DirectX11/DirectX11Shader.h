@@ -3,10 +3,26 @@
 #include "Core/Core.h"
 #include "Renderer/Shader.h"
 
+#include <map>
+#include <string>
+
+namespace Engine
+{
+	class ConstentBuffer;
+}
+
 namespace Engine
 {
 	class DirectX11Shader : public Shader
 	{
+
+		struct ConstentBufferInfo
+		{
+			Ref<ConstentBuffer> buffer;
+			uint32_t slot;
+			ShaderType type;
+		};
+
 	public:
 
 		virtual void LoadVertexShader(std::wstring fileName) override;
@@ -15,10 +31,14 @@ namespace Engine
 		virtual void SetInputLayout(BufferLayout& layout) override;
 		virtual void GenInputLayoutFromReflection() override;
 
-		virtual void SetConstantBuffer(uint32_t slot, const ConstentBuffer& cb) override;
+		virtual void SetBuffer(const std::string& name, const void* data) override;
 
 		virtual void Bind() override;
 		virtual void Unbind() override;
+
+	private:
+		void SetConstantBuffer(uint32_t slot, const ConstentBuffer& cb);
+		void GenConstentBuffers(wrl::ComPtr<ID3DBlob> pBlob, ShaderType type);
 
 	private:
 		wrl::ComPtr<ID3DBlob> ReadBlob(std::wstring& fileName);
@@ -29,5 +49,7 @@ namespace Engine
 
 		wrl::ComPtr<ID3D11VertexShader> m_pVertexShader;
 		wrl::ComPtr<ID3D11PixelShader> m_pPixelShader;
+
+		std::map<const std::string, ConstentBufferInfo> m_Buffers;
 	};
 }

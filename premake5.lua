@@ -67,7 +67,20 @@ project "Vtuber"
 	{ 
 --		"ImGui",
 --		"Yaml"
+		"dxguid.lib"
 	}
+
+	-- need to fix shader propertys
+
+	filter { "files:**.hlsl" }
+		shadermodel "4.0"
+		shaderobjectfileoutput("ShaderBin/".."%{file.basename}"..".cso")
+
+	filter { "files:**.pixel.hlsl" }
+		shadertype "Pixel"
+
+	filter { "files:**.vertex.hlsl" }
+		shadertype "Vertex"
 
 --	filter "files:vendor/ImGuizmo/**.cpp"
 --	flags { "NoPCH" }

@@ -9,6 +9,7 @@
 struct CBData {
 	struct {
 		glm::mat4 rot;
+		float val = 0.5f;
 	};
 };
 
@@ -38,13 +39,11 @@ void MainWindow::OnCreate()
 
 	shader = Engine::Shader::Create();
 
-	shader->LoadVertexShader(L"VertexShader.cso");
-	shader->LoadPixleShader(L"PixelShader.cso");
+	shader->LoadVertexShader(L"VertexShader.vertex.cso");
+	shader->LoadPixleShader(L"PixelShader.pixel.cso");
 	shader->SetInputLayout(layout);
 
 	shader->Bind();
-
-	cb = Engine::ConstentBuffer::Create(sizeof(CBData));
 
 	m_NativeWindow.GetSwapChain().SetVSync(true);
 }
@@ -60,9 +59,7 @@ void MainWindow::OnUpdate()
 		glm::rotate(glm::mat4(1.0f), a, {0.0f, 0.0f, 1.0f})
 	};
 
-	cb->SetData((void*)&data);
-
-	shader->SetConstantBuffer(0u, *cb.get());
+	shader->SetBuffer("CBuff", (void*)&data);
 
 	Engine::RendererCommand::DrawIndexed(ib->GetCount());
 }

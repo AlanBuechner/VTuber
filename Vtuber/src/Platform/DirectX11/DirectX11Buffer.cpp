@@ -139,7 +139,6 @@ namespace Engine
 		if (FAILED(hr))
 			DBOUT("faild to create constent buffer" << std::endl);
 
-
 		if (data == nullptr)
 			delete cbufferData.pSysMem;
 

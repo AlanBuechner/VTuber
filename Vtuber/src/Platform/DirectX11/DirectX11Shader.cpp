@@ -7,7 +7,7 @@
 #include <iostream>
 #include <d3dcompiler.h>
 #include <D3Dcompiler.inl>
-#include <d3d12shader.h>
+#include <d3d11shader.h>
 
 namespace Engine
 {
@@ -39,6 +39,8 @@ namespace Engine
 		wrl::ComPtr<ID3DBlob> pBlob = ReadBlob(fileName);
 
 		graphics.GetDivice()->CreateVertexShader(pBlob->GetBufferPointer(), pBlob->GetBufferSize(), nullptr, &m_pVertexShader);
+
+		GenConstentBuffers(pBlob, ShaderType::Vertex);
 	}
 
 	void DirectX11Shader::LoadPixleShader(std::wstring fileName)
@@ -48,6 +50,8 @@ namespace Engine
 		wrl::ComPtr<ID3DBlob> pBlob = ReadBlob(fileName);
 
 		graphics.GetDivice()->CreatePixelShader(pBlob->GetBufferPointer(), pBlob->GetBufferSize(), nullptr, &m_pPixelShader);
+
+		GenConstentBuffers(pBlob, ShaderType::Pixel);
 	}
 
 	void DirectX11Shader::SetInputLayout(BufferLayout& layout)
@@ -99,12 +103,11 @@ namespace Engine
 		delete[] ied;*/
 	}
 
-	void DirectX11Shader::SetConstantBuffer(uint32_t slot, const ConstentBuffer& cb)
+	void DirectX11Shader::SetBuffer(const std::string& name, const void* data)
 	{
-		DirectX11RendererAPI& graphics = *(DirectX11RendererAPI*)RendererAPI::Get();
-		const DirectX11ConstentBuffer& d3dcb = (DirectX11ConstentBuffer&)cb;
-
-		graphics.GetContext()->VSSetConstantBuffers(slot, 1u, d3dcb.GetBuffer().GetAddressOf());
+		auto& bufferinfo = m_Buffers[name];
+		bufferinfo.buffer->SetData(data);
+		SetConstantBuffer(bufferinfo.slot, *bufferinfo.buffer.get());
 	}
 
 	void DirectX11Shader::Bind()
@@ -119,12 +122,59 @@ namespace Engine
 
 	void DirectX11Shader::Unbind()
 	{
+		// TODO
+	}
+
+	void DirectX11Shader::SetConstantBuffer(uint32_t slot, const ConstentBuffer& cb)
+	{
+		DirectX11RendererAPI& graphics = *(DirectX11RendererAPI*)RendererAPI::Get();
+		const DirectX11ConstentBuffer& d3dcb = (DirectX11ConstentBuffer&)cb;
+
+		graphics.GetContext()->VSSetConstantBuffers(slot, 1u, d3dcb.GetBuffer().GetAddressOf());
+	}
+
+	void DirectX11Shader::GenConstentBuffers(wrl::ComPtr<ID3DBlob> pBlob, ShaderType type)
+	{
+		// reflect on the shader
+		ID3D11ShaderReflection* pReflector = nullptr;
+		HRESULT hr = D3DReflect(pBlob->GetBufferPointer(), pBlob->GetBufferSize(), IID_ID3D11ShaderReflection, (void**)&pReflector);
+
+		// check if the reflection failed
+		if (FAILED(hr)) {
+			DBOUT("shader reflection failed" << std::endl);
+			return;
+		}
+
+		// get the descriptor for the shader
+		D3D11_SHADER_DESC reflectDesc;
+		pReflector->GetDesc(&reflectDesc);
+
+		// itorate over all the constent buffers
+		for (uint32_t cbIndex = 0; cbIndex < reflectDesc.ConstantBuffers; cbIndex++) 
+		{
+			// get the constent buffer
+			ID3D11ShaderReflectionConstantBuffer* cb = pReflector->GetConstantBufferByIndex(cbIndex);
+			if (cb)
+			{
+				// get the descriptor of the constent buffer
+				D3D11_SHADER_BUFFER_DESC cbDesc;
+				cb->GetDesc(&cbDesc);
+				if (cbDesc.Type == D3D11_CT_CBUFFER)
+				{
+					// create a new constent buffer object and added it to the map
+					m_Buffers[cbDesc.Name] = { ConstentBuffer::Create(cbDesc.Size), cbIndex, type};
+				}
+			}
+		}
 	}
 
 	wrl::ComPtr<ID3DBlob> DirectX11Shader::ReadBlob(std::wstring& fileName)
 	{
 		wrl::ComPtr<ID3DBlob> pBlob;
-		D3DReadFileToBlob((L"ShaderBin/" + fileName).c_str(), &pBlob);
+		HRESULT hr = D3DReadFileToBlob((L"ShaderBin/" + fileName).c_str(), &pBlob);
+
+		if (FAILED(hr))
+			DBOUT("failed to read from file \"ShaderBin/" << fileName << "\"" << std::endl);
 
 		return pBlob;
 	}

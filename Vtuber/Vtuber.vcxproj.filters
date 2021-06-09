@@ -22,6 +22,9 @@
     <Filter Include="src\Renderer">
       <UniqueIdentifier>{73D1DFBF-5F34-6F64-08BA-A71AF4FB3AE7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Util">
+      <UniqueIdentifier>{9AC626CF-8693-81DA-AFAC-6F829BD8B668}</UniqueIdentifier>
+    </Filter>
     <Filter Include="vendor">
       <UniqueIdentifier>{B3738122-9F15-ACF8-88D0-BF4C74113349}</UniqueIdentifier>
     </Filter>
@@ -54,6 +57,9 @@
     <ClInclude Include="src\Core\Input\Input.h">
       <Filter>src\Core\Input</Filter>
     </ClInclude>
+    <ClInclude Include="src\Core\Log.h">
+      <Filter>src\Core</Filter>
+    </ClInclude>
     <ClInclude Include="src\Core\Time.h">
       <Filter>src\Core</Filter>
     </ClInclude>
@@ -76,6 +82,9 @@
       <Filter>src\Platform\DirectX11</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\DirectX11\DirectX11SwapChain.h">
+      <Filter>src\Platform\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\DirectX11\DirectX11Time.h">
       <Filter>src\Platform\DirectX11</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\WindowExeption.h">
@@ -104,6 +113,9 @@
     </ClInclude>
     <ClInclude Include="src\Renderer\SwapChain.h">
       <Filter>src\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Util\Performance.h">
+      <Filter>src\Util</Filter>
     </ClInclude>
     <ClInclude Include="vendor\Glm\glm\common.hpp">
       <Filter>vendor\Glm\glm</Filter>
@@ -1197,9 +1209,6 @@
     <ClInclude Include="vendor\Glm\glm\vector_relational.hpp">
       <Filter>vendor\Glm\glm</Filter>
     </ClInclude>
-    <ClInclude Include="src\Core\Log.h" />
-    <ClInclude Include="src\Util\Performance.h" />
-    <ClInclude Include="src\Platform\DirectX11\DirectX11Time.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp">
@@ -1235,6 +1244,9 @@
     <ClCompile Include="src\Platform\DirectX11\DirectX11SwapChain.cpp">
       <Filter>src\Platform\DirectX11</Filter>
     </ClCompile>
+    <ClCompile Include="src\Platform\DirectX11\DirectX11Time.cpp">
+      <Filter>src\Platform\DirectX11</Filter>
+    </ClCompile>
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp">
       <Filter>src\Platform\Windows</Filter>
     </ClCompile>
@@ -1253,7 +1265,12 @@
     <ClCompile Include="src\Renderer\SwapChain.cpp">
       <Filter>src\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="src\Util\Performance.cpp" />
-    <ClCompile Include="src\Platform\DirectX11\DirectX11Time.cpp" />
+    <ClCompile Include="src\Util\Performance.cpp">
+      <Filter>src\Util</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Assets\Shaders\VertexShader.vertex.hlsl" />
+    <FxCompile Include="Assets\Shaders\PixelShader.pixel.hlsl" />
   </ItemGroup>
 </Project>
