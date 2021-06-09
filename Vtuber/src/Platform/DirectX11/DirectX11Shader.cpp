@@ -30,6 +30,34 @@ namespace Engine
 		return DXGI_FORMAT_UNKNOWN;
 	}
 
+	DXGI_FORMAT GetFormatFromDesc(D3D11_SIGNATURE_PARAMETER_DESC& desc)
+	{
+		if (desc.Mask == 1)
+		{
+			if (desc.ComponentType == D3D_REGISTER_COMPONENT_UINT32) return DXGI_FORMAT_R32_UINT;
+			else if (desc.ComponentType == D3D_REGISTER_COMPONENT_SINT32) return DXGI_FORMAT_R32_SINT;
+			else if (desc.ComponentType == D3D_REGISTER_COMPONENT_FLOAT32) return DXGI_FORMAT_R32_FLOAT;
+		}
+		else if (desc.Mask <= 3)
+		{
+			if (desc.ComponentType == D3D_REGISTER_COMPONENT_UINT32) return DXGI_FORMAT_R32G32_UINT;
+			else if (desc.ComponentType == D3D_REGISTER_COMPONENT_SINT32) return DXGI_FORMAT_R32G32_SINT;
+			else if (desc.ComponentType == D3D_REGISTER_COMPONENT_FLOAT32) return DXGI_FORMAT_R32G32_FLOAT;
+		}
+		else if (desc.Mask <= 7)
+		{
+			if (desc.ComponentType == D3D_REGISTER_COMPONENT_UINT32) return DXGI_FORMAT_R32G32B32_UINT;
+			else if (desc.ComponentType == D3D_REGISTER_COMPONENT_SINT32) return DXGI_FORMAT_R32G32B32_SINT;
+			else if (desc.ComponentType == D3D_REGISTER_COMPONENT_FLOAT32) return DXGI_FORMAT_R32G32B32_FLOAT;
+		}
+		else if (desc.Mask <= 15)
+		{
+			if (desc.ComponentType == D3D_REGISTER_COMPONENT_UINT32) return DXGI_FORMAT_R32G32B32A32_UINT;
+			else if (desc.ComponentType == D3D_REGISTER_COMPONENT_SINT32) return DXGI_FORMAT_R32G32B32A32_SINT;
+			else if (desc.ComponentType == D3D_REGISTER_COMPONENT_FLOAT32) return DXGI_FORMAT_R32G32B32A32_FLOAT;
+		}
+	}
+
 
 	void DirectX11Shader::LoadVertexShader(std::wstring fileName)
 	{
@@ -77,30 +105,38 @@ namespace Engine
 
 	void DirectX11Shader::GenInputLayoutFromReflection()
 	{
-		/*Graphics& graphics = RendererCommand::GetGraphics();
+		DirectX11RendererAPI& graphics = *(DirectX11RendererAPI*)RendererAPI::Get();
 
 		wrl::ComPtr<ID3DBlob> pBlob = ReadBlob(m_VertexShaderFile);
 
-		wrl::ComPtr<ID3D11ShaderReflection> pReflection;
-		D3DReflect(pBlob->GetBufferPointer(), pBlob->GetBufferSize(), IID_ID3D11ShaderReflection, &pReflection);
+		// reflect on the shader
+		ID3D11ShaderReflection* pReflector = nullptr;
+		HRESULT hr = D3DReflect(pBlob->GetBufferPointer(), pBlob->GetBufferSize(), IID_ID3D11ShaderReflection, (void**)&pReflector);
 
-		D3D11_SHADER_DESC shaderDesc;
-		pReflection->GetDesc(&shaderDesc);
+		// check if the reflection failed
+		if (FAILED(hr)) {
+			DBOUT("shader reflection failed" << std::endl);
+			return;
+		}
 
-		uint32_t numInputParams = shaderDesc.InputParameters;
+		// get the descriptor for the shader
+		D3D11_SHADER_DESC reflectDesc;
+		pReflector->GetDesc(&reflectDesc);
+
+		uint32_t numInputParams = reflectDesc.InputParameters;
 		D3D11_INPUT_ELEMENT_DESC* ied = new D3D11_INPUT_ELEMENT_DESC[numInputParams];
 
 		for (uint32_t i = 0; i < numInputParams; i++)
 		{
 			D3D11_SIGNATURE_PARAMETER_DESC ps;
-			pReflection->GetInputParameterDesc(i, &ps);
+			pReflector->GetInputParameterDesc(i, &ps);
 
-			ied[i] = { ps.SemanticName, ps.SemanticIndex, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 };
+			ied[i] = { ps.SemanticName, ps.SemanticIndex, GetFormatFromDesc(ps), 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 };
 		}
 
 		graphics.GetDivice()->CreateInputLayout(ied, 1u, pBlob->GetBufferPointer(), pBlob->GetBufferSize(), &m_pInputLayout);
 
-		delete[] ied;*/
+		delete[] ied;
 	}
 
 	void DirectX11Shader::SetBuffer(const std::string& name, const void* data)

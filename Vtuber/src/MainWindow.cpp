@@ -41,7 +41,7 @@ void MainWindow::OnCreate()
 
 	shader->LoadVertexShader(L"VertexShader.vertex.cso");
 	shader->LoadPixleShader(L"PixelShader.pixel.cso");
-	shader->SetInputLayout(layout);
+	shader->GenInputLayoutFromReflection();
 
 	shader->Bind();
 
