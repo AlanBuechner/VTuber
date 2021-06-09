@@ -56,30 +56,17 @@ namespace Engine
 			else if (desc.ComponentType == D3D_REGISTER_COMPONENT_SINT32) return DXGI_FORMAT_R32G32B32A32_SINT;
 			else if (desc.ComponentType == D3D_REGISTER_COMPONENT_FLOAT32) return DXGI_FORMAT_R32G32B32A32_FLOAT;
 		}
+		return DXGI_FORMAT_UNKNOWN;
 	}
 
 
-	void DirectX11Shader::LoadVertexShader(std::wstring fileName)
+	DirectX11Shader::DirectX11Shader(const ShaderSource& src) :
+		m_VertexShaderFile(src.VetexShader)
 	{
-		m_VertexShaderFile = fileName;
-		DirectX11RendererAPI& graphics = *(DirectX11RendererAPI*)RendererAPI::Get();
+		LoadShader(src.VetexShader, ShaderType::Vertex);
+		LoadShader(src.PixelShader, ShaderType::Pixel);
 
-		wrl::ComPtr<ID3DBlob> pBlob = ReadBlob(fileName);
-
-		graphics.GetDivice()->CreateVertexShader(pBlob->GetBufferPointer(), pBlob->GetBufferSize(), nullptr, &m_pVertexShader);
-
-		GenConstentBuffers(pBlob, ShaderType::Vertex);
-	}
-
-	void DirectX11Shader::LoadPixleShader(std::wstring fileName)
-	{
-		DirectX11RendererAPI& graphics = *(DirectX11RendererAPI*)RendererAPI::Get();
-
-		wrl::ComPtr<ID3DBlob> pBlob = ReadBlob(fileName);
-
-		graphics.GetDivice()->CreatePixelShader(pBlob->GetBufferPointer(), pBlob->GetBufferSize(), nullptr, &m_pPixelShader);
-
-		GenConstentBuffers(pBlob, ShaderType::Pixel);
+		GenInputLayoutFromReflection();
 	}
 
 	void DirectX11Shader::SetInputLayout(BufferLayout& layout)
@@ -161,6 +148,27 @@ namespace Engine
 		// TODO
 	}
 
+	void DirectX11Shader::LoadShader(const std::wstring& file, ShaderType type)
+	{
+		DirectX11RendererAPI& graphics = *(DirectX11RendererAPI*)RendererAPI::Get();
+
+		wrl::ComPtr<ID3DBlob> pBlob = ReadBlob(file);
+
+		switch (type)
+		{
+		case Engine::Shader::ShaderType::Vertex:
+			graphics.GetDivice()->CreateVertexShader(pBlob->GetBufferPointer(), pBlob->GetBufferSize(), nullptr, &m_pVertexShader);
+			break;
+		case Engine::Shader::ShaderType::Pixel:
+			graphics.GetDivice()->CreatePixelShader(pBlob->GetBufferPointer(), pBlob->GetBufferSize(), nullptr, &m_pPixelShader);
+			break;
+		default:
+			break;
+		}
+
+		GenConstentBuffers(pBlob, type);
+	}
+
 	void DirectX11Shader::SetConstantBuffer(const ConstentBufferInfo& cb)
 	{
 		DirectX11RendererAPI& graphics = *(DirectX11RendererAPI*)RendererAPI::Get();
@@ -207,7 +215,7 @@ namespace Engine
 		}
 	}
 
-	wrl::ComPtr<ID3DBlob> DirectX11Shader::ReadBlob(std::wstring& fileName)
+	wrl::ComPtr<ID3DBlob> DirectX11Shader::ReadBlob(const std::wstring& fileName)
 	{
 		wrl::ComPtr<ID3DBlob> pBlob;
 		HRESULT hr = D3DReadFileToBlob((L"ShaderBin/" + fileName).c_str(), &pBlob);

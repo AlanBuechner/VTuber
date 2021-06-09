@@ -27,15 +27,14 @@ void MainWindow::OnCreate()
 	vb->SetLayout(layout);
 	vb->Bind();
 
-	ib = Engine::IndexBuffer::Create(indices, 3);
+	ib = Engine::IndexBuffer::Create(indices, sizeof(indices));
 	ib->Bind();
 
-	shader = Engine::Shader::Create();
+	Engine::ShaderSource src;
+	src.VetexShader = L"VertexShader.vertex.cso";
+	src.PixelShader = L"PixelShader.pixel.cso";
 
-	shader->LoadVertexShader(L"VertexShader.vertex.cso");
-	shader->LoadPixleShader(L"PixelShader.pixel.cso");
-	shader->GenInputLayoutFromReflection();
-
+	shader = Engine::Shader::Create(src);
 	shader->Bind();
 
 	m_NativeWindow.GetSwapChain().SetVSync(true);
@@ -45,17 +44,15 @@ float a = 0.0f;
 void MainWindow::OnUpdate()
 {
 	ClearToColor(1.0f, 0.0f, 0.0f);
-	float deltat = Time::GetDeltaTime();
-	a += deltat;
+	a += Time::GetDeltaTime();
 
 	struct CBData {
-		struct {
-			glm::mat4 rot;
-			float val = 0.5f;
-		};
+		glm::mat4 rot;
+		float val = 0.5f;
 	};
 	const CBData data = {
-		glm::rotate(glm::mat4(1.0f), a, {0.0f, 0.0f, 1.0f})
+		glm::rotate(glm::mat4(1.0f), a, {0.0f, 0.0f, 1.0f}),
+		0.5f
 	};
 
 	shader->SetBuffer("CBuff", (void*)&data);

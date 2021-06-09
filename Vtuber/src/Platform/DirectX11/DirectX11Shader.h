@@ -25,8 +25,7 @@ namespace Engine
 
 	public:
 
-		virtual void LoadVertexShader(std::wstring fileName) override;
-		virtual void LoadPixleShader(std::wstring fileName) override;
+		DirectX11Shader(const ShaderSource& src);
 
 		virtual void SetInputLayout(BufferLayout& layout) override;
 		virtual void GenInputLayoutFromReflection() override;
@@ -37,11 +36,12 @@ namespace Engine
 		virtual void Unbind() override;
 
 	private:
+		void LoadShader(const std::wstring& file, ShaderType type);
+
 		void SetConstantBuffer(const ConstentBufferInfo& cb);
 		void GenConstentBuffers(wrl::ComPtr<ID3DBlob> pBlob, ShaderType type);
 
-	private:
-		wrl::ComPtr<ID3DBlob> ReadBlob(std::wstring& fileName);
+		wrl::ComPtr<ID3DBlob> ReadBlob(const std::wstring& fileName);
 
 	private:
 		std::wstring m_VertexShaderFile;

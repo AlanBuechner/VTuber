@@ -75,12 +75,11 @@ namespace Engine
 		Ref<IndexBuffer> ib = IndexBuffer::Create(indices, 3);
 		ib->Bind();
 
-		Ref<Shader> shader = Shader::Create();
+		Engine::ShaderSource src;
+		src.VetexShader = L"VertexShader.vertex.cso";
+		src.PixelShader = L"PixelShader.pixel.cso";
 
-		shader->LoadVertexShader(L"VertexShader.cso");
-		shader->LoadPixleShader(L"PixelShader.cso");
-		shader->SetInputLayout(layout);
-		//shader->GenInputLayoutFromReflection();
+		Ref<Shader> shader = Engine::Shader::Create(src);
 
 		shader->Bind();
 
