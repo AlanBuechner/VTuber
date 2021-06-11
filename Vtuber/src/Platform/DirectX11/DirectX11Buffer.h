@@ -17,7 +17,7 @@ namespace Engine
 		virtual void SetLayout(const BufferLayout& layout) override;
 		virtual BufferLayout& GetLayout() override { return m_Layout; }
 
-		virtual void SetData(const void* data, const uint32_t size) override;
+		virtual void SetData(const void* data, uint32_t size) override;
 
 	private:
 		wrl::ComPtr<ID3D11Buffer> m_Buffer;
@@ -37,6 +37,7 @@ namespace Engine
 		virtual void Unbind() const override;
 
 		virtual void SetData(const uint32_t* indices, uint32_t count) override;
+
 
 		virtual uint32_t GetCount() const override { return m_Count; }
 

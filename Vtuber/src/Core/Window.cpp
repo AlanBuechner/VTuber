@@ -61,6 +61,11 @@ namespace Engine
 		s_WindowsToRemove.push_back(this);
 	}
 
+	float Window::GetAspect()
+	{
+		return (float)m_NativeWindow.GetProps().width / (float)m_NativeWindow.GetProps().height;
+	}
+
 	void Window::UpdateWindows()
 	{
 		CREATE_PROFILE_FUNCTIONI();

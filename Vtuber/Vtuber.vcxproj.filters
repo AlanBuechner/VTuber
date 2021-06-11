@@ -1209,6 +1209,7 @@
     <ClInclude Include="vendor\Glm\glm\vector_relational.hpp">
       <Filter>vendor\Glm\glm</Filter>
     </ClInclude>
+    <ClInclude Include="src\Renderer\Camera.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp">
@@ -1268,6 +1269,8 @@
     <ClCompile Include="src\Util\Performance.cpp">
       <Filter>src\Util</Filter>
     </ClCompile>
+    <ClCompile Include="src\Renderer\Mesh.cpp" />
+    <ClCompile Include="src\Renderer\Camera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shaders\VertexShader.vertex.hlsl" />

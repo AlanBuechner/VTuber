@@ -10,18 +10,6 @@
 
 void MainWindow::OnCreate()
 {
-
-	Engine::BufferLayout layout = {
-		{Engine::ShaderDataType::Float4, "Position"}
-	};
-
-	vb = Engine::VertexBuffer::Create(3 * sizeof(Engine::Mesh::Vertex));
-	vb->SetLayout(layout);
-	vb->Bind();
-
-	ib = Engine::IndexBuffer::Create(3);
-	ib->Bind();
-
 	Engine::ShaderSource src;
 	src.VetexShader = L"VertexShader.vertex.cso";
 	src.PixelShader = L"PixelShader.pixel.cso";
@@ -30,6 +18,8 @@ void MainWindow::OnCreate()
 	shader->Bind();
 
 	m_NativeWindow.GetSwapChain().SetVSync(true);
+
+	m_Camera = Engine::Camera::Create(Engine::Camera::ProjectionType::Orthographic, 2, -1.0f, 1.0f, GetAspect());
 }
 
 float a = 0.0f;
@@ -53,11 +43,13 @@ void MainWindow::OnUpdate()
 		vertices[2].Position * data.rot
 	};
 
-	vb->SetData((void*)verts, 3*sizeof(Engine::Mesh::Vertex));
+	m_Mesh->UpdateVertexBuffer(verts, 3);
 
-	ib->SetData(indices, 3);
+	m_Camera->SetAspect(GetAspect());
 
-	Engine::RendererCommand::DrawIndexed(ib->GetCount());
+	shader->SetBuffer("World", (void*)&m_Camera->GetProjectionMatrix());
+
+	Engine::RendererCommand::DrawIndexed(m_Mesh->GetIndexBuffer()->GetCount());
 }
 
 void MainWindow::OnClose()

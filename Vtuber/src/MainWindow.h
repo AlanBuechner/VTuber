@@ -5,6 +5,7 @@
 #include "Renderer/Mesh.h"
 #include "Renderer/RendererCommand.h"
 #include "Renderer/Shader.h"
+#include "Renderer/Camera.h"
 
 class MainWindow : public Engine::Window
 {
@@ -21,6 +22,8 @@ public:
 		indices = new uint32_t[]{
 			0, 1, 2
 		};
+
+		m_Mesh = Engine::Mesh::Create(nullptr, 3, indices, 3);
 	}
 
 	~MainWindow()
@@ -35,11 +38,12 @@ protected:
 	virtual void OnClose() override;
 
 private:
-	Engine::Ref<Engine::VertexBuffer> vb;
-	Engine::Ref<Engine::IndexBuffer> ib;
+	Engine::Ref<Engine::Mesh> m_Mesh;
 	Engine::Ref<Engine::Shader> shader;
 
 	Engine::Mesh::Vertex* vertices;
 
 	uint32_t* indices;
+
+	Engine::Ref<Engine::Camera> m_Camera;
 };

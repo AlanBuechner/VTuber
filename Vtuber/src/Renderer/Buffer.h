@@ -114,7 +114,7 @@ namespace Engine
 		virtual void SetLayout(const BufferLayout& layout) = 0;
 		virtual BufferLayout& GetLayout() = 0;
 
-		virtual void SetData(const void* data, const uint32_t size) = 0;
+		virtual void SetData(const void* data, uint32_t size) = 0;
 
 		static Ref<VertexBuffer> Create(const uint32_t size);
 		static Ref<VertexBuffer> Create(const void* vertices, uint32_t size);

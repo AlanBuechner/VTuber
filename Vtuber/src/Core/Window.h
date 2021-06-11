@@ -42,6 +42,8 @@ namespace Engine
 
 		void CloseWindow();
 
+		float GetAspect();
+
 	protected:
 		virtual void OnCreate() {};
 		virtual void OnUpdate() {};
@@ -99,7 +101,5 @@ namespace Engine
 		virtual SwapChain& GetSwapChain() = 0;
 
 		static NativeWindow& CreateNativeWindow(Window::WindowProps props, Window* owningWindow);
-
-
 	};
 }

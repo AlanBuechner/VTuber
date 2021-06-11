@@ -78,7 +78,7 @@ namespace Engine
 		m_Layout = layout;
 	}
 
-	void DirectX11VertexBuffer::SetData(const void* data, const uint32_t size)
+	void DirectX11VertexBuffer::SetData(const void* data, uint32_t size)
 	{
 		DirectX11RendererAPI& graphics = *(DirectX11RendererAPI*)RendererAPI::Get();
 

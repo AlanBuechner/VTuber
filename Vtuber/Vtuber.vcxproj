@@ -110,6 +110,7 @@
     <ClInclude Include="src\Platform\Windows\Win.h" />
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="src\Renderer\Buffer.h" />
+    <ClInclude Include="src\Renderer\Camera.h" />
     <ClInclude Include="src\Renderer\Mesh.h" />
     <ClInclude Include="src\Renderer\RendererAPI.h" />
     <ClInclude Include="src\Renderer\RendererCommand.h" />
@@ -496,6 +497,8 @@
     <ClCompile Include="src\Platform\DirectX11\DirectX11Time.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\Renderer\Buffer.cpp" />
+    <ClCompile Include="src\Renderer\Camera.cpp" />
+    <ClCompile Include="src\Renderer\Mesh.cpp" />
     <ClCompile Include="src\Renderer\RendererAPI.cpp" />
     <ClCompile Include="src\Renderer\RendererCommand.cpp" />
     <ClCompile Include="src\Renderer\Shader.cpp" />
