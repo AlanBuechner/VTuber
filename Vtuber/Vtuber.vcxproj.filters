@@ -1210,6 +1210,7 @@
       <Filter>vendor\Glm\glm</Filter>
     </ClInclude>
     <ClInclude Include="src\Renderer\Camera.h" />
+    <ClInclude Include="src\Renderer\Renderer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp">
@@ -1271,6 +1272,7 @@
     </ClCompile>
     <ClCompile Include="src\Renderer\Mesh.cpp" />
     <ClCompile Include="src\Renderer\Camera.cpp" />
+    <ClCompile Include="src\Renderer\Renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shaders\VertexShader.vertex.hlsl" />

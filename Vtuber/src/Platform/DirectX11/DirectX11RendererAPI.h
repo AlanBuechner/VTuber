@@ -21,9 +21,6 @@ namespace Engine
 		virtual void SetViewPort(int width, int height, int x, int y) override;
 		virtual void DrawIndexed(uint32_t count) override;
 
-		void DrawTestTriangle();
-
-
 		inline wrl::ComPtr<ID3D11Device> GetDivice() { return pDevice; }
 		inline wrl::ComPtr<ID3D11DeviceContext> GetContext() { return pContext; }
 		inline wrl::ComPtr<IDXGIFactory> GetFactory() { return pDXGIFactory; }

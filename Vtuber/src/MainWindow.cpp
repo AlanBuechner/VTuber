@@ -3,6 +3,7 @@
 #include "MainWindow.h"
 #include "Application.h"
 
+#include "Renderer/Renderer.h"
 #include "Renderer/RendererAPI.h"
 #include "Renderer/RendererCommand.h"
 
@@ -28,28 +29,14 @@ void MainWindow::OnUpdate()
 	ClearToColor(1.0f, 0.0f, 0.0f);
 	a += Time::GetDeltaTime();
 
-	struct CBData {
-		glm::mat4 rot;
-		float val = 0.5f;
-	};
-	const CBData data = {
-		glm::rotate(glm::mat4(1.0f), a, {0.0f, 0.0f, 1.0f}),
-		0.5f
-	};
-
-	Engine::Mesh::Vertex verts[] = {
-		vertices[0].Position * data.rot,
-		vertices[1].Position * data.rot,
-		vertices[2].Position * data.rot
-	};
-
-	m_Mesh->UpdateVertexBuffer(verts, 3);
+	glm::mat4 rot = glm::rotate(glm::mat4(1.0f), a, { 0.0f, 0.0f, 1.0f });
+	glm::mat4 transform = glm::translate(glm::mat4(1.0f), { 0.0f, 0.0f, 0.0f });// *rot;
 
 	m_Camera->SetAspect(GetAspect());
 
-	shader->SetBuffer("World", (void*)&m_Camera->GetProjectionMatrix());
-
-	Engine::RendererCommand::DrawIndexed(m_Mesh->GetIndexBuffer()->GetCount());
+	Engine::Renderer::StartScene(m_Camera);
+	Engine::Renderer::Submit(m_Mesh, shader, transform);
+	Engine::Renderer::EndScene();
 }
 
 void MainWindow::OnClose()

@@ -14,16 +14,18 @@ public:
 		Window::Window(props)
 	{
 		vertices = new Engine::Mesh::Vertex[]{
-			{ { 0.0f,  0.5f, 0.0f, 1.0f} },
-			{ { 0.5f, -0.5f, 0.0f, 1.0f} },
-			{ {-0.5f, -0.5f, 0.0f, 1.0f} }
+			{ {-0.5f, -0.5f, 0.0f, 1.0f } },
+			{ {-0.5f,  0.5f, 0.0f, 1.0f } },
+			{ { 0.5f,  0.5f, 0.0f, 1.0f } },
+			{ { 0.5f, -0.5f, 0.0f, 1.0f } },
 		};
 
 		indices = new uint32_t[]{
-			0, 1, 2
+			0, 1, 2,
+			2, 3, 0,
 		};
 
-		m_Mesh = Engine::Mesh::Create(nullptr, 3, indices, 3);
+		m_Mesh = Engine::Mesh::Create(vertices, 8, indices, 12);
 	}
 
 	~MainWindow()

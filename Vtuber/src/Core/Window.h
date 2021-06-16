@@ -12,6 +12,10 @@
 #include <vector>
 #include <memory>
 
+/*
+TODO : fix vsync with multiple windows
+*/
+
 namespace Engine
 {
 
