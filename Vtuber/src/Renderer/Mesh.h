@@ -12,6 +12,7 @@ namespace Engine
 	public:
 		struct Vertex {
 			glm::vec4 Position;
+			glm::vec4 Color;
 			glm::vec2 TextCord;
 		};
 

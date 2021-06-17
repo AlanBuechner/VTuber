@@ -112,7 +112,7 @@ namespace Engine
 
 		ShowWindow(hWnd, SW_SHOW);
 
-		m_Swap.Init((void*)hWnd);
+		m_Swap.Init((void*)hWnd, props.width, props.height);
 
 		RendererCommand::SetViewPort(props.width, props.height, 0, 0);
 	}

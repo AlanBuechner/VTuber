@@ -13,13 +13,13 @@ namespace Engine
 
 	}
 
-	void DirectX11SwapChain::Init(void* windowHandle)
+	void DirectX11SwapChain::Init(void* windowHandle, uint32_t width, uint32_t height)
 	{
 		DirectX11RendererAPI& api = *((DirectX11RendererAPI*)RendererAPI::Get());
 
 		DXGI_SWAP_CHAIN_DESC sd = { 0 };
-		sd.BufferDesc.Width = 0; // get the width from the window
-		sd.BufferDesc.Height = 0; // get the height from the window
+		sd.BufferDesc.Width = width;
+		sd.BufferDesc.Height = height; 
 		sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM; // format to store the data
 		sd.BufferDesc.RefreshRate.Numerator = 0;
 		sd.BufferDesc.RefreshRate.Denominator = 0;
@@ -40,6 +40,41 @@ namespace Engine
 		pSwap->GetBuffer(0, __uuidof(ID3D11Resource), &pBackBuffer);
 
 		api.GetDivice()->CreateRenderTargetView(pBackBuffer.Get(), nullptr, &pTarget);
+
+		D3D11_DEPTH_STENCIL_DESC dsDesc = {};
+		dsDesc.DepthEnable = TRUE;
+		dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+		dsDesc.DepthFunc = D3D11_COMPARISON_LESS;
+
+		wrl::ComPtr<ID3D11DepthStencilState> pDSState;
+		HRESULT hr = api.GetDivice()->CreateDepthStencilState(&dsDesc, &pDSState);
+		if (FAILED(hr)) {
+			DBOUT("failed to create depth stencil state" << std::endl);
+		}
+
+		api.GetContext()->OMSetDepthStencilState(pDSState.Get(), 1u);
+
+		wrl::ComPtr<ID3D11Texture2D> pDepthStencil;
+		D3D11_TEXTURE2D_DESC descDepth = {};
+		descDepth.Width = width;
+		descDepth.Height = height;
+		descDepth.MipLevels = 1u;
+		descDepth.ArraySize = 1u;
+		descDepth.Format = DXGI_FORMAT_D32_FLOAT;
+		descDepth.SampleDesc.Count = 1u;
+		descDepth.SampleDesc.Quality = 0u;
+		descDepth.Usage = D3D11_USAGE_DEFAULT;
+		descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+
+		api.GetDivice()->CreateTexture2D(&descDepth, nullptr, &pDepthStencil);
+
+		D3D11_DEPTH_STENCIL_VIEW_DESC descDSV = {};
+		descDSV.Format = DXGI_FORMAT_D32_FLOAT;
+		descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+		descDSV.Texture2D.MipSlice = 0u;
+
+		api.GetDivice()->CreateDepthStencilView(pDepthStencil.Get(), &descDSV, &pDSV);
+
 	}
 
 	void DirectX11SwapChain::Resize(uint32_t width, uint32_t height)
@@ -79,9 +114,10 @@ namespace Engine
 
 	void DirectX11SwapChain::ClearColor(float r, float g, float b, float a)
 	{
-		DirectX11RendererAPI& graphics = *(DirectX11RendererAPI*)RendererAPI::Get();
+		DirectX11RendererAPI& api = *(DirectX11RendererAPI*)RendererAPI::Get();
 		const float color[] = { r,g,b,a };
-		graphics.GetContext()->ClearRenderTargetView(pTarget.Get(), color);
+		api.GetContext()->ClearRenderTargetView(pTarget.Get(), color);
+		api.GetContext()->ClearDepthStencilView(pDSV.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
 	}
 
 	void DirectX11SwapChain::SwapBuffers()
@@ -91,7 +127,9 @@ namespace Engine
 
 	void DirectX11SwapChain::Bind()
 	{
-		((DirectX11RendererAPI*)RendererAPI::Get())->GetContext()->OMSetRenderTargets(1u, pTarget.GetAddressOf(), nullptr);
+		DirectX11RendererAPI& api = *((DirectX11RendererAPI*)RendererAPI::Get());
+
+		api.GetContext()->OMSetRenderTargets(1u, pTarget.GetAddressOf(), pDSV.Get());
 	}
 
 }

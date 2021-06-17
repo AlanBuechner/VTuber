@@ -22,7 +22,7 @@ void MainWindow::OnCreate()
 
 	m_Camera = Engine::Camera::Create(Engine::Camera::ProjectionType::Orthographic, 2, -1.0f, 1.0f, GetAspect());
 
-	m_Texture = Engine::Texture2D::Create(1,1);
+	m_Texture = Engine::Texture2D::Create("Assets/Textures/bunnie.jpg");
 	m_Texture->Bind(0);
 }
 
@@ -33,12 +33,14 @@ void MainWindow::OnUpdate()
 	a += Time::GetDeltaTime();
 
 	glm::mat4 rot = glm::rotate(glm::mat4(1.0f), a, { 0.0f, 0.0f, 1.0f });
-	glm::mat4 transform = glm::translate(glm::mat4(1.0f), { 0.0f, 0.0f, 0.0f });// *rot;
+	glm::mat4 transform1 = glm::translate(glm::mat4(1.0f), { 0.5f, 0.0f, 0.0f });// *rot;
+	glm::mat4 transform2 = glm::translate(glm::mat4(1.0f), { 0.0f, 0.0f, -0.5f });// *rot;
 
 	m_Camera->SetAspect(GetAspect());
 
 	Engine::Renderer::StartScene(m_Camera);
-	Engine::Renderer::Submit(m_Mesh, shader, transform);
+	Engine::Renderer::Submit(m_Mesh, shader, transform1); // drawn first but should be on top
+	Engine::Renderer::Submit(m_Mesh, shader, transform2); // drawn last but should be on the bottom
 	Engine::Renderer::EndScene();
 }
 

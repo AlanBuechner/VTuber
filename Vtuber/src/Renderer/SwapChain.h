@@ -9,7 +9,7 @@ namespace Engine
 	public:
 		virtual ~SwapChain() {}
 
-		virtual void Init(void* windowHandle) = 0;
+		virtual void Init(void* windowHandle, uint32_t width, uint32_t height) = 0;
 
 		virtual void Resize(uint32_t width, uint32_t height) = 0;
 		virtual void ClearColor(float r, float g, float b, float a = 1.0f) = 0;

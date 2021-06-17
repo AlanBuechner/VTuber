@@ -10,7 +10,7 @@ namespace Engine
 		DirectX11SwapChain();
 		virtual ~DirectX11SwapChain();
 
-		virtual void Init(void* windowHandle) override;
+		virtual void Init(void* windowHandle, uint32_t width, uint32_t height) override;
 
 		virtual void Resize(uint32_t width, uint32_t height) override;
 		virtual void ClearColor(float r, float g, float b, float a = 1.0f) override;
@@ -25,6 +25,7 @@ namespace Engine
 
 		wrl::ComPtr<IDXGISwapChain> pSwap; // pointer to the swap chain 
 		wrl::ComPtr<ID3D11RenderTargetView> pTarget; // pointer to the render target
+		wrl::ComPtr<ID3D11DepthStencilView> pDSV;
 
 		bool m_VSync = true;
 
