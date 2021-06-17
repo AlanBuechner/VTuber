@@ -26,10 +26,15 @@ void MainWindow::OnCreate()
 	m_Texture = Engine::Texture2D::Create("Assets/Textures/bunnie.jpg");
 	m_Texture->Bind(0);
 
-	m_Light.position = { 0.0f, 0.0f, 2.0f };
-	m_Light.color = { 0.0f, 0.0f, 1.0f };
-	m_Light.diffuseIntensity = 2.0f;
-	m_Light.attQuad = 0.5f;
+	m_BlueLight.position = { 0.0f, 0.0f, 2.0f };
+	m_BlueLight.color = { 0.0f, 0.0f, 1.0f };
+	m_BlueLight.diffuseIntensity = 5.0f;
+	m_BlueLight.attQuad = 0.5f;
+
+	m_RedLight.position = { 0.0f, 0.0f, 2.0f };
+	m_RedLight.color = { 1.0f, 0.0f, 0.0f };
+	m_RedLight.diffuseIntensity = 5.0f;
+	m_RedLight.attQuad = 0.5f;
 }
 
 float a = 0.0f;
@@ -47,8 +52,12 @@ void MainWindow::OnUpdate()
 
 	glm::mat4 vpMatrix = m_Camera->GetProjectionMatrix() * glm::inverse(glm::translate(glm::mat4(1.0f), { 0.0f, 0.0f, 1.5f }));
 
+	m_BlueLight.position = { glm::cos(a), glm::sin(a), 0.0f };
+	m_RedLight.position = { -glm::cos(a), -glm::sin(a), 0.0f };
+
 	Engine::Renderer::StartScene(vpMatrix);
-	Engine::Renderer::SubmitLight(m_Light);
+	Engine::Renderer::SubmitLight(m_BlueLight);
+	Engine::Renderer::SubmitLight(m_RedLight);
 	Engine::Renderer::Submit(m_Mesh, shader, transform);
 	Engine::Renderer::EndScene();
 }

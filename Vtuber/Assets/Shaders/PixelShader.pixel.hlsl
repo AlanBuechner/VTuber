@@ -1,3 +1,5 @@
+#define MAX_LIGHTS 10
+
 Texture2D tex;
 SamplerState splr;
 
@@ -13,7 +15,8 @@ struct Light
 
 cbuffer Lights
 {
-	Light light;
+	uint numLights;
+	Light light[MAX_LIGHTS];
 };
 
 struct PS_INPUT
@@ -28,16 +31,25 @@ static const float3 ambient = { 0.15f, 0.15f, 0.15f };
 
 float4 main(PS_INPUT input) : SV_TARGET
 {
-	const float3 vToL = light.pos - input.worldPos;
-	const float distToL = length(vToL);
-	const float3 dirToL = vToL / distToL;
+	float4 totalDiffuse = float4(0.0f, 0.0f, 0.0f, 0.0f);
 	
-	const float att = 1 / (light.attConst + (light.attLin * distToL) + (light.attQuad * distToL * distToL));
+	for (uint i = 0; i < numLights; i++)
+	{
+		const float3 vToL = light[i].pos - input.worldPos;
+		const float distToL = length(vToL);
+		const float3 dirToL = vToL / distToL;
 	
-	float4 color = tex.Sample(splr, input.uv);
-	color = float4(color.b, color.g, color.r, color.a) * input.color;
+		const float att = 1 / (light[i].attConst + (light[i].attLin * distToL) + (light[i].attQuad * distToL * distToL));
+	
+		float4 texColor = tex.Sample(splr, input.uv);
+		texColor = float4(texColor.b, texColor.g, texColor.r, texColor.a) * input.color;
 
-	const float3 diffuse = light.color * light.diffuseIntensity * att * max(0.0f, dot(dirToL, input.n));
+		const float3 diffuse = light[i].color * light[i].diffuseIntensity * att * max(0.0f, dot(dirToL, input.n));
 	
-	return float4(saturate((diffuse + ambient) * color.rgb), color.a);
+		float4 color = float4(saturate((diffuse + ambient) * texColor.rgb), texColor.a);
+		
+		totalDiffuse += color;
+	}
+	
+	return totalDiffuse;
 }

@@ -1,6 +1,8 @@
 #pragma once
 #include <glm/glm.hpp>
 
+#define MAX_LIGHTS 10
+
 namespace Engine
 {
 	struct PointLight

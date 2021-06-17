@@ -5,6 +5,7 @@
 #include "Renderer/Shader.h"
 #include "Light.h"
 #include <glm/glm.hpp>
+#include <vector>
 
 namespace Engine
 {
@@ -17,10 +18,13 @@ namespace Engine
 		static void EndScene();
 
 		static void Submit(const Ref<Mesh>& mesh, const Ref<Shader>& shader, const glm::mat4& transform);
-		static void SubmitLight(const Light& light);
+		static void SubmitLight(const PointLight& light);
 
 	private:
-		static Light m_Light;
+		static struct Lights {
+			uint32_t numLights;
+			PointLight lights[MAX_LIGHTS];
+		} m_Lights;
 		static glm::mat4 m_ViewProjectionMatrix;
 	};
 }
