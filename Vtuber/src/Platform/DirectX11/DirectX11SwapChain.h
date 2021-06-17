@@ -22,6 +22,9 @@ namespace Engine
 		virtual void Bind() override;
 
 	private:
+		void CreateDepthBuffer(uint32_t width, uint32_t height);
+
+	private:
 
 		wrl::ComPtr<IDXGISwapChain> pSwap; // pointer to the swap chain 
 		wrl::ComPtr<ID3D11RenderTargetView> pTarget; // pointer to the render target

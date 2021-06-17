@@ -41,6 +41,72 @@ namespace Engine
 
 		api.GetDivice()->CreateRenderTargetView(pBackBuffer.Get(), nullptr, &pTarget);
 
+		CreateDepthBuffer(width, height);
+
+	}
+
+	void DirectX11SwapChain::Resize(uint32_t width, uint32_t height)
+	{
+		if (pSwap && pTarget && pDSV) 
+		{
+			DirectX11RendererAPI& api = *((DirectX11RendererAPI*)RendererAPI::Get());
+
+			DXGI_MODE_DESC md = { 0 };
+			md.Width = width;
+			md.Height = height;
+			md.Format = DXGI_FORMAT_R8G8B8A8_UNORM; // format to store the data
+			md.RefreshRate.Numerator = 0;
+			md.RefreshRate.Denominator = 0;
+			md.Scaling = DXGI_MODE_SCALING_UNSPECIFIED; // unspecified no scalling requierd 
+			md.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED; // unspecified 
+
+			// unbind the render target
+			api.GetContext()->OMSetRenderTargets(0, 0, 0);
+			// release refrense to the render target
+			pTarget->Release();
+
+			// flush the context
+			api.GetContext()->Flush();
+
+			// resize the target and swapchain buffers
+			pSwap->ResizeTarget(&md);
+			pSwap->ResizeBuffers(0, width, height, DXGI_FORMAT_R8G8B8A8_UNORM, 0);
+
+			// recreate the render target
+			wrl::ComPtr<ID3D11Resource> pBackBuffer;
+			pSwap->GetBuffer(0, __uuidof(ID3D11Resource), &pBackBuffer);
+
+			api.GetDivice()->CreateRenderTargetView(pBackBuffer.Get(), nullptr, pTarget.GetAddressOf());
+
+			// recreate the depth buffer
+			CreateDepthBuffer(width, height);
+		}
+	}
+
+	void DirectX11SwapChain::ClearColor(float r, float g, float b, float a)
+	{
+		DirectX11RendererAPI& api = *(DirectX11RendererAPI*)RendererAPI::Get();
+		const float color[] = { r,g,b,a };
+		api.GetContext()->ClearRenderTargetView(pTarget.Get(), color);
+		api.GetContext()->ClearDepthStencilView(pDSV.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
+	}
+
+	void DirectX11SwapChain::SwapBuffers()
+	{
+		pSwap->Present((m_VSync ? 1u:0u), 0u);
+	}
+
+	void DirectX11SwapChain::Bind()
+	{
+		DirectX11RendererAPI& api = *((DirectX11RendererAPI*)RendererAPI::Get());
+
+		api.GetContext()->OMSetRenderTargets(1u, pTarget.GetAddressOf(), pDSV.Get());
+	}
+
+	void DirectX11SwapChain::CreateDepthBuffer(uint32_t width, uint32_t height)
+	{
+		DirectX11RendererAPI& api = *((DirectX11RendererAPI*)RendererAPI::Get());
+
 		D3D11_DEPTH_STENCIL_DESC dsDesc = {};
 		dsDesc.DepthEnable = TRUE;
 		dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
@@ -74,62 +140,6 @@ namespace Engine
 		descDSV.Texture2D.MipSlice = 0u;
 
 		api.GetDivice()->CreateDepthStencilView(pDepthStencil.Get(), &descDSV, &pDSV);
-
-	}
-
-	void DirectX11SwapChain::Resize(uint32_t width, uint32_t height)
-	{
-		if (pSwap && pTarget) 
-		{
-			DirectX11RendererAPI& api = *((DirectX11RendererAPI*)RendererAPI::Get());
-
-			DXGI_MODE_DESC md = { 0 };
-			md.Width = width;
-			md.Height = height;
-			md.Format = DXGI_FORMAT_R8G8B8A8_UNORM; // format to store the data
-			md.RefreshRate.Numerator = 0;
-			md.RefreshRate.Denominator = 0;
-			md.Scaling = DXGI_MODE_SCALING_UNSPECIFIED; // unspecified no scalling requierd 
-			md.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED; // unspecified 
-
-			// unbind the render target
-			api.GetContext()->OMSetRenderTargets(0, 0, 0);
-			// release refrense to the render target
-			pTarget->Release();
-
-			// flush the context
-			api.GetContext()->Flush();
-
-			// resize the target and swapchain buffers buffres
-			pSwap->ResizeTarget(&md);
-			pSwap->ResizeBuffers(0, width, height, DXGI_FORMAT_R8G8B8A8_UNORM, 0);
-
-			// recreate the render target
-			wrl::ComPtr<ID3D11Resource> pBackBuffer;
-			pSwap->GetBuffer(0, __uuidof(ID3D11Resource), &pBackBuffer);
-
-			api.GetDivice()->CreateRenderTargetView(pBackBuffer.Get(), nullptr, pTarget.GetAddressOf());
-		}
-	}
-
-	void DirectX11SwapChain::ClearColor(float r, float g, float b, float a)
-	{
-		DirectX11RendererAPI& api = *(DirectX11RendererAPI*)RendererAPI::Get();
-		const float color[] = { r,g,b,a };
-		api.GetContext()->ClearRenderTargetView(pTarget.Get(), color);
-		api.GetContext()->ClearDepthStencilView(pDSV.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
-	}
-
-	void DirectX11SwapChain::SwapBuffers()
-	{
-		pSwap->Present((m_VSync ? 1u:0u), 0u);
-	}
-
-	void DirectX11SwapChain::Bind()
-	{
-		DirectX11RendererAPI& api = *((DirectX11RendererAPI*)RendererAPI::Get());
-
-		api.GetContext()->OMSetRenderTargets(1u, pTarget.GetAddressOf(), pDSV.Get());
 	}
 
 }
