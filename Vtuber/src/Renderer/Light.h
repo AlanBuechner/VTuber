@@ -3,7 +3,7 @@
 
 namespace Engine
 {
-	struct Light
+	struct PointLight
 	{
 		alignas(16) glm::vec3 position = { 0.0f, 0.0f, 0.0f };
 		alignas(16) glm::vec3 color = { 1.0f, 1.0f, 1.0f };

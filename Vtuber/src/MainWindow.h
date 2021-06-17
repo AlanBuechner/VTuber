@@ -69,5 +69,5 @@ private:
 
 	Engine::Ref<Engine::Camera> m_Camera;
 
-	Engine::Light m_Light;
+	Engine::PointLight m_Light;
 };
