@@ -6,6 +6,7 @@
 #include "Renderer/RendererCommand.h"
 #include "Renderer/Shader.h"
 #include "Renderer/Camera.h"
+#include "Renderer/Texture.h"
 
 class MainWindow : public Engine::Window
 {
@@ -14,10 +15,10 @@ public:
 		Window::Window(props)
 	{
 		vertices = new Engine::Mesh::Vertex[]{
-			{ {-0.5f, -0.5f, 0.0f, 1.0f } },
-			{ {-0.5f,  0.5f, 0.0f, 1.0f } },
-			{ { 0.5f,  0.5f, 0.0f, 1.0f } },
-			{ { 0.5f, -0.5f, 0.0f, 1.0f } },
+			{ {-0.5f, -0.5f, 0.0f, 1.0f }, { 0.0f, 1.0f } },
+			{ {-0.5f,  0.5f, 0.0f, 1.0f }, { 0.0f, 0.0f } },
+			{ { 0.5f,  0.5f, 0.0f, 1.0f }, { 1.0f, 0.0f } },
+			{ { 0.5f, -0.5f, 0.0f, 1.0f }, { 1.0f, 1.0f } },
 		};
 
 		indices = new uint32_t[]{
@@ -42,6 +43,7 @@ protected:
 private:
 	Engine::Ref<Engine::Mesh> m_Mesh;
 	Engine::Ref<Engine::Shader> shader;
+	Engine::Ref<Engine::Texture2D> m_Texture;
 
 	Engine::Mesh::Vertex* vertices;
 

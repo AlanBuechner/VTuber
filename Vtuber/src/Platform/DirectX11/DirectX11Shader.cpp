@@ -82,10 +82,14 @@ namespace Engine
 		for (uint32_t i = 0; i < elements.size(); i++)
 		{
 			BufferElement& element = elements[i];
-			ied[i] = { element.Name.c_str(), i,	ShaderDataTypeToDXGIFormat(element.Type), 0, element.Offset, D3D11_INPUT_PER_VERTEX_DATA, 0 };
+			ied[i] = { element.Name.c_str(), 0,	ShaderDataTypeToDXGIFormat(element.Type), 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 };
 		}
 
-		graphics.GetDivice()->CreateInputLayout(ied, 1u, pBlob->GetBufferPointer(), pBlob->GetBufferSize(), &m_pInputLayout);
+		HRESULT hr = graphics.GetDivice()->CreateInputLayout(ied, elements.size(), pBlob->GetBufferPointer(), pBlob->GetBufferSize(), &m_pInputLayout);
+
+		if (FAILED(hr)){
+			DBOUT("failed to set input layout");
+		}
 
 		delete[] ied;
 	}
@@ -121,10 +125,11 @@ namespace Engine
 			ied[i] = { ps.SemanticName, ps.SemanticIndex, GetFormatFromDesc(ps), 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 };
 		}
 
-		hr = graphics.GetDivice()->CreateInputLayout(ied, 1u, pBlob->GetBufferPointer(), pBlob->GetBufferSize(), &m_pInputLayout);
+		hr = graphics.GetDivice()->CreateInputLayout(ied, numInputParams, pBlob->GetBufferPointer(), pBlob->GetBufferSize(), &m_pInputLayout);
 
-		if (FAILED(hr))
+		if (FAILED(hr)) {
 			DBOUT("failed to create layout from reflection" << std::endl);
+		}
 
 		delete[] ied;
 	}

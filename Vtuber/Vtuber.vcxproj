@@ -59,7 +59,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\Glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;vendor\Glm;vendor\Stb_Image;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -76,7 +76,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\Glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;vendor\Glm;vendor\Stb_Image;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -105,6 +105,7 @@
     <ClInclude Include="src\Platform\DirectX11\DirectX11RendererAPI.h" />
     <ClInclude Include="src\Platform\DirectX11\DirectX11Shader.h" />
     <ClInclude Include="src\Platform\DirectX11\DirectX11SwapChain.h" />
+    <ClInclude Include="src\Platform\DirectX11\DirectX11Texture.h" />
     <ClInclude Include="src\Platform\DirectX11\DirectX11Time.h" />
     <ClInclude Include="src\Platform\WindowExeption.h" />
     <ClInclude Include="src\Platform\Windows\Win.h" />
@@ -117,6 +118,8 @@
     <ClInclude Include="src\Renderer\RendererCommand.h" />
     <ClInclude Include="src\Renderer\Shader.h" />
     <ClInclude Include="src\Renderer\SwapChain.h" />
+    <ClInclude Include="src\Renderer\Texture.h" />
+    <ClInclude Include="src\Renderer\TextureAttribute.h" />
     <ClInclude Include="src\Util\Performance.h" />
     <ClInclude Include="vendor\Glm\glm\common.hpp" />
     <ClInclude Include="vendor\Glm\glm\detail\_features.hpp" />
@@ -482,6 +485,7 @@
     <ClInclude Include="vendor\Glm\glm\vec3.hpp" />
     <ClInclude Include="vendor\Glm\glm\vec4.hpp" />
     <ClInclude Include="vendor\Glm\glm\vector_relational.hpp" />
+    <ClInclude Include="vendor\stb_image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp" />
@@ -495,6 +499,7 @@
     <ClCompile Include="src\Platform\DirectX11\DirectX11RendererAPI.cpp" />
     <ClCompile Include="src\Platform\DirectX11\DirectX11Shader.cpp" />
     <ClCompile Include="src\Platform\DirectX11\DirectX11SwapChain.cpp" />
+    <ClCompile Include="src\Platform\DirectX11\DirectX11Texture.cpp" />
     <ClCompile Include="src\Platform\DirectX11\DirectX11Time.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\Renderer\Buffer.cpp" />
@@ -505,20 +510,21 @@
     <ClCompile Include="src\Renderer\RendererCommand.cpp" />
     <ClCompile Include="src\Renderer\Shader.cpp" />
     <ClCompile Include="src\Renderer\SwapChain.cpp" />
+    <ClCompile Include="src\Renderer\Texture.cpp" />
+    <ClCompile Include="src\Renderer\TextureAttribute.cpp" />
     <ClCompile Include="src\Util\Performance.cpp" />
+    <ClCompile Include="vendor\stb_image\stb_image.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shaders\PixelShader.pixel.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)/ShaderBin/%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)/ShaderBin/%(Filename).cso</ObjectFileOutput>
+      <ShaderType>Pixel</ShaderType>
+      <ShaderModel>4.0</ShaderModel>
+      <ObjectFileOutput>ShaderBin/PixelShader.pixel.cso</ObjectFileOutput>
     </FxCompile>
     <FxCompile Include="Assets\Shaders\VertexShader.vertex.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)/ShaderBin/%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)/ShaderBin/%(Filename).cso</ObjectFileOutput>
+      <ShaderType>Vertex</ShaderType>
+      <ShaderModel>4.0</ShaderModel>
+      <ObjectFileOutput>ShaderBin/VertexShader.vertex.cso</ObjectFileOutput>
     </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

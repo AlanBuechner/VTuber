@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="Assets">
+      <UniqueIdentifier>{3824E0A7-24C6-0A7E-0D81-1ED2F9C191CE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Shaders">
+      <UniqueIdentifier>{1101E1D1-FDCE-D4D7-E662-45FED2CFB03C}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src">
       <UniqueIdentifier>{2DAB880B-99B4-887C-2230-9F7C8E38947C}</UniqueIdentifier>
     </Filter>
@@ -46,6 +52,9 @@
     <Filter Include="vendor\Glm\glm\gtx">
       <UniqueIdentifier>{93FE10C0-7FE2-D115-E842-CC68D445BC97}</UniqueIdentifier>
     </Filter>
+    <Filter Include="vendor\stb_image">
+      <UniqueIdentifier>{0DA0BA59-F998-D9AB-22CB-BE300E23B9B7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Application.h">
@@ -84,6 +93,9 @@
     <ClInclude Include="src\Platform\DirectX11\DirectX11SwapChain.h">
       <Filter>src\Platform\DirectX11</Filter>
     </ClInclude>
+    <ClInclude Include="src\Platform\DirectX11\DirectX11Texture.h">
+      <Filter>src\Platform\DirectX11</Filter>
+    </ClInclude>
     <ClInclude Include="src\Platform\DirectX11\DirectX11Time.h">
       <Filter>src\Platform\DirectX11</Filter>
     </ClInclude>
@@ -99,7 +111,13 @@
     <ClInclude Include="src\Renderer\Buffer.h">
       <Filter>src\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\Renderer\Camera.h">
+      <Filter>src\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\Renderer\Mesh.h">
+      <Filter>src\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Renderer\Renderer.h">
       <Filter>src\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Renderer\RendererAPI.h">
@@ -112,6 +130,12 @@
       <Filter>src\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Renderer\SwapChain.h">
+      <Filter>src\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Renderer\Texture.h">
+      <Filter>src\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Renderer\TextureAttribute.h">
       <Filter>src\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Util\Performance.h">
@@ -1209,8 +1233,9 @@
     <ClInclude Include="vendor\Glm\glm\vector_relational.hpp">
       <Filter>vendor\Glm\glm</Filter>
     </ClInclude>
-    <ClInclude Include="src\Renderer\Camera.h" />
-    <ClInclude Include="src\Renderer\Renderer.h" />
+    <ClInclude Include="vendor\stb_image\stb_image.h">
+      <Filter>vendor\stb_image</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp">
@@ -1246,6 +1271,9 @@
     <ClCompile Include="src\Platform\DirectX11\DirectX11SwapChain.cpp">
       <Filter>src\Platform\DirectX11</Filter>
     </ClCompile>
+    <ClCompile Include="src\Platform\DirectX11\DirectX11Texture.cpp">
+      <Filter>src\Platform\DirectX11</Filter>
+    </ClCompile>
     <ClCompile Include="src\Platform\DirectX11\DirectX11Time.cpp">
       <Filter>src\Platform\DirectX11</Filter>
     </ClCompile>
@@ -1253,6 +1281,15 @@
       <Filter>src\Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="src\Renderer\Buffer.cpp">
+      <Filter>src\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer\Camera.cpp">
+      <Filter>src\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer\Mesh.cpp">
+      <Filter>src\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer\Renderer.cpp">
       <Filter>src\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Renderer\RendererAPI.cpp">
@@ -1267,15 +1304,25 @@
     <ClCompile Include="src\Renderer\SwapChain.cpp">
       <Filter>src\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\Renderer\Texture.cpp">
+      <Filter>src\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer\TextureAttribute.cpp">
+      <Filter>src\Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="src\Util\Performance.cpp">
       <Filter>src\Util</Filter>
     </ClCompile>
-    <ClCompile Include="src\Renderer\Mesh.cpp" />
-    <ClCompile Include="src\Renderer\Camera.cpp" />
-    <ClCompile Include="src\Renderer\Renderer.cpp" />
+    <ClCompile Include="vendor\stb_image\stb_image.cpp">
+      <Filter>vendor\stb_image</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Assets\Shaders\VertexShader.vertex.hlsl" />
-    <FxCompile Include="Assets\Shaders\PixelShader.pixel.hlsl" />
+    <FxCompile Include="Assets\Shaders\PixelShader.pixel.hlsl">
+      <Filter>Assets\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\VertexShader.vertex.hlsl">
+      <Filter>Assets\Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

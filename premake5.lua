@@ -12,15 +12,15 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 -- Include directories relative to root folder (solution directory)
 IncludeDir = {}
---IncludeDir["ImGui"] = "GameEngine/vendor/imgui"
+--IncludeDir["ImGui"] = "Vtuber/vendor/imgui"
 IncludeDir["glm"] = "Vtuber/vendor/Glm"
---IncludeDir["stb_image"] = "GameEngine/vendor/stb_image"
---IncludeDir["entt"] = "GameEngine/vendor/entt/include"
---IncludeDir["yaml"] = "GameEngine/vendor/yaml-cpp/include"
---IncludeDir["ImGuizmo"] = "GameEngine/vendor/ImGuizmo"
+IncludeDir["stb_image"] = "Vtuber/vendor/Stb_Image"
+--IncludeDir["entt"] = "Vtuber/vendor/entt/include"
+--IncludeDir["yaml"] = "Vtuber/vendor/yaml-cpp/include"
+--IncludeDir["ImGuizmo"] = "Vtuber/vendor/ImGuizmo"
 
---include "GameEngine/vendor/imgui"
---include "GameEngine/vendor/yaml-cpp"
+--include "Vtuber/vendor/imgui"
+--include "Vtuber/vendor/yaml-cpp"
 
 project "Vtuber"
 	location "Vtuber"
@@ -39,12 +39,14 @@ project "Vtuber"
 	{
 		"%{prj.name}/src/**.h",
 		"%{prj.name}/src/**.cpp",
---		"%{prj.name}/vendor/stb_image/**.h",
---		"%{prj.name}/vendor/stb_image/**.cpp",
+		"%{prj.name}/vendor/stb_image/**.h",
+		"%{prj.name}/vendor/stb_image/**.cpp",
 		"%{prj.name}/vendor/Glm/glm/**.hpp",
 		"%{prj.name}/vendor/Glm/glm/**.inl",
 --		"%{prj.name}/vendor/ImGuizmo/ImGuizmo.h",
---		"%{prj.name}/vendor/ImGuizmo/ImGuizmo.cpp"
+--		"%{prj.name}/vendor/ImGuizmo/ImGuizmo.cpp",
+		"%{prj.name}/Assets/Shaders/**.hlsl"
+
 	}
 
 	defines
@@ -57,7 +59,7 @@ project "Vtuber"
 		"%{prj.name}/src",
 --		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}",
---		"%{IncludeDir.stb_image}",
+		"%{IncludeDir.stb_image}",
 --		"%{IncludeDir.entt}",
 --		"%{IncludeDir.yaml}",
 --		"%{IncludeDir.ImGuizmo}"
@@ -69,8 +71,6 @@ project "Vtuber"
 --		"Yaml"
 		"dxguid.lib"
 	}
-
-	-- need to fix shader propertys
 
 	filter { "files:**.hlsl" }
 		shadermodel "4.0"

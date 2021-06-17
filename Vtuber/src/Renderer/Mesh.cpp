@@ -6,7 +6,8 @@ namespace Engine
 	{
 		
 		Engine::BufferLayout layout = {
-			{Engine::ShaderDataType::Float4, "Position"}
+			{Engine::ShaderDataType::Float4, "POSITION"},
+			{Engine::ShaderDataType::Float2, "TEXTCOORD"}
 		};
 
 		vb = VertexBuffer::Create(vertices, vertCount * sizeof(Vertex));

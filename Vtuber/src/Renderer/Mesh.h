@@ -12,6 +12,7 @@ namespace Engine
 	public:
 		struct Vertex {
 			glm::vec4 Position;
+			glm::vec2 TextCord;
 		};
 
 		Mesh(Vertex* vertices, uint32_t vertCount, uint32_t* indeces, uint32_t indexCount);

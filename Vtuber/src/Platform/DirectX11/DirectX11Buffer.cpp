@@ -28,6 +28,8 @@ namespace Engine
 		return DXGI_FORMAT_UNKNOWN;
 	}
 
+
+	// -------------------------------- Vetrtex Buffer -------------------------------- //
 	DirectX11VertexBuffer::DirectX11VertexBuffer(const void* vertices, uint32_t size) :
 		m_Size(size)
 	{

@@ -8,14 +8,24 @@ cbuffer Model
 	float4x4 Transform;
 };
 
-struct Vertex
+struct VS_INPUT
 {
 	float4 pos : POSITION;
-	//float2 uv : TEXTCORD;
+	float2 uv : TEXTCOORD;
 };
 
-float4 main(Vertex vert) : SV_Position
+struct VS_OUTPUT 
 {
-	vert.pos = mul(mul(ViewProjection, Transform), vert.pos);
-	return vert.pos;
+	float2 uv : TEXTCOORD;
+	float4 pos : SV_POSITION;
+};
+
+VS_OUTPUT main(VS_INPUT vert)
+{
+	VS_OUTPUT output;
+
+	output.pos = mul(mul(ViewProjection, Transform), vert.pos);
+	output.uv = vert.uv;
+
+	return output;
 }

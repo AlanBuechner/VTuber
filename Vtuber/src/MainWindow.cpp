@@ -21,6 +21,9 @@ void MainWindow::OnCreate()
 	m_NativeWindow.GetSwapChain().SetVSync(true);
 
 	m_Camera = Engine::Camera::Create(Engine::Camera::ProjectionType::Orthographic, 2, -1.0f, 1.0f, GetAspect());
+
+	m_Texture = Engine::Texture2D::Create(1,1);
+	m_Texture->Bind(0);
 }
 
 float a = 0.0f;
