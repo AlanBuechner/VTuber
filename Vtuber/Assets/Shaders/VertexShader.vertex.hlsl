@@ -28,6 +28,7 @@ VS_OUTPUT main(VS_INPUT vert)
 
 	output.pos = mul(mul(ViewProjection, Transform), vert.pos);
 	output.uv = vert.uv;
+	output.color = vert.color;
 
 	return output;
 }
