@@ -7,6 +7,7 @@ namespace Engine
 		
 		Engine::BufferLayout layout = {
 			{Engine::ShaderDataType::Float4, "POSITION"},
+			{Engine::ShaderDataType::Float3, "NORMAL"},
 			{Engine::ShaderDataType::Float4, "COLOR"},
 			{Engine::ShaderDataType::Float2, "TEXTCOORD"}
 		};

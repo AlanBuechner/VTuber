@@ -7,6 +7,8 @@
 #include "Renderer/Shader.h"
 #include "Renderer/Camera.h"
 #include "Renderer/Texture.h"
+#include "Renderer/Light.h"
+
 
 class MainWindow : public Engine::Window
 {
@@ -15,18 +17,34 @@ public:
 		Window::Window(props)
 	{
 		vertices = new Engine::Mesh::Vertex[]{
-			{ {-0.5f, -0.5f, 0.0f, 1.0f }, { 0.0f, 0.0f, 1.0f, 1.0f }, { 0.0f, 1.0f } },
-			{ {-0.5f,  0.5f, 0.0f, 1.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, { 0.0f, 0.0f } },
-			{ { 0.5f,  0.5f, 0.0f, 1.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, { 1.0f, 0.0f } },
-			{ { 0.5f, -0.5f, 0.0f, 1.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, { 1.0f, 1.0f } },
+			// Position						Normal					    Color						UV
+			{ {-0.5f, -0.5f, 0.5f, 1.0f }, { -0.577f, -0.577f, 0.577f }, { 1.0f, 1.0f, 1.0f, 1.0f }, { 0.0f, 1.0f } },
+			{ {-0.5f,  0.5f, 0.5f, 1.0f }, { -0.577f,  0.577f, 0.577f }, { 1.0f, 1.0f, 1.0f, 1.0f }, { 0.0f, 0.0f } },
+			{ { 0.5f,  0.5f, 0.5f, 1.0f }, {  0.577f,  0.577f ,0.577f }, { 1.0f, 1.0f, 1.0f, 1.0f }, { 1.0f, 0.0f } },
+			{ { 0.5f, -0.5f, 0.5f, 1.0f }, {  0.577f, -0.577f, 0.577f }, { 1.0f, 1.0f, 1.0f, 1.0f }, { 1.0f, 1.0f } },
+
+			{ {-0.5f, -0.5f, -0.5f, 1.0f }, { -0.577f, -0.577f, -0.577f }, { 1.0f, 1.0f, 1.0f, 1.0f }, { 0.0f, 0.0f } },
+			{ {-0.5f,  0.5f, -0.5f, 1.0f }, { -0.577f,  0.577f, -0.577f }, { 1.0f, 1.0f, 1.0f, 1.0f }, { 1.0f, 0.0f } },
+			{ { 0.5f,  0.5f, -0.5f, 1.0f }, {  0.577f,  0.577f ,-0.577f }, { 1.0f, 1.0f, 1.0f, 1.0f }, { 1.0f, 1.0f } },
+			{ { 0.5f, -0.5f, -0.5f, 1.0f }, {  0.577f, -0.577f, -0.577f }, { 1.0f, 1.0f, 1.0f, 1.0f }, { 0.0f, 1.0f } },
 		};
 
 		indices = new uint32_t[]{
 			0, 1, 2,
 			2, 3, 0,
+			4, 6, 5,
+			7, 6, 4,
+			3, 2, 6,
+			3, 6, 7,
+			1, 5, 6,
+			1, 6, 2,
+			0, 5, 1,
+			0, 4, 5,
+			3, 4, 0,
+			3, 7, 4,
 		};
 
-		m_Mesh = Engine::Mesh::Create(vertices, 8, indices, 12);
+		m_Mesh = Engine::Mesh::Create(vertices, 8, indices, 3*2*6);
 	}
 
 	~MainWindow()
@@ -50,4 +68,6 @@ private:
 	uint32_t* indices;
 
 	Engine::Ref<Engine::Camera> m_Camera;
+
+	Engine::Light m_Light;
 };

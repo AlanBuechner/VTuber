@@ -20,10 +20,16 @@ void MainWindow::OnCreate()
 
 	m_NativeWindow.GetSwapChain().SetVSync(true);
 
-	m_Camera = Engine::Camera::Create(Engine::Camera::ProjectionType::Orthographic, 2, -1.0f, 1.0f, GetAspect());
+	m_Camera = Engine::Camera::Create(Engine::Camera::ProjectionType::Perspective, 2, 0.01, 100.0f, GetAspect());
 
+	//m_Texture = Engine::Texture2D::Create(1,1);
 	m_Texture = Engine::Texture2D::Create("Assets/Textures/bunnie.jpg");
 	m_Texture->Bind(0);
+
+	m_Light.position = { 0.0f, 0.0f, 2.0f };
+	m_Light.color = { 0.0f, 0.0f, 1.0f };
+	m_Light.diffuseIntensity = 2.0f;
+	m_Light.attQuad = 0.5f;
 }
 
 float a = 0.0f;
@@ -32,15 +38,18 @@ void MainWindow::OnUpdate()
 	ClearToColor(1.0f, 0.0f, 0.0f);
 	a += Time::GetDeltaTime();
 
-	glm::mat4 rot = glm::rotate(glm::mat4(1.0f), a, { 0.0f, 0.0f, 1.0f });
-	glm::mat4 transform1 = glm::translate(glm::mat4(1.0f), { 0.5f, 0.0f, 0.0f });// *rot;
-	glm::mat4 transform2 = glm::translate(glm::mat4(1.0f), { 0.0f, 0.0f, -0.5f });// *rot;
+	glm::mat4 rot = glm::rotate(glm::mat4(1.0f), a, { 0.0f, 0.0f, 1.0f }) * 
+					glm::rotate(glm::mat4(1.0f), a/2, { 1.0f, 0.0f, 0.0f }) *
+					glm::rotate(glm::mat4(1.0f), a*2, { 0.0f, 1.0f, 0.0f });
+	glm::mat4 transform = glm::translate(glm::mat4(1.0f), { 0.0f, 0.0f, 0.0f }) * rot;
 
 	m_Camera->SetAspect(GetAspect());
 
-	Engine::Renderer::StartScene(m_Camera);
-	Engine::Renderer::Submit(m_Mesh, shader, transform1); // drawn first but should be on top
-	Engine::Renderer::Submit(m_Mesh, shader, transform2); // drawn last but should be on the bottom
+	glm::mat4 vpMatrix = m_Camera->GetProjectionMatrix() * glm::inverse(glm::translate(glm::mat4(1.0f), { 0.0f, 0.0f, 1.5f }));
+
+	Engine::Renderer::StartScene(vpMatrix);
+	Engine::Renderer::SubmitLight(m_Light);
+	Engine::Renderer::Submit(m_Mesh, shader, transform);
 	Engine::Renderer::EndScene();
 }
 

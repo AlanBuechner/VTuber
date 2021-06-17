@@ -112,6 +112,7 @@
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="src\Renderer\Buffer.h" />
     <ClInclude Include="src\Renderer\Camera.h" />
+    <ClInclude Include="src\Renderer\Light.h" />
     <ClInclude Include="src\Renderer\Mesh.h" />
     <ClInclude Include="src\Renderer\Renderer.h" />
     <ClInclude Include="src\Renderer\RendererAPI.h" />
