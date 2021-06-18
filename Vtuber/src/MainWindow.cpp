@@ -46,7 +46,8 @@ void MainWindow::OnUpdate()
 	glm::mat4 rot = glm::rotate(glm::mat4(1.0f), a, { 0.0f, 0.0f, 1.0f }) * 
 					glm::rotate(glm::mat4(1.0f), a/2, { 1.0f, 0.0f, 0.0f }) *
 					glm::rotate(glm::mat4(1.0f), a*2, { 0.0f, 1.0f, 0.0f });
-	glm::mat4 transform = glm::translate(glm::mat4(1.0f), { 0.0f, 0.0f, 0.0f }) * rot;
+	glm::mat4 transform = glm::translate(glm::mat4(1.0f), { 1.0f, 0.0f, 0.0f }) * rot;
+	glm::mat4 transform2 = glm::translate(glm::mat4(1.0f), { -1.0f, 0.0f, 0.0f }) * rot;
 
 	m_Camera->SetAspect(GetAspect());
 
@@ -59,6 +60,7 @@ void MainWindow::OnUpdate()
 	Engine::Renderer::SubmitLight(m_BlueLight);
 	Engine::Renderer::SubmitLight(m_RedLight);
 	Engine::Renderer::Submit(m_Mesh, shader, transform);
+	Engine::Renderer::Submit(m_Mesh, shader, transform2);
 	Engine::Renderer::EndScene();
 }
 

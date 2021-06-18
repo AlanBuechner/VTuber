@@ -35,6 +35,8 @@ namespace Engine
 		virtual void Bind() override;
 		virtual void Unbind() override;
 
+		virtual bool operator==(const Shader& other) override;
+
 	private:
 		void LoadShader(const std::wstring& file, ShaderType type);
 

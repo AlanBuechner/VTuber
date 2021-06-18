@@ -156,6 +156,12 @@ namespace Engine
 		// TODO
 	}
 
+	bool DirectX11Shader::operator==(const Shader& other)
+	{
+		DirectX11Shader& o = (DirectX11Shader&)other;
+		return m_pVertexShader == o.m_pVertexShader && m_pPixelShader == o.m_pPixelShader;
+	}
+
 	void DirectX11Shader::LoadShader(const std::wstring& file, ShaderType type)
 	{
 		DirectX11RendererAPI& graphics = *(DirectX11RendererAPI*)RendererAPI::Get();

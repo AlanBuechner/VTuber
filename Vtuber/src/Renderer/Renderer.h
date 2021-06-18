@@ -6,6 +6,7 @@
 #include "Light.h"
 #include <glm/glm.hpp>
 #include <vector>
+#include <list>
 
 namespace Engine
 {
@@ -21,6 +22,16 @@ namespace Engine
 		static void SubmitLight(const PointLight& light);
 
 	private:
+		struct RenderObject
+		{
+			const Ref<Mesh> mesh;
+			const Ref<Shader> shader;
+			glm::mat4 transform;
+		};
+
+		static std::list<RenderObject> m_ObjectsToRender;
+		static std::list<std::list<RenderObject>::const_iterator> m_ShaderStartItorator;
+
 		static struct Lights {
 			uint32_t numLights;
 			PointLight lights[MAX_LIGHTS];

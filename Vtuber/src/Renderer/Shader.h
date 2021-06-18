@@ -31,6 +31,8 @@ namespace Engine
 		virtual void Bind() = 0;
 		virtual void Unbind() = 0;
 
+		virtual bool operator==(const Shader& other) = 0;
+
 		static Ref<Shader> Create(const ShaderSource& src);
 		
 
