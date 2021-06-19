@@ -17,9 +17,8 @@ namespace Engine
 		case 2:
 			return DXGI_FORMAT_R8G8_UNORM;
 		case 3:
-			return DXGI_FORMAT_B8G8R8X8_UNORM;
 		case 4:
-			return DXGI_FORMAT_B8G8R8A8_UNORM;
+			return DXGI_FORMAT_R8G8B8A8_UNORM;
 		default:
 			break;
 		}
@@ -68,6 +67,34 @@ namespace Engine
 		return channels * sizeof(uint8_t);
 	}
 
+	stbi_uc* T24To32(uint32_t width, uint32_t height, stbi_uc* data)
+	{
+		struct Pixel32 {
+			uint8_t r, g, b, a;
+		};
+		struct Pixel24 {
+			uint8_t r, g, b;
+		};
+
+		Pixel32* newImage = new Pixel32[width * height];
+
+		for(uint32_t h = 0; h < height; h++)
+		{
+			for (uint32_t w = 0; w < width; w++)
+			{
+				Pixel32& np = newImage[(width * h) + w];
+				Pixel24& op = ((Pixel24*)data)[(width * h) + w];
+				np.r = op.r;
+				np.g = op.g;
+				np.b = op.b;
+				np.a = 1.0f;
+			}
+		}
+
+		delete[] data;
+		return (stbi_uc*)newImage;
+	}
+
 	DirectX11Texture::DirectX11Texture(const std::string& path, Ref<TextureAttribute> attribute) :
 		m_Attribute(attribute)
 	{
@@ -108,7 +135,7 @@ namespace Engine
 	{
 
 		int width, height, channels;
-		stbi_uc* data = stbi_load(path.c_str(), &width, &height, &channels, 4);
+		stbi_uc* data = stbi_load(path.c_str(), &width, &height, &channels, 0);
 		m_Width = width; m_Height = height;
 
 		if (data == nullptr)
@@ -117,9 +144,12 @@ namespace Engine
 			return;
 		}
 
+		if (channels == 3)
+			data = T24To32(width, height, data);
+
 		GenTextureView(data, width, height, channels);
 
-		delete[] data;
+		stbi_image_free(data);
 
 	}
 

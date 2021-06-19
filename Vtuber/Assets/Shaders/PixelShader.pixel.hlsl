@@ -41,8 +41,7 @@ float4 main(PS_INPUT input) : SV_TARGET
 	
 		const float att = 1 / (light[i].attConst + (light[i].attLin * distToL) + (light[i].attQuad * distToL * distToL));
 	
-		float4 texColor = tex.Sample(splr, input.uv);
-		texColor = float4(texColor.b, texColor.g, texColor.r, texColor.a) * input.color;
+		float4 texColor = tex.Sample(splr, input.uv) * input.color;
 
 		const float3 diffuse = light[i].color * light[i].diffuseIntensity * att * max(0.0f, dot(dirToL, input.n));
 	
