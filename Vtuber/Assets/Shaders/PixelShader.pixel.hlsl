@@ -31,7 +31,8 @@ static const float3 ambient = { 0.15f, 0.15f, 0.15f };
 
 float4 main(PS_INPUT input) : SV_TARGET
 {
-	float4 totalDiffuse = float4(0.0f, 0.0f, 0.0f, 0.0f);
+	float4 texColor = tex.Sample(splr, input.uv) * input.color;
+	float3 totalDiffuse = float3(0.0f, 0.0f, 0.0f);
 	
 	for (uint i = 0; i < numLights; i++)
 	{
@@ -41,14 +42,10 @@ float4 main(PS_INPUT input) : SV_TARGET
 	
 		const float att = 1 / (light[i].attConst + (light[i].attLin * distToL) + (light[i].attQuad * distToL * distToL));
 	
-		float4 texColor = tex.Sample(splr, input.uv) * input.color;
-
 		const float3 diffuse = light[i].color * light[i].diffuseIntensity * att * max(0.0f, dot(dirToL, input.n));
-	
-		float4 color = float4(saturate((diffuse + ambient) * texColor.rgb), texColor.a);
 		
-		totalDiffuse += color;
+		totalDiffuse += diffuse;
 	}
 	
-	return totalDiffuse;
+	return float4(saturate((totalDiffuse + ambient) * texColor.rgb), texColor.a);
 }

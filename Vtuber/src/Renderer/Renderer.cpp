@@ -28,16 +28,13 @@ namespace Engine
 		RenderObject* last = nullptr;
 		for (auto o : m_ObjectsToRender)
 		{
-			o.mesh->Bind();
 			if (!last || o.shader != last->shader)
 			{
 				o.shader->Bind();
 				o.shader->SetBuffer("World", (void*)&m_ViewProjectionMatrix);
 				o.shader->SetBuffer("Lights", (void*)&m_Lights);
 			}
-			o.shader->SetBuffer("Model", (void*)&o.transform);
-			uint32_t count = o.mesh->GetIndexBuffer()->GetCount();
-			RendererCommand::DrawIndexed(count);
+			DrawMesh(o.mesh, o.shader, o.transform);
 
 			last = &o;
 		}
@@ -68,6 +65,25 @@ namespace Engine
 		}
 
 		m_Lights.lights[m_Lights.numLights++] = light;
+	}
+
+	void Renderer::DrawMesh(const Ref<Mesh>& mesh, const Ref<Shader>& shader, const glm::mat4& transform)
+	{
+		glm::mat4 t;
+		if (transform != glm::identity<glm::mat4>() || mesh->m_Transform != glm::identity<glm::mat4>())
+			t = transform * mesh->m_Transform;
+
+		// draw the sub meshes
+		shader->SetBuffer("Model", (void*)&t);
+		for (const auto& subMesh : mesh->m_Meshes)
+		{
+			subMesh->Bind();
+			uint32_t count = subMesh->GetIndexBuffer()->GetCount();
+			RendererCommand::DrawIndexed(count);
+		}
+
+		for (const auto& child : mesh->m_Children)
+			DrawMesh(child, shader, transform);
 	}
 
 

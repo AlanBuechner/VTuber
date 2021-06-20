@@ -21,6 +21,8 @@ namespace Engine
 		static void Submit(const Ref<Mesh>& mesh, const Ref<Shader>& shader, const glm::mat4& transform);
 		static void SubmitLight(const PointLight& light);
 
+		static void DrawMesh(const Ref<Mesh>& mesh, const Ref<Shader>& shader, const glm::mat4& transform);
+
 	private:
 		struct RenderObject
 		{

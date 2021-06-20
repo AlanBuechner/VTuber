@@ -15,6 +15,7 @@ IncludeDir = {}
 --IncludeDir["ImGui"] = "Vtuber/vendor/imgui"
 IncludeDir["glm"] = "Vtuber/vendor/Glm"
 IncludeDir["stb_image"] = "Vtuber/vendor/Stb_Image"
+IncludeDir["assimp"] = "Vtuber/vendor/assimp"
 --IncludeDir["entt"] = "Vtuber/vendor/entt/include"
 --IncludeDir["yaml"] = "Vtuber/vendor/yaml-cpp/include"
 --IncludeDir["ImGuizmo"] = "Vtuber/vendor/ImGuizmo"
@@ -46,7 +47,6 @@ project "Vtuber"
 --		"%{prj.name}/vendor/ImGuizmo/ImGuizmo.h",
 --		"%{prj.name}/vendor/ImGuizmo/ImGuizmo.cpp",
 		"%{prj.name}/Assets/Shaders/**.hlsl"
-
 	}
 
 	defines
@@ -60,6 +60,7 @@ project "Vtuber"
 --		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.stb_image}",
+		"%{IncludeDir.assimp}/include",
 --		"%{IncludeDir.entt}",
 --		"%{IncludeDir.yaml}",
 --		"%{IncludeDir.ImGuizmo}"
@@ -68,8 +69,15 @@ project "Vtuber"
 	links 
 	{ 
 --		"ImGui",
---		"Yaml"
+--		"Yaml",
+		"%{prj.location}/vendor/assimp/assimp-vc142-mtd.lib",
 		"dxguid.lib"
+	}
+
+	-- TODO : fix environment variables. need to set manually
+	environmentVariables =
+	{
+		"PATH=%PATH%;$(ProjectDir)vendor\assimp"
 	}
 
 	filter { "files:**.hlsl" }
@@ -102,3 +110,5 @@ project "Vtuber"
 		defines "RELEASE"
 		runtime "Release"
 		optimize "on"
+
+--include "Vtuber/vendor/assimp"
