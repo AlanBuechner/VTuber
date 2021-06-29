@@ -1,31 +1,16 @@
 #include "Mesh.h"
 
-#include <assimp/config.h>
 #include <assimp/Importer.hpp>
-#include <assimp/scene.h>
 #include <assimp/postprocess.h>
+#include <assimp/material.h>
+
+const std::string& Engine::Mesh::s_TexturesFolder = "Assets/Textures/";
 
 namespace Engine
 {
 
 	// ------------------------- Sub Mesh ------------------------- //
 #pragma region SubMesh
-	glm::vec2 GetUVCoords(aiMesh* mesh, uint32_t index)
-	{
-		if (!mesh->HasTextureCoords(index) || mesh->mTextureCoords[0] == nullptr)
-			return { 0.0f, 0.0f };
-		const auto coords = mesh->mTextureCoords[0][index];
-		return { coords.x, coords.y };
-	}
-
-	glm::vec4 GetColor(aiMesh* mesh, uint32_t index)
-	{
-		if (mesh->HasVertexColors(index) || mesh->mColors[0] == nullptr)
-			return { 1.0f, 1.0f, 1.0f, 1.0f };
-		const auto color = mesh->mColors[0][index];
-		return { color.r, color.g, color.b, color.a };
-	}
-
 
 	Mesh::SubMesh::SubMesh(Vertex* vertices, uint32_t vertCount, uint32_t* indeces, uint32_t indexCount)
 	{
@@ -73,12 +58,33 @@ namespace Engine
 
 #pragma endregion
 
+	glm::vec2 GetUVCoords(aiMesh* mesh, uint32_t index)
+	{
+		if (!mesh->HasTextureCoords(index) || mesh->mTextureCoords[0] == nullptr)
+			return { 0.0f, 0.0f };
+		const auto coords = mesh->mTextureCoords[0][index];
+		return { coords.x, coords.y };
+	}
+
+	glm::vec4 GetColor(aiMesh* mesh, uint32_t index)
+	{
+		if (mesh->HasVertexColors(index) || mesh->mColors[0] == nullptr)
+			return { 1.0f, 1.0f, 1.0f, 1.0f };
+		const auto color = mesh->mColors[0][index];
+		return { color.r, color.g, color.b, color.a };
+	}
+
 
 	// ------------------------- Mesh ------------------------- //
 
 	Mesh::Mesh(const std::string& filename)
 	{
 		LoadFromFile(filename);
+	}
+
+	Ref<Mesh> Mesh::Create(const std::string& filename)
+	{
+		return std::make_shared<Mesh>(filename);
 	}
 
 	void Mesh::LoadFromFile(const std::string& filename)
@@ -88,9 +94,24 @@ namespace Engine
 		auto model = imp.ReadFile(filename,
 			aiProcess_Triangulate |
 			aiProcess_JoinIdenticalVertices |
+			aiProcess_GenNormals |
 			aiProcess_FlipWindingOrder
 		);
 
+		// Generate all materials
+		std::vector<Ref<Material>> materials;
+		materials.reserve(model->mNumMaterials);
+		for (uint32_t i = 0; i < model->mNumMaterials; i++)
+		{
+			Ref<Material> mat = std::make_shared<Material>();
+			auto& material = *model->mMaterials[i];
+
+			aiString fileName;
+			if (material.GetTexture(aiTextureType_DIFFUSE, 0, &fileName) == aiReturn_SUCCESS)
+				mat->m_Diffuse = Texture2D::Create(s_TexturesFolder + fileName.C_Str());
+
+			materials.push_back(mat);
+		}
 
 		// Generate all the meshes
 		std::vector<Ref<SubMesh>> meshes;
@@ -111,33 +132,29 @@ namespace Engine
 					{ mesh->mNormals[j].x, mesh->mNormals[j].y, mesh->mNormals[j].z },
 					GetColor(mesh, j),
 					GetUVCoords(mesh, j)
-					});
+				});
 			}
 
 			// resize the index array and load the data
 			indices.reserve(mesh->mNumFaces * 3);
 			for (uint32_t j = 0; j < mesh->mNumFaces; j++)
 			{
-				const auto face = mesh->mFaces[j];
+				const auto& face = mesh->mFaces[j];
 				for (uint32_t k = 0; k < 3; k++)
 					indices.push_back(face.mIndices[k]);
 			}
 
 			Ref<SubMesh> subMesh = SubMesh::Create(vertices.data(), vertices.size(), indices.data(), indices.size());
+			subMesh->SetMaterial(materials[mesh->mMaterialIndex]);
 			meshes.push_back(subMesh);
 		}
 
-		
+		// Generate Node tree
 		LoadNodeData(model->mRootNode, meshes);
 
 	}
 
-	Ref<Mesh> Mesh::Create(const std::string& filename)
-	{
-		return std::make_shared<Mesh>(filename);
-	}
-
-	void Mesh::LoadNodeData(aiNode* node, std::vector<Ref<SubMesh>> meshes)
+	void Mesh::LoadNodeData(aiNode* node, std::vector<Ref<SubMesh>>& meshes)
 	{
 		// load meshes
 		m_Meshes.reserve(node->mNumMeshes);

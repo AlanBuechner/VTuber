@@ -70,7 +70,7 @@ project "Vtuber"
 	{ 
 --		"ImGui",
 --		"Yaml",
-		"%{prj.location}/vendor/assimp/assimp-vc142-mtd.lib",
+		"%{prj.location}/vendor/assimp/assimp-vc140-mt.lib",
 		"dxguid.lib"
 	}
 

@@ -22,10 +22,6 @@ void MainWindow::OnCreate()
 
 	m_Camera = Engine::Camera::Create(Engine::Camera::ProjectionType::Perspective, glm::radians(45.0f), 0.01, 100.0f, GetAspect());
 
-	//m_Texture = Engine::Texture2D::Create(1,1);
-	m_Texture = Engine::Texture2D::Create(1,1);
-	m_Texture->Bind(0);
-
 	m_Mesh = Engine::Mesh::Create("Assets/Models/nanosuit.obj");
 
 	m_BlueLight.position = { 0.0f, 0.0f, 2.0f };

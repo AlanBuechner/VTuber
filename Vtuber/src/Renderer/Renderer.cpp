@@ -44,7 +44,7 @@ namespace Engine
 	{
 		for(auto i : m_ShaderStartItorator)
 		{
-			if ((i)->shader == shader) 
+			if ((i)->shader == shader)
 			{
 				i = m_ObjectsToRender.insert(i, { mesh, shader, transform });
 				return;
@@ -78,6 +78,11 @@ namespace Engine
 		for (const auto& subMesh : mesh->m_Meshes)
 		{
 			subMesh->Bind();
+
+			Ref<Material> material = subMesh->GetMaterial();
+			if(material->m_Diffuse.get() != nullptr)
+				material->m_Diffuse->Bind(0);
+
 			uint32_t count = subMesh->GetIndexBuffer()->GetCount();
 			RendererCommand::DrawIndexed(count);
 		}

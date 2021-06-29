@@ -1,11 +1,12 @@
 #pragma once
 #include "Core/Core.h"
+#include "Buffer.h"
+#include "Material.h"
+
 #include <glm/glm.hpp>
+#include <assimp/scene.h>
 #include <vector>
 
-#include "Buffer.h"
-
-#include <assimp/scene.h>
 
 namespace Engine
 {
@@ -37,23 +38,29 @@ namespace Engine
 			Ref<VertexBuffer> GetVertexBuffer() { return vb; };
 			Ref<IndexBuffer> GetIndexBuffer() { return ib; };
 
+			void SetMaterial(Ref<Material>& mat) { m_Material = mat; }
+			Ref<Material> GetMaterial() { return m_Material; }
+
 			static Ref<SubMesh> Create(Vertex* vertices, uint32_t vertCount, uint32_t* indeces, uint32_t indexCount);
 
 		private:
 			Ref<VertexBuffer> vb;
 			Ref<IndexBuffer> ib;
+
+			Ref<Material> m_Material;
+
 		};
 
 
 	public:
 		Mesh() = default;
 		Mesh(const std::string& filename);
-		void LoadFromFile(const std::string& filename);
-
 		static Ref<Mesh> Create(const std::string& filename);
 
+		void LoadFromFile(const std::string& filename);
+
 	private:
-		void LoadNodeData(aiNode* node, std::vector<Ref<SubMesh>> meshes);
+		void LoadNodeData(aiNode* node, std::vector<Ref<SubMesh>>& meshes);
 
 	public:
 
@@ -61,5 +68,7 @@ namespace Engine
 		std::vector<Ref<Mesh>> m_Children;
 
 		glm::mat4 m_Transform;
+		
+		static const std::string& s_TexturesFolder;
 	};
 }
