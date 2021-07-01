@@ -38,6 +38,8 @@ void MainWindow::OnCreate()
 	m_WhiteLight.color = { 1.0f, 1.0f, 1.0f };
 	m_WhiteLight.diffuseIntensity = 5.0f;
 	m_WhiteLight.attQuad = 0.5f;
+
+	Engine::Renderer::SetAmbientLight({ 0.15f, 0.15f, 0.15f });
 }
 
 glm::vec3 camPos = { 0.0f, 0.0f, 4.0f };

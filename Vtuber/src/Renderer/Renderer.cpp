@@ -3,10 +3,10 @@
 #include "Renderer/RendererCommand.h"
 #include "Renderer/RendererAPI.h"
 
-glm::mat4 Engine::Renderer::m_ViewProjectionMatrix = glm::mat4(1.0f);
-Engine::Renderer::Lights Engine::Renderer::m_Lights;
-std::list<Engine::Renderer::RenderObject> Engine::Renderer::m_ObjectsToRender;
-std::list<std::list<Engine::Renderer::RenderObject>::const_iterator> Engine::Renderer::m_ShaderStartItorator;
+glm::mat4 Engine::Renderer::s_ViewProjectionMatrix = glm::mat4(1.0f);
+Engine::Renderer::Lights Engine::Renderer::s_Lights;
+std::list<Engine::Renderer::RenderObject> Engine::Renderer::s_ObjectsToRender;
+std::list<std::list<Engine::Renderer::RenderObject>::const_iterator> Engine::Renderer::s_ShaderStartItorator;
 Engine::Ref<Engine::Texture2D> Engine::Renderer::s_WhiteTexture;
 
 namespace Engine
@@ -25,22 +25,22 @@ namespace Engine
 
 	void Renderer::BeginScene(const glm::mat4& viewPorjectionMatrix)
 	{
-		m_ViewProjectionMatrix = viewPorjectionMatrix;
-		m_Lights.numLights = 0;
-		m_ObjectsToRender.clear();
-		m_ShaderStartItorator.clear();
+		s_ViewProjectionMatrix = viewPorjectionMatrix;
+		s_Lights.numLights = 0;
+		s_ObjectsToRender.clear();
+		s_ShaderStartItorator.clear();
 	}
 
 	void Renderer::EndScene()
 	{
 		RenderObject* last = nullptr;
-		for (auto o : m_ObjectsToRender)
+		for (auto o : s_ObjectsToRender)
 		{
 			if (!last || o.shader != last->shader)
 			{
 				o.shader->Bind();
-				o.shader->SetBuffer("World", (void*)&m_ViewProjectionMatrix);
-				o.shader->SetBuffer("Lights", (void*)&m_Lights);
+				o.shader->SetBuffer("World", (void*)&s_ViewProjectionMatrix);
+				o.shader->SetBuffer("Lights", (void*)&s_Lights);
 			}
 			DrawMesh(o.mesh, o.shader, o.transform);
 
@@ -50,29 +50,29 @@ namespace Engine
 
 	void Renderer::Submit(const Ref<Mesh>& mesh, const Ref<Shader>& shader, const glm::mat4& transform)
 	{
-		for(auto i : m_ShaderStartItorator)
+		for(auto i : s_ShaderStartItorator)
 		{
 			if ((i)->shader == shader)
 			{
-				i = m_ObjectsToRender.insert(i, { mesh, shader, transform });
+				i = s_ObjectsToRender.insert(i, { mesh, shader, transform });
 				return;
 			}
 		}
 
 		// if we cant find the shader
-		m_ObjectsToRender.push_back({ mesh, shader, transform });
-		m_ShaderStartItorator.push_back(--m_ObjectsToRender.end());
+		s_ObjectsToRender.push_back({ mesh, shader, transform });
+		s_ShaderStartItorator.push_back(--s_ObjectsToRender.end());
 
 	}
 
 	void Renderer::SubmitLight(const PointLight& light)
 	{
-		if (m_Lights.numLights == MAX_LIGHTS) {
+		if (s_Lights.numLights == MAX_LIGHTS) {
 			DBOUT("max lights reached");
 			return;
 		}
 
-		m_Lights.lights[m_Lights.numLights++] = light;
+		s_Lights.lights[s_Lights.numLights++] = light;
 	}
 
 	void Renderer::DrawMesh(const Ref<Mesh>& mesh, const Ref<Shader>& shader, const glm::mat4& transform)

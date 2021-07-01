@@ -17,6 +17,7 @@ struct Light
 
 cbuffer Lights
 {
+	const float3 ambient;
 	uint numLights;
 	Light light[MAX_LIGHTS];
 };
@@ -28,8 +29,6 @@ struct PS_INPUT
 	float3 n : NORMAL;
 	float3 worldPos : WORLDPOSITION;
 };
-
-static const float3 ambient = { 0.15f, 0.15f, 0.15f };
 
 float4 main(PS_INPUT input) : SV_TARGET
 {
