@@ -7,15 +7,23 @@ glm::mat4 Engine::Renderer::m_ViewProjectionMatrix = glm::mat4(1.0f);
 Engine::Renderer::Lights Engine::Renderer::m_Lights;
 std::list<Engine::Renderer::RenderObject> Engine::Renderer::m_ObjectsToRender;
 std::list<std::list<Engine::Renderer::RenderObject>::const_iterator> Engine::Renderer::m_ShaderStartItorator;
+Engine::Ref<Engine::Texture2D> Engine::Renderer::s_WhiteTexture;
 
 namespace Engine
 {
-	void Renderer::StartScene(const Ref<Camera>& camera)
+	void Renderer::Init()
 	{
-		StartScene(camera->GetProjectionMatrix());
+		s_WhiteTexture = Texture2D::Create(1,1);
+
+		Renderer2D::Init();
 	}
 
-	void Renderer::StartScene(const glm::mat4& viewPorjectionMatrix)
+	void Renderer::BeginScene(const Ref<Camera>& camera)
+	{
+		BeginScene(camera->GetProjectionMatrix());
+	}
+
+	void Renderer::BeginScene(const glm::mat4& viewPorjectionMatrix)
 	{
 		m_ViewProjectionMatrix = viewPorjectionMatrix;
 		m_Lights.numLights = 0;
@@ -80,8 +88,10 @@ namespace Engine
 			subMesh->Bind();
 
 			Ref<Material> material = subMesh->GetMaterial();
-			if(material->m_Diffuse.get() != nullptr)
+			if (material->m_Diffuse.get() != nullptr)
 				material->m_Diffuse->Bind(0);
+			else
+				s_WhiteTexture->Bind(0);
 
 			uint32_t count = subMesh->GetIndexBuffer()->GetCount();
 			RendererCommand::DrawIndexed(count);

@@ -61,13 +61,10 @@ protected:
 private:
 	Engine::Ref<Engine::Mesh> m_Mesh;
 	Engine::Ref<Engine::Shader> shader;
-	Engine::Ref<Engine::Texture2D> m_Texture;
-
-	/*Engine::Mesh::Vertex* vertices;
-	uint32_t* indices;*/
 
 	Engine::Ref<Engine::Camera> m_Camera;
 
 	Engine::PointLight m_BlueLight;
 	Engine::PointLight m_GreenLight;
+	Engine::PointLight m_WhiteLight;
 };

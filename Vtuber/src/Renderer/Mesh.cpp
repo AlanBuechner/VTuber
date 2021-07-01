@@ -60,7 +60,7 @@ namespace Engine
 
 	glm::vec2 GetUVCoords(aiMesh* mesh, uint32_t index)
 	{
-		if (!mesh->HasTextureCoords(index) || mesh->mTextureCoords[0] == nullptr)
+		if (mesh->mTextureCoords[0] == nullptr)
 			return { 0.0f, 0.0f };
 		const auto coords = mesh->mTextureCoords[0][index];
 		return { coords.x, coords.y };
@@ -68,7 +68,7 @@ namespace Engine
 
 	glm::vec4 GetColor(aiMesh* mesh, uint32_t index)
 	{
-		if (mesh->HasVertexColors(index) || mesh->mColors[0] == nullptr)
+		if (mesh->mColors[0] == nullptr)
 			return { 1.0f, 1.0f, 1.0f, 1.0f };
 		const auto color = mesh->mColors[0][index];
 		return { color.r, color.g, color.b, color.a };

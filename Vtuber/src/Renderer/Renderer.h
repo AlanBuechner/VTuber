@@ -8,13 +8,17 @@
 #include <vector>
 #include <list>
 
+#include "Renderer2D.h"
+
 namespace Engine
 {
 	class Renderer
 	{
 	public:
-		static void StartScene(const Ref<Camera>& camera);
-		static void StartScene(const glm::mat4& viewPorjectionMatrix);
+		static void Init();
+
+		static void BeginScene(const Ref<Camera>& camera);
+		static void BeginScene(const glm::mat4& viewPorjectionMatrix);
 
 		static void EndScene();
 
@@ -39,5 +43,7 @@ namespace Engine
 			PointLight lights[MAX_LIGHTS];
 		} m_Lights;
 		static glm::mat4 m_ViewProjectionMatrix;
+
+		static Ref<Texture2D> s_WhiteTexture;
 	};
 }

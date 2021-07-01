@@ -1,7 +1,7 @@
 #define MAX_LIGHTS 10
 
 
-Texture2D tex;
+Texture2D tex : register(t0);
 SamplerState splr;
 
 
@@ -34,6 +34,7 @@ static const float3 ambient = { 0.15f, 0.15f, 0.15f };
 float4 main(PS_INPUT input) : SV_TARGET
 {
     float4 texColor = tex.Sample(splr, input.uv) * input.color;
+    //float4 texColor = float4(input.uv.x, input.uv.y, 0, 1) * input.color;
 	float3 totalDiffuse = float3(0.0f, 0.0f, 0.0f);
 	
 	for (uint i = 0; i < numLights; i++)
@@ -50,4 +51,5 @@ float4 main(PS_INPUT input) : SV_TARGET
 	}
 	
 	return float4(saturate((totalDiffuse + ambient) * texColor.rgb), texColor.a);
+	//return texColor;
 }

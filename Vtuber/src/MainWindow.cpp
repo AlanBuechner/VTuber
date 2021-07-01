@@ -33,6 +33,11 @@ void MainWindow::OnCreate()
 	m_GreenLight.color = { 0.0f, 1.0f, 0.0f };
 	m_GreenLight.diffuseIntensity = 5.0f;
 	m_GreenLight.attQuad = 0.5f;
+
+	m_WhiteLight.position = { 0,0,0 };
+	m_WhiteLight.color = { 1.0f, 1.0f, 1.0f };
+	m_WhiteLight.diffuseIntensity = 5.0f;
+	m_WhiteLight.attQuad = 0.5f;
 }
 
 glm::vec3 camPos = { 0.0f, 0.0f, 4.0f };
@@ -73,9 +78,10 @@ void MainWindow::OnUpdate()
 	m_BlueLight.position = { glm::cos(a), glm::sin(a), 0.0f };
 	m_GreenLight.position = { -glm::cos(a), -glm::sin(a), 0.0f };
 
-	Engine::Renderer::StartScene(vpMatrix);
+	Engine::Renderer::BeginScene(vpMatrix);
 	Engine::Renderer::SubmitLight(m_BlueLight);
 	Engine::Renderer::SubmitLight(m_GreenLight);
+	Engine::Renderer::SubmitLight(m_WhiteLight);
 	Engine::Renderer::Submit(m_Mesh, shader, transform);
 	Engine::Renderer::Submit(m_Mesh, shader, transform2);
 	Engine::Renderer::EndScene();

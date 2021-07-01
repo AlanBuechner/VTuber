@@ -3,6 +3,8 @@
 #include "Renderer/RendererCommand.h"
 #include "Util/Performance.h"
 
+#include "Renderer/Renderer.h"
+
 int Engine::Application::s_QuitMessage = 0;
 
 namespace Engine
@@ -18,6 +20,8 @@ namespace Engine
 		Time::CreateTimer();
 
 		Window::MakeWindow<MainWindow>(1080, 720, L"VTuber");
+
+		Renderer::Init();
 
 		OnCreate();
 
