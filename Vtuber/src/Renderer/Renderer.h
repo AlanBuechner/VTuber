@@ -18,7 +18,7 @@ namespace Engine
 		static void Init();
 
 		static void BeginScene(const Ref<Camera>& camera);
-		static void BeginScene(const glm::mat4& viewPorjectionMatrix);
+		static void BeginScene(const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix);
 
 		static void EndScene();
 
@@ -45,8 +45,14 @@ namespace Engine
 			uint32_t numLights;
 			PointLight lights[MAX_LIGHTS];
 		} s_Lights;
-		static glm::mat4 s_ViewProjectionMatrix;
+
+		static struct CameraData
+		{
+			glm::mat4 ViewMatrix;
+			glm::mat4 ViewProjectionMatrix;
+		} s_Camera;
 
 		static Ref<Texture2D> s_WhiteTexture;
+		static Ref<Texture2D> s_BlackTexture;
 	};
 }

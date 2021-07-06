@@ -8,7 +8,7 @@ namespace Engine
 	{
 	public:
 		DirectX11Texture(const std::string& path, Ref<TextureAttribute> attribute);
-		DirectX11Texture(const uint32_t width, const uint32_t height, Ref<TextureAttribute> attribute);
+		DirectX11Texture(const uint32_t width, const uint32_t height, unsigned char* data, Ref<TextureAttribute> attribute);
 		virtual ~DirectX11Texture();
 
 		virtual uint32_t GetWidth() const override { return m_Width; };

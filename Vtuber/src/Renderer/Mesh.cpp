@@ -110,6 +110,9 @@ namespace Engine
 			if (material.GetTexture(aiTextureType_DIFFUSE, 0, &fileName) == aiReturn_SUCCESS)
 				mat->m_Diffuse = Texture2D::Create(s_TexturesFolder + fileName.C_Str());
 
+			if (material.GetTexture(aiTextureType_SPECULAR, 0, &fileName) == aiReturn_SUCCESS)
+				mat->m_Specular = Texture2D::Create(s_TexturesFolder + fileName.C_Str());
+
 			materials.push_back(mat);
 		}
 

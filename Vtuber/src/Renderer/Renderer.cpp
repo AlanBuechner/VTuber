@@ -3,29 +3,33 @@
 #include "Renderer/RendererCommand.h"
 #include "Renderer/RendererAPI.h"
 
-glm::mat4 Engine::Renderer::s_ViewProjectionMatrix = glm::mat4(1.0f);
 Engine::Renderer::Lights Engine::Renderer::s_Lights;
+Engine::Renderer::CameraData Engine::Renderer::s_Camera;
 std::list<Engine::Renderer::RenderObject> Engine::Renderer::s_ObjectsToRender;
 std::list<std::list<Engine::Renderer::RenderObject>::const_iterator> Engine::Renderer::s_ShaderStartItorator;
 Engine::Ref<Engine::Texture2D> Engine::Renderer::s_WhiteTexture;
+Engine::Ref<Engine::Texture2D> Engine::Renderer::s_BlackTexture;
 
 namespace Engine
 {
 	void Renderer::Init()
 	{
 		s_WhiteTexture = Texture2D::Create(1,1);
+		unsigned char blackTextureData[]{ 0x00 };
+		s_BlackTexture = Texture2D::Create(1,1, blackTextureData);
 
 		Renderer2D::Init();
 	}
 
 	void Renderer::BeginScene(const Ref<Camera>& camera)
 	{
-		BeginScene(camera->GetProjectionMatrix());
+		BeginScene(glm::mat4(1.0f), camera->GetProjectionMatrix());
 	}
 
-	void Renderer::BeginScene(const glm::mat4& viewPorjectionMatrix)
+	void Renderer::BeginScene(const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix)
 	{
-		s_ViewProjectionMatrix = viewPorjectionMatrix;
+		s_Camera.ViewMatrix = glm::inverse(viewMatrix);
+		s_Camera.ViewProjectionMatrix = projectionMatrix * s_Camera.ViewMatrix;
 		s_Lights.numLights = 0;
 		s_ObjectsToRender.clear();
 		s_ShaderStartItorator.clear();
@@ -39,7 +43,7 @@ namespace Engine
 			if (!last || o.shader != last->shader)
 			{
 				o.shader->Bind();
-				o.shader->SetBuffer("World", (void*)&s_ViewProjectionMatrix);
+				o.shader->SetBuffer("Camera", (void*)&s_Camera);
 				o.shader->SetBuffer("Lights", (void*)&s_Lights);
 			}
 			DrawMesh(o.mesh, o.shader, o.transform);
@@ -72,7 +76,11 @@ namespace Engine
 			return;
 		}
 
-		s_Lights.lights[s_Lights.numLights++] = light;
+		PointLight& l = s_Lights.lights[s_Lights.numLights];
+		l = light;
+		l.position = s_Camera.ViewMatrix * glm::vec4(light.position, 1.0f);
+
+		s_Lights.numLights++;
 	}
 
 	void Renderer::DrawMesh(const Ref<Mesh>& mesh, const Ref<Shader>& shader, const glm::mat4& transform)
@@ -88,10 +96,15 @@ namespace Engine
 			subMesh->Bind();
 
 			Ref<Material> material = subMesh->GetMaterial();
-			if (material->m_Diffuse.get() != nullptr)
+			if (material->m_Diffuse)
 				material->m_Diffuse->Bind(0);
 			else
 				s_WhiteTexture->Bind(0);
+
+			if (material->m_Specular)
+				material->m_Specular->Bind(1);
+			else
+				s_BlackTexture->Bind(1);
 
 			uint32_t count = subMesh->GetIndexBuffer()->GetCount();
 			RendererCommand::DrawIndexed(count);

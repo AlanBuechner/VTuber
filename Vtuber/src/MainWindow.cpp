@@ -37,31 +37,42 @@ void MainWindow::OnCreate()
 	m_WhiteLight.position = { 0,0,0 };
 	m_WhiteLight.color = { 1.0f, 1.0f, 1.0f };
 	m_WhiteLight.diffuseIntensity = 5.0f;
-	m_WhiteLight.attQuad = 0.5f;
+	m_WhiteLight.attQuad = 0.4f;
+	m_WhiteLight.attLin = 0.0f;
+	m_WhiteLight.attConst = 0.5f;
 
 	Engine::Renderer::SetAmbientLight({ 0.15f, 0.15f, 0.15f });
 }
 
 glm::vec3 camPos = { 0.0f, 0.0f, 4.0f };
+float rot = 0.0f;
+float rotSpeed = 1.0f;
 float a = 0.0f;
 void MainWindow::OnUpdate()
 {
 	ClearToColor(1.0f, 0.0f, 0.0f);
 	const float deltaTime = Time::GetDeltaTime();
 	a += deltaTime;
+	if (m_Input.GetKeyDown(VK_LEFT))
+		rot += rotSpeed * deltaTime;
+	if (m_Input.GetKeyDown(VK_RIGHT))
+		rot -= rotSpeed * deltaTime;
+
+	glm::mat4 camRot = glm::rotate(glm::mat4(1.0f), rot, { 0.0f, 1.0f, 0.0f });
 
 	if (m_Input.GetKeyDown('A'))
-		camPos.x -= deltaTime;
+		camPos -= (glm::mat3)camRot * (glm::vec3{ 1, 0, 0 } * deltaTime);
 	if (m_Input.GetKeyDown('D'))
-		camPos.x += deltaTime;
+		camPos += (glm::mat3)camRot * (glm::vec3{ 1, 0, 0 } * deltaTime);
 	if (m_Input.GetKeyDown('W'))
-		camPos.z -= deltaTime;
+		camPos -= (glm::mat3)camRot * (glm::vec3{ 0, 0, 1 } * deltaTime);
 	if (m_Input.GetKeyDown('S'))
-		camPos.z += deltaTime;
+		camPos += (glm::mat3)camRot * (glm::vec3{ 0, 0, 1 } * deltaTime);
 	if (m_Input.GetKeyDown(VK_SPACE))
-		camPos.y += deltaTime;
+		camPos += (glm::mat3)camRot * (glm::vec3{ 0, 1, 0 } * deltaTime);
 	if (m_Input.GetKeyDown(VK_CONTROL))
-		camPos.y -= deltaTime;
+		camPos -= (glm::mat3)camRot * (glm::vec3{ 0, 1, 0 } * deltaTime);
+
 
 	/*glm::mat4 rot = glm::rotate(glm::mat4(1.0f), a, { 0.0f, 0.0f, 1.0f }) * 
 					glm::rotate(glm::mat4(1.0f), a/2, { 1.0f, 0.0f, 0.0f }) *
@@ -75,12 +86,13 @@ void MainWindow::OnUpdate()
 
 	m_Camera->SetAspect(GetAspect());
 
-	glm::mat4 vpMatrix = m_Camera->GetProjectionMatrix() * glm::inverse(glm::translate(glm::mat4(1.0f), camPos));
+	glm::mat4 viewMatrix = glm::translate(glm::mat4(1.0f), camPos) * camRot;
+	glm::mat4 projectionMatrix = m_Camera->GetProjectionMatrix();
 
 	m_BlueLight.position = { glm::cos(a), glm::sin(a), 0.0f };
 	m_GreenLight.position = { -glm::cos(a), -glm::sin(a), 0.0f };
 
-	Engine::Renderer::BeginScene(vpMatrix);
+	Engine::Renderer::BeginScene(viewMatrix, projectionMatrix);
 	Engine::Renderer::SubmitLight(m_BlueLight);
 	Engine::Renderer::SubmitLight(m_GreenLight);
 	Engine::Renderer::SubmitLight(m_WhiteLight);

@@ -102,15 +102,10 @@ namespace Engine
 		GenSampler();
 	}
 
-	DirectX11Texture::DirectX11Texture(const uint32_t width, const uint32_t height, Ref<TextureAttribute> attribute) :
+	DirectX11Texture::DirectX11Texture(const uint32_t width, const uint32_t height, unsigned char* data, Ref<TextureAttribute> attribute) :
 		m_Attribute(attribute)
 	{
-		stbi_uc* data = new stbi_uc[width * height * sizeof(uint8_t) * 4];
-		for (uint32_t i = 0; i < width * height * sizeof(uint8_t) * 4; i++)
-			data[i] = 0xff;
-		GenTextureView(data, width, height, 4);
-
-		delete[] data;
+		GenTextureView((void*)data, width, height, 4);
 
 		GenSampler();
 	}

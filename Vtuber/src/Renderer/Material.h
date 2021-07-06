@@ -8,6 +8,7 @@ namespace Engine
 	{
 	public:
 
-		Ref<Texture> m_Diffuse;
+		Ref<Texture2D> m_Diffuse;
+		Ref<Texture2D> m_Specular;
 	};
 }

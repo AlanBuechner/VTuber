@@ -27,6 +27,7 @@ namespace Engine
 	public:
 		static Ref<Texture2D> Create(const std::string& path = "", TextureAttribute& attribute = *TextureAttribute::Default);
 		static Ref<Texture2D> Create(const uint32_t width, const uint32_t height, TextureAttribute& attribute = *TextureAttribute::Default);
+		static Ref<Texture2D> Create(const uint32_t width, const uint32_t height, unsigned char* data, TextureAttribute& attribute = *TextureAttribute::Default);
 
 	};
 }
