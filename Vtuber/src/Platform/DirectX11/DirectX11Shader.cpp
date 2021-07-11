@@ -257,7 +257,7 @@ namespace Engine
 			pReflector->GetResourceBindingDesc(srvIndex, &bindDesc);
 			if (bindDesc.Type == D3D_SHADER_INPUT_TYPE::D3D_SIT_STRUCTURED)
 			{
-				m_StructuredBuffers[bindDesc.Name] = { StructuredBuffer::Create(sizeof(PointLight), 0), bindDesc.BindPoint, type };
+				m_StructuredBuffers[bindDesc.Name] = { StructuredBuffer::Create(bindDesc.NumSamples, 0), bindDesc.BindPoint, type };
 			}
 		}
 	}
