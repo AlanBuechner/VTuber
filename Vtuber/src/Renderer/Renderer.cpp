@@ -3,7 +3,8 @@
 #include "Renderer/RendererCommand.h"
 #include "Renderer/RendererAPI.h"
 
-Engine::Renderer::Lights Engine::Renderer::s_Lights;
+Engine::Renderer::Lights Engine::Renderer::s_LightData;
+std::vector<Engine::PointLight> Engine::Renderer::s_PointLights;
 Engine::Renderer::CameraData Engine::Renderer::s_Camera;
 std::list<Engine::Renderer::RenderObject> Engine::Renderer::s_ObjectsToRender;
 std::list<std::list<Engine::Renderer::RenderObject>::const_iterator> Engine::Renderer::s_ShaderStartItorator;
@@ -30,7 +31,7 @@ namespace Engine
 	{
 		s_Camera.ViewMatrix = glm::inverse(viewMatrix);
 		s_Camera.ViewProjectionMatrix = projectionMatrix * s_Camera.ViewMatrix;
-		s_Lights.numLights = 0;
+		s_PointLights.clear();
 		s_ObjectsToRender.clear();
 		s_ShaderStartItorator.clear();
 	}
@@ -44,7 +45,8 @@ namespace Engine
 			{
 				o.shader->Bind();
 				o.shader->SetBuffer("Camera", (void*)&s_Camera);
-				o.shader->SetBuffer("Lights", (void*)&s_Lights);
+				o.shader->SetBuffer("Lights", (void*)&s_LightData);
+				o.shader->SetBuffer("PointLights", (void*)s_PointLights.data(), s_PointLights.size());
 			}
 			DrawMesh(o.mesh, o.shader, o.transform);
 
@@ -71,16 +73,9 @@ namespace Engine
 
 	void Renderer::SubmitLight(const PointLight& light)
 	{
-		if (s_Lights.numLights == MAX_LIGHTS) {
-			DBOUT("max lights reached");
-			return;
-		}
-
-		PointLight& l = s_Lights.lights[s_Lights.numLights];
-		l = light;
-		l.position = s_Camera.ViewMatrix * glm::vec4(light.position, 1.0f);
-
-		s_Lights.numLights++;
+		s_PointLights.push_back(light); // add the new light
+		PointLight& l = s_PointLights[s_PointLights.size()-1]; // get the light from the array
+		l.position = s_Camera.ViewMatrix * glm::vec4(light.position, 1.0f); // change its position to be relitive to the camera
 	}
 
 	void Renderer::DrawMesh(const Ref<Mesh>& mesh, const Ref<Shader>& shader, const glm::mat4& transform)

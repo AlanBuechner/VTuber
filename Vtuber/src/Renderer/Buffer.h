@@ -147,4 +147,17 @@ namespace Engine
 		static Ref<ConstentBuffer> Create(uint32_t size);
 		static Ref<ConstentBuffer> Create(const void* data, uint32_t size);
 	};
+
+	class StructuredBuffer
+	{
+	public:
+		virtual ~StructuredBuffer() {}
+
+		virtual uint32_t GetCount() = 0;
+		virtual uint32_t GetSize() = 0;
+
+		virtual void SetData(const void* data) = 0;
+
+		static Ref<StructuredBuffer> Create(uint32_t elementSize, uint32_t elementCount);
+	};
 }

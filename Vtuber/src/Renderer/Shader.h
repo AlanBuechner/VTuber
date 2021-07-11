@@ -27,6 +27,7 @@ namespace Engine
 		virtual void GenInputLayoutFromReflection() = 0;
 
 		virtual void SetBuffer(const std::string& name, const void* data) = 0;
+		virtual void SetBuffer(const std::string& name, const void* data, uint32_t count) = 0;
 
 		virtual void Bind() = 0;
 		virtual void Unbind() = 0;

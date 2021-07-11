@@ -50,7 +50,7 @@ namespace Engine
 		HRESULT hr = graphics.GetDivice()->CreateBuffer(&vbufferDesc, &vbufferData, &m_Buffer);
 
 		if (FAILED(hr))
-			DBOUT("failed to create vertex buffer" << std::endl);
+			DBOUT("failed to create vertex buffer " << TranslateError(hr) << std::endl);
 
 		if (vertices == nullptr)
 			delete[] vbufferData.pSysMem;
@@ -90,7 +90,7 @@ namespace Engine
 
 		if (FAILED(hr))
 		{
-			DBOUT("failed to update vertex buffer" << std::endl);
+			DBOUT("failed to update vertex buffer " << TranslateError(hr) << std::endl);
 			return;
 		}
 
@@ -147,7 +147,7 @@ namespace Engine
 
 		if (FAILED(hr))
 		{
-			DBOUT("failed to update index buffer" << std::endl);
+			DBOUT("failed to update index buffer " << TranslateError(hr) << std::endl);
 			return;
 		}
 
@@ -178,7 +178,7 @@ namespace Engine
 		HRESULT hr = graphics.GetDivice()->CreateBuffer(&cbufferDesc, &cbufferData, &m_Buffer);
 
 		if (FAILED(hr))
-			DBOUT("faild to create constent buffer" << std::endl);
+			DBOUT("faild to create constent buffer " << TranslateError(hr) << std::endl);
 
 		if (data == nullptr)
 			delete[] cbufferData.pSysMem;
@@ -195,11 +195,71 @@ namespace Engine
 
 		if (FAILED(hr))
 		{
-			DBOUT("failed to update constent buffer" << std::endl);
+			DBOUT("failed to update constent buffer " << TranslateError(hr) << std::endl);
 			return;
 		}
 
 		CopyMemory(msub.pData, data, m_Size);
+		graphics.GetContext()->Unmap(m_Buffer.Get(), 0);
+	}
+
+	// -------------------------------- Structured Buffer -------------------------------- // 
+
+	DirectX11StructuredBuffer::DirectX11StructuredBuffer(uint32_t elementSize, uint32_t elementCount) :
+		m_ElementSize(elementSize), m_ElementCount(elementCount)
+	{
+		if (elementCount == 0)
+			return;
+
+		DirectX11RendererAPI& graphics = *(DirectX11RendererAPI*)RendererAPI::Get();
+
+		D3D11_BUFFER_DESC sbufferDesc = {  };
+		sbufferDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+		sbufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+		sbufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+		sbufferDesc.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
+		sbufferDesc.ByteWidth = elementCount * elementSize;
+		sbufferDesc.StructureByteStride = elementSize;
+
+		D3D11_SUBRESOURCE_DATA sbufferData = { 0 };
+		sbufferData.pSysMem = new uint8_t[elementCount * elementSize]{ 0 };
+
+		HRESULT hr = graphics.GetDivice()->CreateBuffer(&sbufferDesc, &sbufferData, &m_Buffer);
+
+		if (FAILED(hr))
+			DBOUT("failed to create structured buffer " << TranslateError(hr) << std::endl);
+
+		delete[] sbufferData.pSysMem;
+
+		D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
+		srvDesc.Format = DXGI_FORMAT_UNKNOWN;
+		srvDesc.ViewDimension = D3D11_SRV_DIMENSION_BUFFER;
+		srvDesc.Buffer.FirstElement = 0;
+		srvDesc.Buffer.NumElements = elementCount;
+
+		hr = graphics.GetDivice()->CreateShaderResourceView(m_Buffer.Get(), &srvDesc, &m_SRV);
+		if (FAILED(hr))
+			DBOUT("failed to create structured buffer resource view " << TranslateError(hr) << std::endl);
+	}
+
+	void DirectX11StructuredBuffer::SetData(const void* data)
+	{
+		if (m_ElementCount == 0)
+			return;
+
+		DirectX11RendererAPI& graphics = *(DirectX11RendererAPI*)RendererAPI::Get();
+
+		D3D11_MAPPED_SUBRESOURCE msub = {};
+
+		HRESULT hr = graphics.GetContext()->Map(m_Buffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &msub);
+
+		if (FAILED(hr))
+		{
+			DBOUT("failed to update Structured buffer " << TranslateError(hr) << std::endl);
+			return;
+		}
+
+		CopyMemory(msub.pData, data, m_ElementCount * m_ElementSize);
 		graphics.GetContext()->Unmap(m_Buffer.Get(), 0);
 	}
 

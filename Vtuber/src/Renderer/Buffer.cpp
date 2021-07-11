@@ -84,4 +84,19 @@ namespace Engine
 	}
 
 
+	Ref<StructuredBuffer> StructuredBuffer::Create(uint32_t elementSize, uint32_t elementCount)
+	{
+		switch (RendererAPI::GetAPI())
+		{
+		case Engine::RendererAPI::DirectX11:
+			return std::make_shared<DirectX11StructuredBuffer>(elementSize, elementCount);
+		case Engine::RendererAPI::OpenGL:
+			break;
+		case Engine::RendererAPI::Vulkan:
+			break;
+		default:
+			break;
+		}
+	}
+
 }

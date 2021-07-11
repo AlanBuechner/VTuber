@@ -4,6 +4,7 @@
 #include <iostream>
 #include <sstream>
 
+
 class VException : public std::exception
 {
 public:

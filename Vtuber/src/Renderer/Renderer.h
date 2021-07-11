@@ -22,7 +22,7 @@ namespace Engine
 
 		static void EndScene();
 
-		static void SetAmbientLight(glm::vec3 light) { s_Lights.ambient = light; };
+		static void SetAmbientLight(glm::vec3 light) { s_LightData.ambient = light; };
 
 		static void Submit(const Ref<Mesh>& mesh, const Ref<Shader>& shader, const glm::mat4& transform);
 		static void SubmitLight(const PointLight& light);
@@ -42,9 +42,8 @@ namespace Engine
 
 		static struct Lights {
 			glm::vec3 ambient = { 0.15, 0.15, 0.15 };
-			uint32_t numLights;
-			PointLight lights[MAX_LIGHTS];
-		} s_Lights;
+		} s_LightData;
+		static std::vector<PointLight> s_PointLights;
 
 		static struct CameraData
 		{

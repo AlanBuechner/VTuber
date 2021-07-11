@@ -62,4 +62,26 @@ namespace Engine
 		wrl::ComPtr<ID3D11Buffer> m_Buffer;
 	};
 
+	class DirectX11StructuredBuffer : public StructuredBuffer
+	{
+	public:
+		DirectX11StructuredBuffer(uint32_t elementSize, uint32_t elementCount);
+		virtual ~DirectX11StructuredBuffer() override = default;
+
+		virtual uint32_t GetCount() override { return m_ElementCount; }
+		virtual uint32_t GetSize() override { return m_ElementSize; }
+
+		virtual void SetData(const void* data) override;
+
+		const wrl::ComPtr<ID3D11Buffer> GetBuffer() const { return m_Buffer; }
+		const wrl::ComPtr<ID3D11ShaderResourceView> GetSRV() const { return m_SRV; }
+
+	private:
+		wrl::ComPtr<ID3D11Buffer> m_Buffer;
+		wrl::ComPtr<ID3D11ShaderResourceView> m_SRV;
+
+		uint32_t m_ElementSize;
+		uint32_t m_ElementCount;
+	};
+
 }

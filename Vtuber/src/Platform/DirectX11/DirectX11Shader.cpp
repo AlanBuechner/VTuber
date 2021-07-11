@@ -2,6 +2,7 @@
 #include "Renderer/RendererAPI.h"
 #include "DirectX11RendererAPI.h"
 #include "DirectX11Buffer.h"
+#include "Renderer\Light.h"
 
 
 #include <iostream>
@@ -136,9 +137,19 @@ namespace Engine
 
 	void DirectX11Shader::SetBuffer(const std::string& name, const void* data)
 	{
-		auto& bufferinfo = m_Buffers[name];
+		auto& bufferinfo = m_ConstentBuffers[name];
 		bufferinfo.buffer->SetData(data);
 		SetConstantBuffer(bufferinfo);
+	}
+
+	void DirectX11Shader::SetBuffer(const std::string& name, const void* data, uint32_t count)
+	{
+		auto& bufferinfo = m_StructuredBuffers[name];
+		auto& buff = bufferinfo.buffer;
+		if (buff->GetCount() != count)
+			bufferinfo.buffer = StructuredBuffer::Create(buff->GetSize(), count);
+		bufferinfo.buffer->SetData(data);
+		SetStructuredBuffer(bufferinfo);
 	}
 
 	void DirectX11Shader::Bind()
@@ -180,7 +191,7 @@ namespace Engine
 			break;
 		}
 
-		GenConstentBuffers(pBlob, type);
+		GenBuffers(pBlob, type);
 	}
 
 	void DirectX11Shader::SetConstantBuffer(const ConstentBufferInfo& cb)
@@ -194,7 +205,18 @@ namespace Engine
 			graphics.GetContext()->PSSetConstantBuffers(cb.slot, 1u, d3dcb.GetBuffer().GetAddressOf());
 	}
 
-	void DirectX11Shader::GenConstentBuffers(wrl::ComPtr<ID3DBlob> pBlob, ShaderType type)
+	void DirectX11Shader::SetStructuredBuffer(const StructuredBufferInfo& sb)
+	{
+		DirectX11RendererAPI& graphics = *(DirectX11RendererAPI*)RendererAPI::Get();
+		const DirectX11StructuredBuffer& d3dsb = (DirectX11StructuredBuffer&)*sb.buffer.get();
+
+		if (sb.type == ShaderType::Vertex)
+			graphics.GetContext()->VSSetShaderResources(sb.slot, 1u, d3dsb.GetSRV().GetAddressOf());
+		else if (sb.type == ShaderType::Pixel)
+			graphics.GetContext()->PSSetShaderResources(sb.slot, 1u, d3dsb.GetSRV().GetAddressOf());
+	}
+
+	void DirectX11Shader::GenBuffers(wrl::ComPtr<ID3DBlob> pBlob, ShaderType type)
 	{
 		// reflect on the shader
 		ID3D11ShaderReflection* pReflector = nullptr;
@@ -223,8 +245,19 @@ namespace Engine
 				if (cbDesc.Type == D3D11_CT_CBUFFER)
 				{
 					// create a new constent buffer object and added it to the map
-					m_Buffers[cbDesc.Name] = { ConstentBuffer::Create(cbDesc.Size), cbIndex, type};
+					m_ConstentBuffers[cbDesc.Name] = { ConstentBuffer::Create(cbDesc.Size), cbIndex, type};
 				}
+			}
+		}
+
+		// itorate over all BoundResources
+		for (uint32_t srvIndex = 0; srvIndex < reflectDesc.BoundResources; srvIndex++)
+		{
+			D3D11_SHADER_INPUT_BIND_DESC bindDesc;
+			pReflector->GetResourceBindingDesc(srvIndex, &bindDesc);
+			if (bindDesc.Type == D3D_SHADER_INPUT_TYPE::D3D_SIT_STRUCTURED)
+			{
+				m_StructuredBuffers[bindDesc.Name] = { StructuredBuffer::Create(sizeof(PointLight), 0), bindDesc.BindPoint, type };
 			}
 		}
 	}

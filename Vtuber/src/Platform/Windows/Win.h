@@ -47,7 +47,10 @@
 #define STRICT
 
 #include <Windows.h>
+#include <string>
 #include <d3d11.h>
 #include <wrl.h>
 
 namespace wrl = Microsoft::WRL;
+
+std::wstring TranslateError(HRESULT hr);

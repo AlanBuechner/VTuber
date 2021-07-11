@@ -23,6 +23,13 @@ namespace Engine
 			ShaderType type;
 		};
 
+		struct StructuredBufferInfo
+		{
+			Ref<StructuredBuffer> buffer;
+			uint32_t slot;
+			ShaderType type;
+		};
+
 	public:
 
 		DirectX11Shader(const ShaderSource& src);
@@ -31,6 +38,7 @@ namespace Engine
 		virtual void GenInputLayoutFromReflection() override;
 
 		virtual void SetBuffer(const std::string& name, const void* data) override;
+		virtual void SetBuffer(const std::string& name, const void* data, uint32_t count) override;
 
 		virtual void Bind() override;
 		virtual void Unbind() override;
@@ -41,7 +49,8 @@ namespace Engine
 		void LoadShader(const std::wstring& file, ShaderType type);
 
 		void SetConstantBuffer(const ConstentBufferInfo& cb);
-		void GenConstentBuffers(wrl::ComPtr<ID3DBlob> pBlob, ShaderType type);
+		void SetStructuredBuffer(const StructuredBufferInfo& sb);
+		void GenBuffers(wrl::ComPtr<ID3DBlob> pBlob, ShaderType type);
 
 		wrl::ComPtr<ID3DBlob> ReadBlob(const std::wstring& fileName);
 
@@ -52,6 +61,7 @@ namespace Engine
 		wrl::ComPtr<ID3D11VertexShader> m_pVertexShader;
 		wrl::ComPtr<ID3D11PixelShader> m_pPixelShader;
 
-		std::map<const std::string, ConstentBufferInfo> m_Buffers;
+		std::map<const std::string, ConstentBufferInfo> m_ConstentBuffers;
+		std::map<const std::string, StructuredBufferInfo> m_StructuredBuffers;
 	};
 }
