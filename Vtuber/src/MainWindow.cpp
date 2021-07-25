@@ -34,11 +34,11 @@ void MainWindow::OnCreate()
 	m_GreenLight.diffuseIntensity = 5.0f;
 	m_GreenLight.attQuad = 0.5f;
 
-	m_WhiteLight.position = { 0,0,4 };
+	m_WhiteLight.position = { 0,0,1 };
 	m_WhiteLight.color = { 1.0f, 1.0f, 1.0f };
-	m_WhiteLight.diffuseIntensity = 5.0f;
-	m_WhiteLight.attQuad = 0.4f;
-	m_WhiteLight.attLin = 0.0f;
+	m_WhiteLight.diffuseIntensity = 2.0f;
+	m_WhiteLight.attQuad = 0.7f;
+	m_WhiteLight.attLin = 0.3f;
 	m_WhiteLight.attConst = 0.5f;
 
 	Engine::Renderer::SetAmbientLight({ 0.5f, 0.5f, 0.5f });
