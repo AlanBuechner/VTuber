@@ -24,7 +24,7 @@ namespace Engine
 
 	void Renderer::BeginScene(const Ref<Camera>& camera)
 	{
-		BeginScene(glm::mat4(1.0f), camera->GetProjectionMatrix());
+		BeginScene(camera->GetViewMatrix(), camera->GetProjectionMatrix());
 	}
 
 	void Renderer::BeginScene(const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix)

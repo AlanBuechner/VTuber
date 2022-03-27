@@ -46,7 +46,8 @@ namespace Engine
 		void SetPerspectiveFarClip(float farPlane) { m_PerspectiveFar = farPlane; RecalculateProjection(); }
 
 		ProjectionType GetType() const { return m_ProjectionType; }
-		const glm::mat4& GetProjectionMatrix() const { return m_ProjectionMatrix; }
+		glm::mat4 GetProjectionMatrix() const { return m_ProjectionMatrix; }
+		glm::mat4 GetViewMatrix() { return glm::mat4(1.0f); }
 
 		static Ref<Camera> Create(ProjectionType type, float fovSize, float nearClip, float farClip, float aspect);
 

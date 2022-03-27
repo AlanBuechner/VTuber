@@ -59,7 +59,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\Glm;vendor\Stb_Image;vendor\assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;vendor\Glm;vendor\Stb_Image;vendor\assimp\include;vendor\entt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -76,7 +76,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\Glm;vendor\Stb_Image;vendor\assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;vendor\Glm;vendor\Stb_Image;vendor\assimp\include;vendor\entt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -97,6 +97,9 @@
     <ClInclude Include="src\Core\Core.h" />
     <ClInclude Include="src\Core\Input\Input.h" />
     <ClInclude Include="src\Core\Log.h" />
+    <ClInclude Include="src\Core\Scene\Component.h" />
+    <ClInclude Include="src\Core\Scene\Entity.h" />
+    <ClInclude Include="src\Core\Scene\Scene.h" />
     <ClInclude Include="src\Core\Time.h" />
     <ClInclude Include="src\Core\VException.h" />
     <ClInclude Include="src\Core\Window.h" />
@@ -493,6 +496,8 @@
   <ItemGroup>
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\Core\Input\Input.cpp" />
+    <ClCompile Include="src\Core\Scene\Entity.cpp" />
+    <ClCompile Include="src\Core\Scene\Scene.cpp" />
     <ClCompile Include="src\Core\Time.cpp" />
     <ClCompile Include="src\Core\VException.cpp" />
     <ClCompile Include="src\Core\Window.cpp" />
@@ -523,17 +528,13 @@
   <ItemGroup>
     <FxCompile Include="Assets\Shaders\PixelShader.pixel.hlsl">
       <ShaderType>Pixel</ShaderType>
-      <ShaderModel>4.0</ShaderModel>
+      <ShaderModel>5.0</ShaderModel>
       <ObjectFileOutput>ShaderBin/PixelShader.pixel.cso</ObjectFileOutput>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="Assets\Shaders\VertexShader.vertex.hlsl">
       <ShaderType>Vertex</ShaderType>
-      <ShaderModel>4.0</ShaderModel>
+      <ShaderModel>5.0</ShaderModel>
       <ObjectFileOutput>ShaderBin/VertexShader.vertex.cso</ObjectFileOutput>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

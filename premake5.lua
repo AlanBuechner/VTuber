@@ -16,7 +16,7 @@ IncludeDir = {}
 IncludeDir["glm"] = "Vtuber/vendor/Glm"
 IncludeDir["stb_image"] = "Vtuber/vendor/Stb_Image"
 IncludeDir["assimp"] = "Vtuber/vendor/assimp"
---IncludeDir["entt"] = "Vtuber/vendor/entt/include"
+IncludeDir["entt"] = "Vtuber/vendor/entt/include"
 --IncludeDir["yaml"] = "Vtuber/vendor/yaml-cpp/include"
 --IncludeDir["ImGuizmo"] = "Vtuber/vendor/ImGuizmo"
 
@@ -61,7 +61,7 @@ project "Vtuber"
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.stb_image}",
 		"%{IncludeDir.assimp}/include",
---		"%{IncludeDir.entt}",
+		"%{IncludeDir.entt}",
 --		"%{IncludeDir.yaml}",
 --		"%{IncludeDir.ImGuizmo}"
 	}
@@ -81,7 +81,7 @@ project "Vtuber"
 	}
 
 	filter { "files:**.hlsl" }
-		shadermodel "4.0"
+		shadermodel "5.0"
 		shaderobjectfileoutput("ShaderBin/".."%{file.basename}"..".cso")
 
 	filter { "files:**.pixel.hlsl" }
