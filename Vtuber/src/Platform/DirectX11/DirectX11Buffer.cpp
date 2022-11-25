@@ -29,7 +29,7 @@ namespace Engine
 	}
 
 
-	// -------------------------------- Vetrtex Buffer -------------------------------- //
+	// -------------------------------- Vertex Buffer -------------------------------- //
 	DirectX11VertexBuffer::DirectX11VertexBuffer(const void* vertices, uint32_t size) :
 		m_Size(size)
 	{

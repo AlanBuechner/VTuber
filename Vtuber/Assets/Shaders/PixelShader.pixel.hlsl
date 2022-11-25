@@ -1,6 +1,5 @@
 #define MAX_LIGHTS 10
 
-
 Texture2D texDef : register(t0);
 SamplerState splrDef;
 
@@ -38,7 +37,7 @@ struct PS_INPUT
 
 float4 main(PS_INPUT input) : SV_TARGET
 {
-    float4 color = texDef.Sample(splrDef, input.uv) * input.color;
+	float4 color = texDef.Sample(splrDef, input.uv) * input.color;
 	float4 spec = texSpec.Sample(splrSpec, input.uv);
 
 	float3 totalDiffuse = float3(0.0f, 0.0f, 0.0f);
