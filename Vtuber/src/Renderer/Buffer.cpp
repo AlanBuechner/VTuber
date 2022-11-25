@@ -28,6 +28,7 @@ namespace Engine
 		default:
 			break;
 		}
+		return Ref<VertexBuffer>();
 	}
 
 #pragma endregion
@@ -56,6 +57,7 @@ namespace Engine
 		default:
 			break;
 		}
+		return Ref<IndexBuffer>();
 	}
 
 #pragma endregion
@@ -81,6 +83,7 @@ namespace Engine
 		default:
 			break;
 		}
+		return Ref<ConstentBuffer>();
 	}
 
 
@@ -97,6 +100,7 @@ namespace Engine
 		default:
 			break;
 		}
+		return Ref<StructuredBuffer>();
 	}
 
 }
